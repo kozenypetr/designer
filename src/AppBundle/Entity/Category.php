@@ -15,6 +15,7 @@ use Sonata\TranslationBundle\Model\Gedmo\TranslatableInterface;
  *
  * @ORM\Table(name="category")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoryRepository")
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Category\Translation")
  */
 class Category extends AbstractPersonalTranslatable implements TranslatableInterface
 {
