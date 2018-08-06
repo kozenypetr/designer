@@ -1,0 +1,23 @@
+<div id="product-images">
+{% for image in product.images %}
+    <div id="image-{{ image.id }}" data-id="{{ image.id }}" class="item">
+        <div class="loader"><span>Nahrávám ...</span></div>
+
+        <img src="{{ path('image_cache', { id: image.id, setting: '210x160x1'}) }}" />
+
+        {#<img src="/data/shop/product/{{ image.filename }}" />#}
+
+        <a href="{{ path('product_admin_rotate_image', { id: image.id }) }}" class="rotate btn btn-success">
+            <i class="fa fa-rotate-right" aria-hidden="true"></i>
+            Otočit +90°
+        </a>
+        <a href="{{ path('product_admin_delete_image', { id: image.id }) }}" class="delete btn btn-danger">
+            <i class="fa fa-minus-circle" aria-hidden="true"></i>
+            Smazat
+        </a>
+        <div class="drag"><i class="fa fa-2x fa-arrows-alt" aria-hidden="true"></i></div>
+    </div>
+{% endfor %}
+</div>
+
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>

@@ -1,0 +1,20 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+ <div class="product-item-list row">
+ {%  for product in products %}
+   <div class="col-md-4">
+       <div class="item">
+           <h4>{{ product.name }}</h4>
+           <div>
+               <img width="260" src="{{ path('image_cache', { id: product.images[0].id, setting: '800x600x1'}) }}" />
+           </div>
+           {% for image in product.images %}
+               <img width="100" src="{{ path('image_cache', { id: image.id, setting: '300x200x1'}) }}" />
+           {% endfor %}
+       </div>
+   </div>
+ {%  endfor %}
+ </div>
+    {#<i class="fab fa-accessible-icon"></i>#}
+{% endblock %}

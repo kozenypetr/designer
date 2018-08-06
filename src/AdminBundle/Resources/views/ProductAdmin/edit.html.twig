@@ -1,0 +1,113 @@
+{% extends '@SonataAdmin/CRUD/edit.html.twig' %}
+
+{% block sonata_post_fieldsets %}
+    {{ parent() }}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <h4 class="box-title">
+                                Fotky
+                            </h4>
+                        </div>
+                        <div class="box-body">
+                            <div class="sonata-ba-collapsed-fields">
+
+                                <div id="images">
+                                {{ render(controller('AdminBundle:ProductAdmin:imagesList', { 'id': objectId })) }}
+                                </div>
+
+                                <div id="uploader">
+                                    <p>Your browser doesn't have Flash, Silverlight or HTML5 support.</p>
+                                </div>
+                                <input style="display: none;" type="submit" value="Send" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $("#uploader").plupload({
+            // General settings
+            runtimes : 'html5,flash,silverlight,html4',
+            url : '{{ path('product_admin_upload_image', {'id': objectId}) }}',
+
+            // User can upload no more then 20 files in one go (sets multiple_queues to false)
+            max_file_count: 20,
+
+            chunk_size: 0,
+
+            multipart: true,
+
+            // Resize images on clientside if we can
+            resize : {
+                width : 1200,
+                height : 800,
+                quality : 90,
+                crop: true // crop to exact dimensions
+            },
+
+            filters : {
+                // Maximum file size
+                max_file_size : '1000mb',
+                // Specify what files to browse for
+                mime_types: [
+                    {title : "Image files", extensions : "jpg,gif,png"},
+                ]
+            },
+
+            // Rename files by clicking on their titles
+            rename: true,
+
+            // Sort files
+            sortable: true,
+
+            // Enable ability to drag'n'drop files onto the widget (currently only HTML5 supports that)
+            dragdrop: true,
+
+            // Views to activate
+            views: {
+                list: true,
+                thumbs: true, // Show thumbs
+                active: 'thumbs'
+            },
+
+            // Flash settings
+            flash_swf_url : '../../js/Moxie.swf',
+
+            // Silverlight settings
+            silverlight_xap_url : '../../js/Moxie.xap',
+
+            init : {
+                UploadComplete: function(up, files) {
+                    // Called when all files are either uploaded or failed
+                    // alert('UploadCompleted');
+                    productImages.updateList('{{ path('product_admin_image_list', { id: objectId }) }}');
+                },
+            }
+        });
+    </script>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+    <script src="{{ asset('vendor/plupload/plupload.full.min.js') }}"></script>
+    <script src="{{ asset('vendor/plupload/jquery.ui.plupload/jquery.ui.plupload.min.js') }}"></script>
+    <script src="{{ asset('vendor/plupload/i18n/cs.js') }}"></script>
+{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendor/plupload/jquery.ui.plupload/css/jquery.ui.plupload.css') }}"> />
+{% endblock %}
