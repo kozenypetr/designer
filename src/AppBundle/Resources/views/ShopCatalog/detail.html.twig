@@ -1,0 +1,45 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+<div class="product-detail row">
+
+    <div class="col-md-12 bread">
+        Úvod
+        &gt; <a href="{{ path('shop_catalog_list', { slug: product.mainCategory.slug }) }}">{{ product.mainCategory.name }}</a>
+        &gt; <span>{{ product.name }}</span>
+    </div>
+
+    <div class="col-md-6">
+        <div class="image">
+            <img width="100%" src="{{ path('image_cache', { id: product.images[0].id, setting: '800x600x1'}) }}" />
+        </div>
+
+        <div class="row">
+            {% for key, image in product.images %}
+                {% if key > 0 %}
+                <div class="col-md-3">
+                    <img width="100" src="{{ path('image_cache', { id: image.id, setting: '300x200x1'}) }}" />
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <h2>{{ product.name }}</h2>
+
+        <p>{{ product.annotation }}</p>
+
+        <p>{{ product.price | round }} Kč</p>
+
+        <form action="{{ path('shop_cart_add', { id: product.id}) }}" method="POST">
+            <input type="text" name="quantity" value="1" />
+            <input type="submit" value="Přidat do košíku" />
+        </form>
+
+    </div>
+
+</div>
+{% endblock %}

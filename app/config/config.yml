@@ -181,6 +181,7 @@ stof_doctrine_extensions:
         default:
             sluggable: true
             translatable: true
+            timestampable: true
 
 #knp_doctrine_behaviors:
 #    translatable: true

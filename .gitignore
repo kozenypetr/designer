@@ -17,3 +17,7 @@
 /.idea/
 /.sass-cache/
 /web/bundles/
+/web/data/shop/cache/*
+!web/data/shop/cache/.gitkeep
+/web/data/shop/product/*
+!web/data/shop/product/.gitkeep

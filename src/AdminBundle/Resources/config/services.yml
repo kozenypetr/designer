@@ -16,6 +16,20 @@ services:
           - [ setTemplate, [edit, "AdminBundle::ProductAdmin/edit.html.twig"]]
         public: true
 
+    admin.shop.shipping:
+        class: AdminBundle\Admin\ShippingAdmin
+        arguments: [~, AppBundle\Entity\Shipping, ~]
+        tags:
+          - { name: sonata.admin, manager_type: orm, label: Dopravy, group: "Eshop", show_in_dashboard: "true" }
+        public: true
+
+    admin.shop.payment:
+        class: AdminBundle\Admin\PaymentAdmin
+        arguments: [~, AppBundle\Entity\Payment, ~]
+        tags:
+          - { name: sonata.admin, manager_type: orm, label: Platby, group: "Eshop", show_in_dashboard: "true" }
+        public: true
+
     extension.listener:
         class: AdminBundle\EventListener\DoctrineExtensionListener
         calls:

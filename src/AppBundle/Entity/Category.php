@@ -6,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Gedmo\Mapping\Annotation as Gedmo;
-use Sonata\TranslationBundle\Model\Gedmo\AbstractPersonalTranslatable;
-use Sonata\TranslationBundle\Model\Gedmo\TranslatableInterface;
 
 
 /**
@@ -15,9 +13,9 @@ use Sonata\TranslationBundle\Model\Gedmo\TranslatableInterface;
  *
  * @ORM\Table(name="category")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoryRepository")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Category\Translation")
+
  */
-class Category extends AbstractPersonalTranslatable implements TranslatableInterface
+class Category
 {
     /**
      * @var int
@@ -38,8 +36,14 @@ class Category extends AbstractPersonalTranslatable implements TranslatableInter
     /**
      * @var string
      *
+     * @ORM\Column(name="locale", type="string", length=2)
+     */
+    private $locale = "cs";
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="name", type="string", length=255)
-     * @Gedmo\Translatable
      */
     private $name;
 
@@ -49,7 +53,6 @@ class Category extends AbstractPersonalTranslatable implements TranslatableInter
      *
      * @ORM\Column(name="slug", type="string", length=255)
      * @Gedmo\Slug(fields={"name"})
-     * @Gedmo\Translatable
      */
     private $slug;
 
@@ -57,7 +60,6 @@ class Category extends AbstractPersonalTranslatable implements TranslatableInter
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
-     * @Gedmo\Translatable
      */
     private $description;
 
@@ -65,6 +67,12 @@ class Category extends AbstractPersonalTranslatable implements TranslatableInter
      * @ORM\ManyToMany(targetEntity="Product", mappedBy="categories")
      */
     private $products;
+
+    /**
+     * One Product has Many Images.
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="mainCategory")
+     */
+    private $mainProducts;
 
 
     public function __construct()
@@ -74,7 +82,7 @@ class Category extends AbstractPersonalTranslatable implements TranslatableInter
 
 
     public function __toString() {
-      return (string)$this->getName();
+      return sprintf("%s [%s]", (string)$this->getName(), $this->getLocale());
     }
 
   /**
@@ -215,5 +223,65 @@ class Category extends AbstractPersonalTranslatable implements TranslatableInter
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set locale.
+     *
+     * @param string $locale
+     *
+     * @return Category
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    /**
+     * Get locale.
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * Add mainProduct.
+     *
+     * @param \AppBundle\Entity\Product $mainProduct
+     *
+     * @return Category
+     */
+    public function addMainProduct(\AppBundle\Entity\Product $mainProduct)
+    {
+        $this->mainProducts[] = $mainProduct;
+
+        return $this;
+    }
+
+    /**
+     * Remove mainProduct.
+     *
+     * @param \AppBundle\Entity\Product $mainProduct
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeMainProduct(\AppBundle\Entity\Product $mainProduct)
+    {
+        return $this->mainProducts->removeElement($mainProduct);
+    }
+
+    /**
+     * Get mainProducts.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMainProducts()
+    {
+        return $this->mainProducts;
     }
 }

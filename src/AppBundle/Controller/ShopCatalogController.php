@@ -40,20 +40,39 @@ class ShopCatalogController extends Controller
 
         $category = $this->em->getRepository('AppBundle:Category')->findOneBySlug($slug);
 
-        $query = $this->em->getRepository('AppBundle:Category')->queryFindAll();
-
-        // null == infinitive cache
-        // $query->useResultCache(true, null, 'findAllAccessory');
-
-        // Not need translation fallback and using inner join insted of left join
-        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
-        $query->setHint(TranslatableListener::HINT_TRANSLATABLE_LOCALE, $request->getLocale()); // Memcached or Apc
-        $query->setHint(TranslatableListener::HINT_INNER_JOIN, true);
-
-        $categories = $query->getResult();
-
-        dump($categories);
+        if (!$category)
+        {
+            throw $this->createNotFoundException('Kategorie neexistuje');
+        }
 
         return $this->render('AppBundle:ShopCatalog:list.html.twig', array('category' => $category));
     }
+
+    /**
+     * @Route("/produkt/{slug}", name="shop_catalog_detail")
+     */
+    public function detailAction(Request $request, $slug)
+    {
+        $this->em = $this->getDoctrine()->getManager();
+
+        $product = $this->em->getRepository('AppBundle:Product')->findOneBySlug($slug);
+
+        if (!$product)
+        {
+            throw $this->createNotFoundException('Produkt neexistuje');
+        }
+
+        return $this->render('AppBundle:ShopCatalog:detail.html.twig', array('product' => $product));
+    }
+
+
+    public function categoriesAction()
+    {
+        $this->em = $this->getDoctrine()->getManager();
+
+        $categories = $this->em->getRepository('AppBundle:Category')->findAll();
+
+        return $this->render('AppBundle:ShopCatalog:categories.html.twig', array('categories' => $categories));
+    }
+
 }

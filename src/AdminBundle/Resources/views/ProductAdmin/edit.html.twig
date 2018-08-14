@@ -15,16 +15,20 @@
                         </div>
                         <div class="box-body">
                             <div class="sonata-ba-collapsed-fields">
-
+                                {% if objectId %}
                                 <div id="images">
+
                                 {{ render(controller('AdminBundle:ProductAdmin:imagesList', { 'id': objectId })) }}
+
                                 </div>
 
                                 <div id="uploader">
                                     <p>Your browser doesn't have Flash, Silverlight or HTML5 support.</p>
                                 </div>
                                 <input style="display: none;" type="submit" value="Send" />
-
+                                {% else %}
+                                    Fotky se nahrají po uložení
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -32,7 +36,7 @@
             </div>
         </div>
     </div>
-
+    {% if objectId %}
     <script type="text/javascript">
         $("#uploader").plupload({
             // General settings
@@ -94,7 +98,7 @@
             }
         });
     </script>
-
+    {% endif %}
 {% endblock %}
 
 

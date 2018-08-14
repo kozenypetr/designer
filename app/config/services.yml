@@ -36,16 +36,6 @@ services:
             # but if a service is unused, it's removed anyway
             exclude: '../../src/AdminBundle/{Entity,Repository,Tests}'
 
-
-
-
-    admin.blog_post:
-        class: AdminBundle\Admin\BlogPost
-        arguments: [~, AppBundle\Entity\BlogPost, ~]
-        tags:
-          - { name: sonata.admin, manager_type: orm, label: Článek }
-        public: true
-
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:

@@ -6,9 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-use Sonata\TranslationBundle\Model\Gedmo\AbstractPersonalTranslatable;
-use Sonata\TranslationBundle\Model\Gedmo\TranslatableInterface;
-
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Image;
 
@@ -18,9 +15,8 @@ use AppBundle\Entity\Image;
  *
  * @ORM\Table(name="product")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Product\Translation")
  */
-class Product extends AbstractPersonalTranslatable implements TranslatableInterface
+class Product
 {
     /**
      * @var int
@@ -41,7 +37,13 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     /**
      * @var string
      *
-     * @Gedmo\Translatable
+     * @ORM\Column(name="locale", type="string", length=2)
+     */
+    private $locale = "cs";
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -50,15 +52,28 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
      * @var string
      *
      * @Gedmo\Slug(fields={"name"})
-     * @Gedmo\Translatable
      * @ORM\Column(name="slug", type="string", length=255)
      */
     private $slug;
 
+
     /**
      * @var string
      *
-     * @Gedmo\Translatable
+     * @ORM\Column(name="feed_name", type="string", length=255, nullable=true)
+     */
+    private $feedName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="model", type="string", length=255, nullable=true)
+     */
+    private $model;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="annotation", type="string", length=255, nullable=true)
      */
     private $annotation;
@@ -66,7 +81,6 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     /**
      * @var string
      *
-     * @Gedmo\Translatable
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
@@ -80,6 +94,15 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
      * )
      */
     private $categories;
+
+
+    /**
+     * Many Products have One Category.
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="mainProducts")
+     * @ORM\JoinColumn(name="main_category_id", referencedColumnName="id")
+     */
+    private $mainCategory;
+
 
     /**
      * One Product has Many Images.
@@ -126,15 +149,11 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
 
 
     /**
-     * @var ArrayCollection
+     * @var integer
      *
-     * @ORM\OneToMany(
-     *     targetEntity="AppBundle\Entity\Product\Translation",
-     *     mappedBy="object",
-     *     cascade={"persist", "remove"}
-     * )
+     * @ORM\Column(name="sort", type="integer", nullable=true)
      */
-    protected $translations;
+    private $sort;
 
     
     public function __construct()
@@ -143,8 +162,10 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
       $this->images     = new ArrayCollection();
     }
 
+
+
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -154,7 +175,55 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Set name
+     * Set isActive.
+     *
+     * @param bool $isActive
+     *
+     * @return Product
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive.
+     *
+     * @return bool
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set locale.
+     *
+     * @param string $locale
+     *
+     * @return Product
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    /**
+     * Get locale.
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * Set name.
      *
      * @param string $name
      *
@@ -168,7 +237,7 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -178,7 +247,7 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Set slug
+     * Set slug.
      *
      * @param string $slug
      *
@@ -192,7 +261,7 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Get slug
+     * Get slug.
      *
      * @return string
      */
@@ -202,37 +271,61 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Set description
+     * Set feedName.
      *
-     * @param string $description
+     * @param string $feedName
      *
      * @return Product
      */
-    public function setDescription($description)
+    public function setFeedName($feedName)
     {
-        $this->description = $description;
+        $this->feedName = $feedName;
 
         return $this;
     }
 
     /**
-     * Get description
+     * Get feedName.
      *
      * @return string
      */
-    public function getDescription()
+    public function getFeedName()
     {
-        return $this->description;
+        return $this->feedName;
     }
 
     /**
-     * Set annotation
+     * Set model.
      *
-     * @param string $annotation
+     * @param string $model
      *
      * @return Product
      */
-    public function setAnnotation($annotation)
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    /**
+     * Get model.
+     *
+     * @return string
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * Set annotation.
+     *
+     * @param string|null $annotation
+     *
+     * @return Product
+     */
+    public function setAnnotation($annotation = null)
     {
         $this->annotation = $annotation;
 
@@ -240,9 +333,9 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Get annotation
+     * Get annotation.
      *
-     * @return string
+     * @return string|null
      */
     public function getAnnotation()
     {
@@ -250,65 +343,31 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Add category
+     * Set description.
      *
-     * @param \AppBundle\Entity\Category $category
+     * @param string|null $description
      *
      * @return Product
      */
-    public function addCategory(\AppBundle\Entity\Category $category)
+    public function setDescription($description = null)
     {
-        $this->categories[] = $category;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Remove category
+     * Get description.
      *
-     * @param \AppBundle\Entity\Category $category
+     * @return string|null
      */
-    public function removeCategory(\AppBundle\Entity\Category $category)
+    public function getDescription()
     {
-        $this->categories->removeElement($category);
+        return $this->description;
     }
 
     /**
-     * Get categories
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCategories()
-    {
-        return $this->categories;
-    }
-
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     *
-     * @return Product
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    /**
-     * Get isActive
-     *
-     * @return boolean
-     */
-    public function getIsActive()
-    {
-        return $this->isActive;
-    }
-
-    /**
-     * Set price
+     * Set price.
      *
      * @param string $price
      *
@@ -322,7 +381,7 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Get price
+     * Get price.
      *
      * @return string
      */
@@ -332,13 +391,13 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Set price1
+     * Set price1.
      *
-     * @param string $price1
+     * @param string|null $price1
      *
      * @return Product
      */
-    public function setPrice1($price1)
+    public function setPrice1($price1 = null)
     {
         $this->price1 = $price1;
 
@@ -346,9 +405,9 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Get price1
+     * Get price1.
      *
-     * @return string
+     * @return string|null
      */
     public function getPrice1()
     {
@@ -356,13 +415,13 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Set price2
+     * Set price2.
      *
-     * @param string $price2
+     * @param string|null $price2
      *
      * @return Product
      */
-    public function setPrice2($price2)
+    public function setPrice2($price2 = null)
     {
         $this->price2 = $price2;
 
@@ -370,9 +429,9 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Get price2
+     * Get price2.
      *
-     * @return string
+     * @return string|null
      */
     public function getPrice2()
     {
@@ -380,13 +439,13 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Set price3
+     * Set price3.
      *
-     * @param string $price3
+     * @param string|null $price3
      *
      * @return Product
      */
-    public function setPrice3($price3)
+    public function setPrice3($price3 = null)
     {
         $this->price3 = $price3;
 
@@ -394,9 +453,9 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Get price3
+     * Get price3.
      *
-     * @return string
+     * @return string|null
      */
     public function getPrice3()
     {
@@ -404,13 +463,13 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Set price4
+     * Set price4.
      *
-     * @param string $price4
+     * @param string|null $price4
      *
      * @return Product
      */
-    public function setPrice4($price4)
+    public function setPrice4($price4 = null)
     {
         $this->price4 = $price4;
 
@@ -418,9 +477,9 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Get price4
+     * Get price4.
      *
-     * @return string
+     * @return string|null
      */
     public function getPrice4()
     {
@@ -428,15 +487,87 @@ class Product extends AbstractPersonalTranslatable implements TranslatableInterf
     }
 
     /**
-     * Remove translation.
+     * Set sort.
      *
-     * @param \AppBundle\Entity\Product\Translation $translation
+     * @param int|null $sort
+     *
+     * @return Product
+     */
+    public function setSort($sort = null)
+    {
+        $this->sort = $sort;
+
+        return $this;
+    }
+
+    /**
+     * Get sort.
+     *
+     * @return int|null
+     */
+    public function getSort()
+    {
+        return $this->sort;
+    }
+
+    /**
+     * Add category.
+     *
+     * @param \AppBundle\Entity\Category $category
+     *
+     * @return Product
+     */
+    public function addCategory(\AppBundle\Entity\Category $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove category.
+     *
+     * @param \AppBundle\Entity\Category $category
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeTranslation(\AppBundle\Entity\Product\Translation $translation)
+    public function removeCategory(\AppBundle\Entity\Category $category)
     {
-        return $this->translations->removeElement($translation);
+        return $this->categories->removeElement($category);
+    }
+
+    /**
+     * Get categories.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Set mainCategory.
+     *
+     * @param \AppBundle\Entity\Category|null $mainCategory
+     *
+     * @return Product
+     */
+    public function setMainCategory(\AppBundle\Entity\Category $mainCategory = null)
+    {
+        $this->mainCategory = $mainCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get mainCategory.
+     *
+     * @return \AppBundle\Entity\Category|null
+     */
+    public function getMainCategory()
+    {
+        return $this->mainCategory;
     }
 
     /**

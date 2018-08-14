@@ -1,3 +1,4 @@
 services:
-
-
+  cart.manager:
+    class:    AppBundle\Manager\CartManager
+    autowire: true
