@@ -9,6 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\BaseCustomer;
 use AppBundle\Entity\Shipping;
 use AppBundle\Entity\Payment;
+use AppBundle\Entity\Customer;
 
 
 /**
@@ -75,11 +76,23 @@ class Cart extends BaseCustomer
      * Cart
      *
      * @var CartItem
-     * @ORM\OneToMany(targetEntity="CartItem", mappedBy="cart")
+     * @ORM\OneToMany(targetEntity="CartItem", mappedBy="cart", cascade={"persist", "remove"})
      */
     protected $items;
-    
-    /*protected $user;*/
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     */
+    private $email;
+
+    /**
+     * Zakzanik
+     * @ORM\ManyToOne(targetEntity="Customer")
+     * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
+     */
+    protected $customer = null;
 
     /**
      * @var \DateTime $created
@@ -104,15 +117,31 @@ class Cart extends BaseCustomer
     }
 
 
-    public function getTotal()
+    public function getSubtotal()
     {
-        $total = 0;
+        $subtotal = 0;
         foreach ($this->getItems() as $item)
         {
-            $total += $item->getPrice();
+            $subtotal += $item->getPrice();
         }
 
-        return $total;
+        return $subtotal;
+    }
+
+    public function getTax()
+    {
+        $tax = 0;
+        foreach ($this->getItems() as $item)
+        {
+            $tax += (float)$item->getTax();
+        }
+
+        return $tax;
+    }
+
+    public function getTotal()
+    {
+        return $this->getSubtotal() + $this->getTax();
     }
 
     /**
@@ -401,5 +430,53 @@ class Cart extends BaseCustomer
     public function getOrderNote()
     {
         return $this->orderNote;
+    }
+
+    /**
+     * Set email.
+     *
+     * @param string|null $email
+     *
+     * @return Cart
+     */
+    public function setEmail($email = null)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email.
+     *
+     * @return string|null
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set customer.
+     *
+     * @param \AppBundle\Entity\Customer|null $customer
+     *
+     * @return Cart
+     */
+    public function setCustomer(\AppBundle\Entity\Customer $customer = null)
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Get customer.
+     *
+     * @return \AppBundle\Entity\Customer|null
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
     }
 }

@@ -11,19 +11,19 @@ use Gedmo\Translatable\TranslatableListener;
 use Doctrine\ORM\Query;
 
 use AppBundle\Entity\Product;
+use AppBundle\Entity\Customer;
 
 use AppBundle\Form\CustomerBillingType;
 use AppBundle\Form\CustomerDeliveryType;
-use AppBundle\Form\CustomerPasswordTypeType;
+use AppBundle\Form\CustomerPasswordType;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-/**
- * @Route("/kosik")
- */
+
 class ShopCartController extends Controller
 {
 
     /**
-     * @Route("/", name="shop_cart")
+     * @Route("/kosik", name="shop_cart")
      * @Method({"POST", "GET"})
      */
     public function cartAction(Request $request)
@@ -54,7 +54,7 @@ class ShopCartController extends Controller
 
 
     /**
-     * @Route("/pridat/{id}", requirements={"id" = "\d+"}, name="shop_cart_add")
+     * @Route("/kosik/pridat/{id}", requirements={"id" = "\d+"}, name="shop_cart_add")
      * @Method({"POST"})
      */
     public function addAction(Request $request, Product $product)
@@ -69,12 +69,13 @@ class ShopCartController extends Controller
 
 
     /**
-     * @Route("/zakaznik", name="shop_customer")
+     * @Route("/objednavka/zakaznik", name="shop_customer")
      * @Method({"GET", "POST"})
      */
-    public function customerAction(Request $request)
+    public function customerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $cm = $this->get('cart.manager');
+        $em = $this->getDoctrine()->getManager();
 
         // formular pro fakturacni adresu
         $billingForm = $this->createForm(CustomerBillingType::class);
@@ -92,15 +93,45 @@ class ShopCartController extends Controller
         {
             $billingForm->handleRequest($request);
             $deliveryForm->handleRequest($request);
+            $passwordForm->handleRequest($request);
 
+            // validace fakturacni adresy
             if ($billingForm->isValid())
             {
                 $valid = true;
                 $cm->cart->setBillingData($billingForm->getData());
 
+                // pokud je dodaci adresa jina, tak ji ulozime
                 if ($cm->cart->getIsDelivery())
                 {
                     $deliveryForm->isValid()?$cm->cart->setDeliveryData($deliveryForm->getData()):$valid = false;
+                }
+
+                if ($billingForm->get('is_create_account')->getViewData())
+                {
+                    if ($passwordForm->isValid())
+                    {
+                        $passwordData = $passwordForm->getData();
+
+                        // vytvorime zakaznika
+                        $customer = new Customer();
+                        $customer->fromCart($cm->cart);
+
+                        // vytvorime heslo
+                        $password = $passwordEncoder->encodePassword($customer, $passwordData['plainPassword']);
+                        $customer->setPassword($password);
+
+                        $cm->cart->setCustomer($customer);
+
+                        $em->persist($customer);
+                        $em->flush();
+
+                        $cm->flush();
+                    }
+                    else
+                    {
+                        $valid = false;
+                    }
                 }
 
                 $cm->flush();
@@ -141,5 +172,28 @@ class ShopCartController extends Controller
             )
         );
     }
+
+    /**
+     * @Route("/dokonceni-objednavky", name="shop_order_finish")
+     * @Method({"POST"})
+     */
+    public function orderFinishAction(Request $request)
+    {
+        $cm = $this->get('cart.manager');
+
+        $cm->finishOrder();
+
+        return $this->redirectToRoute('shop_order_finish_confirm');
+    }
+
+
+    /**
+     * @Route("/potvrzeni-dokonceni-objednavky", name="shop_order_finish_confirm")
+     */
+    public function orderFinishConfirmAction(Request $request)
+    {
+        return $this->render('AppBundle:ShopCart:finishConfirm.html.twig');
+    }
+
 
 }

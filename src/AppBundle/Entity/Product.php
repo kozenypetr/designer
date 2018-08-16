@@ -147,6 +147,20 @@ class Product
      */
     private $price4;
 
+    /**
+     * @var text
+     *
+     * @ORM\Column(name="attributes", type="text", nullable=true)
+     */
+    private $attributes;
+
+    /**
+     * @var text
+     *
+     * @ORM\Column(name="parameters", type="text", nullable=true)
+     */
+    private $parameters;
+
 
     /**
      * @var integer
@@ -604,5 +618,53 @@ class Product
     public function getImages()
     {
         return $this->images;
+    }
+
+    /**
+     * Set attributes.
+     *
+     * @param string|null $attributes
+     *
+     * @return Product
+     */
+    public function setAttributes($attributes = null)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * Get attributes.
+     *
+     * @return string|null
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Set parameters.
+     *
+     * @param string|null $parameters
+     *
+     * @return Product
+     */
+    public function setParameters($parameters = null)
+    {
+        $this->parameters = $parameters;
+
+        return $this;
+    }
+
+    /**
+     * Get parameters.
+     *
+     * @return string|null
+     */
+    public function getParameters()
+    {
+        return $this->parameters;
     }
 }

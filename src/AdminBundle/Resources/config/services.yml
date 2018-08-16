@@ -30,6 +30,20 @@ services:
           - { name: sonata.admin, manager_type: orm, label: Platby, group: "Eshop", show_in_dashboard: "true" }
         public: true
 
+    admin.shop.order:
+        class: AdminBundle\Admin\OrderAdmin
+        arguments: [~, AppBundle\Entity\Order, ~]
+        tags:
+          - { name: sonata.admin, manager_type: orm, label: Objednávky, group: "Eshop", show_in_dashboard: "true" }
+        public: true
+
+    admin.shop.order_item:
+        class: AdminBundle\Admin\OrderItemAdmin
+        arguments: [~, AppBundle\Entity\OrderItem, ~]
+        tags:
+          - { name: sonata.admin, manager_type: orm, label: Objednávky položka, show_in_dashboard: "false" }
+        public: true
+
     extension.listener:
         class: AdminBundle\EventListener\DoctrineExtensionListener
         calls:

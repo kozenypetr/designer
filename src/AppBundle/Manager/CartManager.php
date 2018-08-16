@@ -12,7 +12,10 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use AppBundle\Entity\Cart;
 use AppBundle\Entity\CartItem;
+use AppBundle\Entity\Order;
+use AppBundle\Entity\OrderItem;
 use AppBundle\Entity\Product;
+
 
 /**
  * Class CartManager
@@ -40,6 +43,49 @@ class CartManager {
         $this->cart = $this->getCart();
     }
 
+    public function finishOrder()
+    {
+        $order = new Order();
+        $order->setBillingData($this->cart->getBillingData());
+        $order->setDeliveryData($this->cart->getDeliveryData());
+
+        $order->setSubtotal($this->cart->getSubtotal());
+        $order->setTax($this->cart->getTax());
+        $order->setTotal($this->cart->getTotal());
+
+        $order->setShippingName($this->cart->getShipping()->getName());
+        $order->setShippingCode($this->cart->getShipping()->getCode());
+
+        $order->setPaymentName($this->cart->getPayment()->getName());
+        $order->setPaymentCode($this->cart->getPayment()->getCode());
+
+        if ($this->cart->getCustomer())
+        {
+            $order->setCustomer($this->cart->getCustomer());
+        }
+
+        $this->em->persist($order);
+
+        foreach ($this->cart->getItems() as $item)
+        {
+            $orderItem = new OrderItem();
+            $product   = $item->getProduct();
+            $orderItem->setName($product->getName());
+            $orderItem->setModel($product->getModel());
+            $orderItem->setProduct($product);
+            $orderItem->setQuantity($item->getQuantity());
+            $orderItem->setPrice($item->getPrice());
+            $orderItem->setOrder($order);
+
+            $this->em->persist($orderItem);
+        }
+
+        $this->em->remove($this->cart);
+        $this->session->set('cart', null);
+
+        $this->em->flush();
+
+    }
 
     public function getCart()
     {

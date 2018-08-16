@@ -3,16 +3,16 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-use AppBundle\Entity\Category;
-use AppBundle\Entity\Image;
+use AppBundle\Entity\BaseCustomer;
+use AppBundle\Entity\Cart;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 
 /**
@@ -22,7 +22,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CustomerRepository")
  * @UniqueEntity(fields="email", message="Email již existuje")
  */
-class Customer implements UserInterface, \Serializable
+class Customer extends BaseCustomer implements UserInterface, \Serializable
 {
     /**
      * @var int
@@ -56,7 +56,40 @@ class Customer implements UserInterface, \Serializable
     /**
      * @ORM\Column(name="is_active", type="boolean")
      */
-    private $isActive;
+    private $isActive = true;
+
+
+    /**
+     * @var \DateTime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @var \DateTime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+
+
+    public function fromCart(Cart $cart)
+    {
+        $this->setEmail($cart->getEmail());
+
+        $this->setBillingName($cart->getBillingName());
+        $this->setBillingAddress($cart->getBillingAddress());
+        $this->setBillingCity($cart->getBillingCity());
+        $this->setBillingPostcode($cart->getBillingPostcode());
+
+        $this->setDeliveryName($cart->getDeliveryName());
+        $this->setDeliveryAddress($cart->getDeliveryAddress());
+        $this->setDeliveryCity($cart->getDeliveryCity());
+        $this->setDeliveryPostcode($cart->getDeliveryPostcode());
+    }
 
 
     public function getUsername()
@@ -182,5 +215,53 @@ class Customer implements UserInterface, \Serializable
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Set created.
+     *
+     * @param \DateTime $created
+     *
+     * @return Customer
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created.
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated.
+     *
+     * @param \DateTime $updated
+     *
+     * @return Customer
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated.
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 }

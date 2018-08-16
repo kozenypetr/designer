@@ -50,7 +50,7 @@
                 {% for payment in payments %}
                     <div class="item shipping">
                         <input type="radio" id="payment-{{ payment.id }}" name="payment" value="{{ payment.id }}" {{ (cart.payment and cart.payment.id == payment.id)?'checked':'' }} />
-                        <label for="payment-{{ shipping.id }}">{{ payment.name }}</label>
+                        <label for="payment-{{ payment.id }}">{{ payment.name }}</label>
                     </div>
                 {% endfor %}
             </div>

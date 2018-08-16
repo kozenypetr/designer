@@ -42,6 +42,13 @@
         {{ delivery.delivery_name }}<br />
         {{ delivery.delivery_address }}<br />
         {{ delivery.delivery_postcode }} {{ delivery.delivery_city }}<br />
+
+
+        <form action="{{ path('shop_order_finish') }}" method="POST" novalidate>
+
+            <input type="submit" class="btn btn-primary" value="Dokončit objednávku" />
+
+        </form>
     </div>
 
 </div>

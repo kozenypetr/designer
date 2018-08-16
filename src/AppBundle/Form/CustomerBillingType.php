@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class CustomerBillingType extends AbstractType {
 
@@ -18,10 +19,11 @@ class CustomerBillingType extends AbstractType {
         $builder
             ->add('email', EmailType::class, array(
                 'required' => true,
-                'constraints' => array(new Email())
+                'constraints' => array(new Email(), new NotBlank())
             ))
             ->add('phone', null, array(
                 'required' => true,
+                'constraints' => array(new NotBlank())
             ))
             ->add('billing_name', null, array(
                 'required' => true,

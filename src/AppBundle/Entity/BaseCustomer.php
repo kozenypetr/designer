@@ -12,12 +12,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 abstract class BaseCustomer
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, nullable=true)
-     */
-    private $email;
 
     /**
      * @var string
@@ -71,7 +65,7 @@ abstract class BaseCustomer
     /**
      * @var string
      *
-     * @ORM\Column(name="billing_name_name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="billing_name", type="string", length=255, nullable=true)
      */
     private $billingName;
 
@@ -96,29 +90,57 @@ abstract class BaseCustomer
      */
     private $billingPostcode;
 
-    /**
-     * Set email.
-     *
-     * @param string|null $email
-     *
-     * @return BaseCustomer
-     */
-    public function setEmail($email = null)
-    {
-        $this->email = $email;
 
-        return $this;
+    /**
+     * Informace o fakturacni adrese v poli
+     * @return array
+     */
+    public function getBillingData()
+    {
+        return [
+            'email' => $this->getEmail(),
+            'phone' => $this->getPhone(),
+            'billing_name' => $this->getBillingName(),
+            'billing_address' => $this->getBillingAddress(),
+            'billing_city' => $this->getBillingCity(),
+            'billing_postcode' => $this->getBillingPostcode(),
+            'is_delivery' => $this->getIsDelivery()
+        ];
     }
 
     /**
-     * Get email.
-     *
-     * @return string|null
+     * Informace o dodaci adrese v poli
+     * @return array
      */
-    public function getEmail()
+    public function getDeliveryData()
     {
-        return $this->email;
+        return [
+            'delivery_name' => $this->getDeliveryName(),
+            'delivery_address' => $this->getDeliveryAddress(),
+            'delivery_city' => $this->getDeliveryCity(),
+            'delivery_postcode' => $this->getDeliveryPostcode(),
+        ];
     }
+
+    public function setBillingData($data)
+    {
+        $this->setEmail($data['email']);
+        $this->setPhone($data['phone']);
+        $this->setBillingName($data['billing_name']);
+        $this->setBillingAddress($data['billing_address']);
+        $this->setBillingCity($data['billing_city']);
+        $this->setBillingPostcode($data['billing_postcode']);
+        $this->setIsDelivery($data['is_delivery']);
+    }
+
+    public function setDeliveryData($data)
+    {
+        $this->setDeliveryName($data['delivery_name']);
+        $this->setDeliveryAddress($data['delivery_address']);
+        $this->setDeliveryCity($data['delivery_city']);
+        $this->setDeliveryPostcode($data['delivery_postcode']);
+    }
+
 
     /**
      * Set phone.
