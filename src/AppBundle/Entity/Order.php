@@ -632,6 +632,8 @@ class Order extends BaseCustomer
     {
         $this->items[] = $item;
 
+        $item->setOrder($this);
+
         return $this;
     }
 

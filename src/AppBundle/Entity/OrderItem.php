@@ -108,6 +108,10 @@ class OrderItem
     private $updated;
 
 
+    public function __toString() {
+        return (string)$this->getId();
+    }
+
     /**
      * Get id.
      *

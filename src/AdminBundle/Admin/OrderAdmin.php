@@ -9,6 +9,8 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
 use Sonata\CoreBundle\Form\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 use Sonata\CoreBundle\Validator\ErrorElement;
 use AppBundle\Entity\Order;
@@ -39,12 +41,13 @@ class OrderAdmin extends AbstractAdmin
       ->end()
       ->with('Objednávka', array('class' => 'col-md-12'))
         ->add('items', CollectionType::class, [
+            'by_reference' => false,
             'type_options' => [
                 // Prevents the "Delete" option from being displayed
-                'delete' => false,
+                'delete' => true,
                 'delete_options' => [
                     // You may otherwise choose to put the field but hide it
-                    'type'         => HiddenType::class,
+                    'type'         => CheckboxType::class,
                     // In that case, you need to fill in the options as well
                     'type_options' => [
                         'mapped'   => false,
