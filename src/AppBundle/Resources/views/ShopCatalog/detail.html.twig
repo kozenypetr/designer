@@ -37,7 +37,13 @@
         <form action="{{ path('shop_cart_add', { id: product.id}) }}" method="POST">
             <input type="text" name="quantity" value="1" />
             <input type="submit" value="Přidat do košíku" />
+
+            {{ form_widget(attributeForm) }}
         </form>
+
+        {% if product.module %}
+            {% include('AppBundle::ShopCatalog/Editor/' ~ product.module ~ '.html.twig') %}
+        {% endif %}
 
     </div>
 

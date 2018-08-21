@@ -45,6 +45,9 @@
                 <div class="col-md-12">{% block body %}{% endblock %}</div>
             </div>
         </div>
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            <script src="{{ asset('js/jquery.min.js') }}"></script>
+            <script src="{{ asset('js/editor.js') }}"></script>
+        {% endblock %}
     </body>
 </html>

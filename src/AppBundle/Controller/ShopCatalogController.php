@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Gedmo\Translatable\TranslatableListener;
 use Doctrine\ORM\Query;
 
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
+
 class ShopCatalogController extends Controller
 {
     /**
@@ -62,7 +67,44 @@ class ShopCatalogController extends Controller
             throw $this->createNotFoundException('Produkt neexistuje');
         }
 
-        return $this->render('AppBundle:ShopCatalog:detail.html.twig', array('product' => $product));
+        $attributeForm = $this->createAttributesForm($product);
+
+        return $this->render('AppBundle:ShopCatalog:detail.html.twig', array('product' => $product, 'attributeForm' => ($attributeForm?$attributeForm->createView():null)));
+    }
+
+
+    protected function createAttributesForm($product)
+    {
+        if ($product->getAttributes())
+        {
+            $formBuilder = $this->get('form.factory')
+                ->createNamedBuilder('attribute', FormType::class, NULL/*hodnoty*/, array('csrf_protection' => false));
+
+            foreach ($product->getAttributes() as $attribute)
+            {
+                $options = [];
+                if ($attribute->getType() == ChoiceType::class)
+                {
+                    $choices = [];
+                    foreach ($attribute->getOptions() as $option)
+                    {
+                        $choices[$option->getName()] = $option->getId();
+                    }
+
+                    $options['choices'] = $choices;
+                }
+
+                $options['label'] = $attribute->getName();
+                $options['attr']['class'] = $attribute->getClass();
+                $formBuilder->add($attribute->getId(), $attribute->getType(), $options);
+            }
+
+            $form = $formBuilder->getForm();
+
+            return $form;
+        }
+
+        return null;
     }
 
 

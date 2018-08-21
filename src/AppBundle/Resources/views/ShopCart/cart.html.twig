@@ -18,7 +18,7 @@
         {% if cart.items %}
         <form action="{{ path('shop_cart') }}" method="POST">
 
-            <table width="100%">
+            <table class="items" width="100%">
                 <tr>
                     <th>Model</th>
                     <th>Název</th>
@@ -28,8 +28,15 @@
                 </tr>
                 {% for item in cart.items %}
                 <tr>
-                    <td>{{ item.product.model }}</td>
-                    <td>{{ item.product.name }}</td>
+                    <td valign="top">{{ item.product.model }}</td>
+                    <td>
+                        <strong>{{ item.product.name }}</strong>
+                        {% if item.attributes %}
+                          {% for attribute in item.attributes %}
+                              <br />{{ attribute.name }}: {{ attribute.value }}
+                          {% endfor  %}
+                        {% endif %}
+                    </td>
                     <td>{{ item.quantity }}</td>
                     <td>{{ item.price }}</td>
                     <td>smazat</td>

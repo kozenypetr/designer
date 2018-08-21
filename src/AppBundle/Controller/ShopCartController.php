@@ -61,7 +61,9 @@ class ShopCartController extends Controller
     {
         $quantity = $request->get('quantity', 1);
 
-        $this->get('cart.manager')->addItem($product, $quantity);
+        $attributes = $request->get('attribute');
+
+        $this->get('cart.manager')->addItem($product, $quantity, $attributes);
 
         return $this->redirectToRoute('shop_cart');
     }

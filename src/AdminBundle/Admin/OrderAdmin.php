@@ -40,7 +40,7 @@ class OrderAdmin extends AbstractAdmin
             ->add('total', 'text', array('label' => 'Celkem s DPH'))
       ->end()
       ->with('Objednávka', array('class' => 'col-md-12'))
-        ->add('items', CollectionType::class, [
+        ->add('attributes', CollectionType::class, [
             'by_reference' => false,
             'type_options' => [
                 // Prevents the "Delete" option from being displayed

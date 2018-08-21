@@ -8,6 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Image;
+use AppBundle\Entity\Attribute;
 
 
 /**
@@ -146,13 +147,15 @@ class Product
      * @ORM\Column(name="price4", type="decimal", precision=15, scale=4, nullable=true)
      */
     private $price4;
-
+    
     /**
-     * @var text
+     * Options
      *
-     * @ORM\Column(name="attributes", type="text", nullable=true)
+     * @var AttributeOption
+     * @ORM\OneToMany(targetEntity="Attribute", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $attributes;
+    protected $attributes;
+
 
     /**
      * @var text
@@ -161,7 +164,6 @@ class Product
      */
     private $parameters;
 
-
     /**
      * @var integer
      *
@@ -169,6 +171,13 @@ class Product
      */
     private $sort;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="module", type="string", length=255, nullable=true)
+     */
+    private $module;
+    
     
     public function __construct()
     {
@@ -176,7 +185,9 @@ class Product
       $this->images     = new ArrayCollection();
     }
 
-
+    public function __toString() {
+        return $this->name;
+    }
 
     /**
      * Get id.
@@ -666,5 +677,57 @@ class Product
     public function getParameters()
     {
         return $this->parameters;
+    }
+
+    /**
+     * Add attribute.
+     *
+     * @param \AppBundle\Entity\Attribute $attribute
+     *
+     * @return Product
+     */
+    public function addAttribute(\AppBundle\Entity\Attribute $attribute)
+    {
+        $attribute->setProduct($this);
+
+        $this->attributes[] = $attribute;
+
+        return $this;
+    }
+
+    /**
+     * Remove attribute.
+     *
+     * @param \AppBundle\Entity\Attribute $attribute
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeAttribute(\AppBundle\Entity\Attribute $attribute)
+    {
+        return $this->attributes->removeElement($attribute);
+    }
+
+    /**
+     * Set module.
+     *
+     * @param string|null $module
+     *
+     * @return Product
+     */
+    public function setModule($module = null)
+    {
+        $this->module = $module;
+
+        return $this;
+    }
+
+    /**
+     * Get module.
+     *
+     * @return string|null
+     */
+    public function getModule()
+    {
+        return $this->module;
     }
 }

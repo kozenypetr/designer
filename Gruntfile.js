@@ -23,6 +23,12 @@ module.exports = function(grunt) {
             src: '**',
             dest: 'web/css/webfonts'
       },
+      jquery: {
+            expand: true,
+            cwd: 'node_modules/jquery/dist',
+            src: 'jquery.min.js',
+            dest: 'web/js'
+      },
     },
     watch: {
         less: {

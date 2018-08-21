@@ -132,6 +132,7 @@ class CartManager {
     /**
      * @param Product
      * @param int $quantity
+     * @param array $attributes
      * @return bool
      */
     public function addItem($product, $quantity = 1, $attributes = null, $parameters = null)
@@ -153,12 +154,32 @@ class CartManager {
         $cartItem->setQuantity($quantity);
         $cartItem->setPrice($product->getPrice());
 
-        $attributesHash = '';
-        if ($attributes)
+        $productAttributes = array();
+        foreach ($product->getAttributes() as $attribute)
         {
-            $attributesHash = md5(serialize($attributes));
+            $productAttributes[$attribute->getId()] = $attribute;
         }
-        $cartItem->setAttributesHash($attributesHash);
+
+        $attributesHash = '';
+        if ($attributes && $productAttributes)
+        {
+            $attributesSaveData = [];
+            foreach ($attributes as $id => $value)
+            {
+                if (isset($productAttributes[$id])) {
+                    $attributesSaveData[$id] = [
+                        'name' => $productAttributes[$id]->getName(),
+                        'value' => $value
+                    ];
+                }
+            }
+
+            if ($attributesSaveData) {
+                $attributesHash = md5(serialize($attributes));
+                $cartItem->setAttributesHash($attributesHash);
+                $cartItem->setAttributes($attributesSaveData);
+            }
+        }
 
         $cart->addItem($cartItem);
 

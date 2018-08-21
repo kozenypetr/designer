@@ -8,6 +8,11 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
+use Sonata\CoreBundle\Form\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+
+
+
 use Sonata\CoreBundle\Validator\ErrorElement;
 use AppBundle\Entity\Product;
 
@@ -30,10 +35,37 @@ class ProductAdmin extends AbstractAdmin
         ->add('description', 'textarea', array('label' => 'Popis', 'required' => false, 'attr' => array('class' => 'ckeditor')))
         ->add('price', null, array('label' => 'Cena'))
         ->add('is_active', 'checkbox', array('label' => 'Aktivní', 'required' => false))
+        ->add('module', 'text', array('label' => 'Modul editace', 'required' => false))
       ->end()
       ->with('Kategorie', array('class' => 'col-md-3'))
         ->add('mainCategory', 'sonata_type_model', array('class' => 'AppBundle\Entity\Category', 'label' => 'Hlavní kategorie', 'expanded' => false, 'multiple' => false))
         ->add('categories', 'sonata_type_model', array('class' => 'AppBundle\Entity\Category', 'label' => 'Kategorie produktu', 'expanded' => true, 'multiple' => true))
+      ->end()
+
+      ->with('Atributy', array('class' => 'col-md-9 '))
+        ->add('attributes', CollectionType::class, [
+            'label' => false,
+            'required' => false,
+            'by_reference' => false,
+            'type_options' => [
+                // Prevents the "Delete" option from being displayed
+                'delete' => true,
+                'delete_options' => [
+                    // You may otherwise choose to put the field but hide it
+                    'type'         => CheckboxType::class,
+                    // In that case, you need to fill in the options as well
+                    'type_options' => [
+                        'mapped'   => false,
+                        'required' => true,
+                    ]
+                ]
+            ]
+        ],[
+                'edit' => 'inline',
+                'inline' => 'natural',
+                'sortable' => 'id'
+            ]
+        )
       ->end()
     ;
     // navod na tiny
