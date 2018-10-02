@@ -1,0 +1,33 @@
+<div id="box-step1-cart-items">
+    {% for item in cart.items %}
+        <div class="checkout-item" data-id="{{ item.id }}">
+            <div class="image"></div>
+            <div class="model">{{ item.product.model }}</div>
+            <div class="name">
+                <strong>
+                    <a href="{{ path('shop_catalog_detail', { slug: item.product.slug }) }}">{{ item.product.name }}</a>
+                </strong>
+                {% if item.attributes %}
+                    <span>
+                        {% for attribute in item.attributes %}
+                            <br />{{ attribute.name }}: {{ attribute.value }}
+                        {% endfor  %}
+                    </span>
+                {% endif %}
+            </div>
+            <div class="availability"></div>
+            <div class="quantity">
+                <input type="text" class="form-control event keyup" data-validation="number" data-handle="{{ path('shop_cart_update', { do: 'updateQuantity', id: item.id }) }}" data-value="1" value="{{ item.quantity }}" name="quantity[{{ item.id }}]" />
+            </div>
+            <div class="price">{{ item.price | price }}</div>
+            <div class="delete">
+                <a class="event click" data-handle="{{ path('shop_cart_update', { do: 'deleteItem', id: item.id }) }}" data-value="0" href="#">smazat</a>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div>
+        Počet položek: {{ cart.items.count }},
+        Celkem: {{ cart.totalProducts | price }}
+    </div>
+</div>

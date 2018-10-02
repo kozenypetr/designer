@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Cart;
 
@@ -15,9 +17,19 @@ use AppBundle\Entity\Cart;
  *
  * @ORM\Table(name="cart_item")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CartItemRepository")
+ * @UniqueEntity(fields={"attributesHash", "cart", "product"})
  */
 class CartItem
 {
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
     /**
      * @var integer
@@ -42,7 +54,6 @@ class CartItem
 
     /**
      * @var string
-     * @ORM\Id
      * @ORM\Column(name="attributes_hash", type="string", length=255, nullable=true)
      */
     protected $attributesHash;
@@ -51,7 +62,6 @@ class CartItem
      * Cart
      *
      * @var Cart
-     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Cart", cascade={"persist"}, inversedBy="items")
      */
     protected $cart;
@@ -59,7 +69,6 @@ class CartItem
     /**
      * Many Products have One Category.
      * @ORM\ManyToOne(targetEntity="Product")
-     * @ORM\Id
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      */
     protected $product;
@@ -332,5 +341,15 @@ class CartItem
     public function getTax()
     {
         return $this->tax;
+    }
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 }

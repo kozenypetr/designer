@@ -77,7 +77,7 @@ class Payment
      */
     private $priceTable;
 
-
+    
     /**
      * @ORM\ManyToMany(targetEntity="Shipping", inversedBy="payments")
      */

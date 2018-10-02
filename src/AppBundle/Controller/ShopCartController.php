@@ -18,6 +18,9 @@ use AppBundle\Form\CustomerDeliveryType;
 use AppBundle\Form\CustomerPasswordType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+
+
 
 class ShopCartController extends Controller
 {
@@ -68,134 +71,61 @@ class ShopCartController extends Controller
         return $this->redirectToRoute('shop_cart');
     }
 
-
-
     /**
-     * @Route("/objednavka/zakaznik", name="shop_customer")
-     * @Method({"GET", "POST"})
-     */
-    public function customerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
-    {
-        $cm = $this->get('cart.manager');
-        $em = $this->getDoctrine()->getManager();
-
-        // formular pro fakturacni adresu
-        $billingForm = $this->createForm(CustomerBillingType::class);
-        $billingForm->setData($cm->cart->getBillingData());
-
-        // formular pro dodaci adresu
-        $deliveryForm = $this->createForm(CustomerDeliveryType::class);
-        $deliveryForm->setData($cm->cart->getDeliveryData());
-
-        // formular pro zadani hesla
-        $passwordForm = $this->createForm(CustomerPasswordType::class);
-
-        // po odeslani formulare provedeme validaci a ulozime data
-        if ($request->isMethod('POST'))
-        {
-            $billingForm->handleRequest($request);
-            $deliveryForm->handleRequest($request);
-            $passwordForm->handleRequest($request);
-
-            // validace fakturacni adresy
-            if ($billingForm->isValid())
-            {
-                $valid = true;
-                $cm->cart->setBillingData($billingForm->getData());
-
-                // pokud je dodaci adresa jina, tak ji ulozime
-                if ($cm->cart->getIsDelivery())
-                {
-                    $deliveryForm->isValid()?$cm->cart->setDeliveryData($deliveryForm->getData()):$valid = false;
-                }
-
-                if ($billingForm->get('is_create_account')->getViewData())
-                {
-                    if ($passwordForm->isValid())
-                    {
-                        $passwordData = $passwordForm->getData();
-
-                        // vytvorime zakaznika
-                        $customer = new Customer();
-                        $customer->fromCart($cm->cart);
-
-                        // vytvorime heslo
-                        $password = $passwordEncoder->encodePassword($customer, $passwordData['plainPassword']);
-                        $customer->setPassword($password);
-
-                        $cm->cart->setCustomer($customer);
-
-                        $em->persist($customer);
-                        $em->flush();
-
-                        $cm->flush();
-                    }
-                    else
-                    {
-                        $valid = false;
-                    }
-                }
-
-                $cm->flush();
-
-                if ($valid)
-                {
-                    return $this->redirectToRoute('shop_summary');
-                }
-            }
-
-            /* @TODO: presmerovani na sumarizaci objednavky */
-        }
-
-        //
-
-        return $this->render('AppBundle:ShopCart:customer.html.twig',
-                        array('cm' => $cm,
-                              'billingForm' => $billingForm->createView(),
-                              'deliveryForm' => $deliveryForm->createView(),
-                              'passwordForm' => $passwordForm->createView(),
-                        )
-        );
-    }
-
-    /**
-     * @Route("/prehled-objednavky", name="shop_summary")
+     * @Route("/cart/update/{do}", name="shop_cart_update")
      * @Method({"GET"})
      */
-    public function summaryAction(Request $request)
+    public function updateAction(Request $request, $do)
     {
-        $cm = $this->get('cart.manager');
+        $this->cm = $this->get('cart.manager');
 
-        return $this->render('AppBundle:ShopCart:summary.html.twig',
-            array(
-                'cm' => $cm,
-                'billing'  => $cm->cart->getBillingData(),
-                'delivery' => $cm->cart->getDeliveryData()
-            )
+        call_user_func_array(
+            array($this, $do),
+            array($request)
         );
+
+        $shippings = $this->cm->getActiveShippingList($request->getLocale());
+        $payments  = $this->cm->getActivePaymentList($request->getLocale());
+
+        $json = ['redirect' => null, 'boxes' => []];
+
+        $summary = $this->cm->getSummary();
+
+        if ($summary['count'] == 0)
+        {
+            $json['redirect'] = $this->generateUrl("shop_cart");
+            return new JsonResponse($json);;
+        }
+
+        $json['boxes']['box-step1-cart-items'] = $this->get('templating')->render('AppBundle:ShopCart/boxes:step1-items.html.twig', ['cart' => $this->cm->getCart()]);
+        $json['boxes']['box-step1-shipping-payment'] = $this->get('templating')->render('AppBundle:ShopCart/boxes:step1-shipping-payment.html.twig', ['cart' => $this->cm->getCart(), 'shippings' => $shippings, 'payments' => $payments]);
+        $json['boxes']['box-step1-total'] = $this->get('templating')->render('AppBundle:ShopCart/boxes:step1-total.html.twig', ['cart' => $this->cm->getCart()]);
+        $json['boxes']['box-head-cart'] = $this->get('templating')->render('AppBundle:ShopCart/boxes:head-cart.html.twig');
+
+        return new JsonResponse($json);
     }
 
-    /**
-     * @Route("/dokonceni-objednavky", name="shop_order_finish")
-     * @Method({"POST"})
-     */
-    public function orderFinishAction(Request $request)
+    protected function updateQuantity(Request $request)
     {
-        $cm = $this->get('cart.manager');
-
-        $cm->finishOrder();
-
-        return $this->redirectToRoute('shop_order_finish_confirm');
+        $this->cm->updateQuantityItem($request->get('id'), $request->get('v'));
     }
 
-
-    /**
-     * @Route("/potvrzeni-dokonceni-objednavky", name="shop_order_finish_confirm")
-     */
-    public function orderFinishConfirmAction(Request $request)
+    protected function deleteItem(Request $request)
     {
-        return $this->render('AppBundle:ShopCart:finishConfirm.html.twig');
+        $this->cm->deleteItem($request->get('id'));
     }
 
+    protected function setPayment(Request $request)
+    {
+        $paymentId  = $request->get('v');
+        $this->cm->setPayment($paymentId);
+        $this->cm->flush();
+    }
 
+    protected function setShipping(Request $request)
+    {
+        $shippingId = $request->get('v');
+        $this->cm->setShipping($shippingId);
+        $this->cm->flush();
+    }
 }

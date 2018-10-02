@@ -122,7 +122,7 @@ class Cart extends BaseCustomer
         $subtotal = 0;
         foreach ($this->getItems() as $item)
         {
-            $subtotal += $item->getPrice();
+            $subtotal += ($item->getPrice() * $item->getQuantity());
         }
 
         return $subtotal;
@@ -139,9 +139,21 @@ class Cart extends BaseCustomer
         return $tax;
     }
 
-    public function getTotal()
+    public function getTotalProducts()
     {
         return $this->getSubtotal() + $this->getTax();
+    }
+
+    public function getTotal()
+    {
+        $total = $this->getTotalProducts();
+
+        if ($this->getShipping())
+        {
+            $total = $total + $this->getShipping()->getPrice($this);
+        }
+
+        return $total;
     }
 
     /**

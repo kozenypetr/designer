@@ -1,0 +1,12 @@
+<div id="box-head-cart" class="topbar__cart">
+    <a href="{{ path('shop_cart') }}">
+        <span class="count">{{ cm.summary.count }}</span>
+        <i class="fas fa-2x fa-shopping-basket"></i>
+        <span class="price">{{ cm.summary.total | price }}</span>
+    </a>
+    {#
+    <a href="basket.html" class="btn btn-outline-dark">
+        <i class="fa fa-shopping-cart"></i><span>3 Items in cart</span>
+    </a>
+    #}
+</div>

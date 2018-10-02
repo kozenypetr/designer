@@ -3,51 +3,98 @@
 
 header {
 
-  .container {
-    border-bottom: solid #aaa 1px;
+  background-color: #f4f1ee;
+
+  .separator {
+    /*border-top: solid #aaa 1px;*/
   }
+
+
+
+
 
   .topbar__content {
     padding: 20px 0px;
-    border-bottom: solid #aaa 1px;
   }
 
   .topbar__logo {
     text-align: center;
   }
 
-  .topbar_menu {
+  .topbar__cart {
 
-    text-align: center;
-    height: 50px;
 
-    ul {
+    a {
+      position: relative;
+      display: block;
+      text-decoration: none;
+      .count {
+        position: absolute;
+        top: 0px;
+        left: 30px;
+        height: 23px;
+        width: 23px;
+        background-color: darkred;
+        color: #fff;
+        border-radius: 50%;
+        display: inline-block;
+        text-align: center;
+        line-height: 23px;
+        font-weight: bold;
+        font-size: 0.7rem;
+      }
 
-      height: 50px;
-      display: inline-block;
-      margin-bottom: 0px;
 
-      li {
-        float: left;
-        width: 100px;
-        height: 50px;
-        position: relative;
-        line-height: 50px;
-        list-style-type: none;
-
-        a {
-          display: block;
-          color: #383737;
-          width: 100%;
-          height: 50px;
-          font-weight: bold;
-          font-size: 1.1rem;
-        }
+      .price {
+        display: inline-block;
+        margin-left: 20px;
+        font-weight: bold;
       }
     }
-
   }
+
+
 }
+
+.container.menu {
+  border-radius: 5px;
+  background-color: #5c5c5c;
+  a { color: #fff; }
+  margin-top: 10px;
+}
+
+.topbar_menu {
+
+  text-align: center;
+  height: 20px;
+
+  ul {
+
+    height: 20px;
+    display: inline-block;
+    margin-bottom: 0px;
+
+    li {
+      float: left;
+      width: 100px;
+      height: 20px;
+      position: relative;
+      line-height: 20px;
+      list-style-type: none;
+
+      a {
+        display: block;
+        width: 100%;
+        height: 20px;
+        font-weight: bold;
+        font-size: 1rem;
+      }
+    }
+  }
+
+}
+
+
 
 .product-list-head {
   text-align: center;

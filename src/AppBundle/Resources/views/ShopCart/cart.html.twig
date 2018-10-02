@@ -15,9 +15,31 @@
 
         <h3><i class="fas fa-shopping-basket"></i>Můj košík</h3>
 
-        {% if cart.items %}
-        <form action="{{ path('shop_cart') }}" method="POST">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+            <div class="alert alert-{{ label }}" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
 
+        {% if cart.items.count %}
+
+            {% include 'AppBundle:ShopCart/boxes:step1-items.html.twig' with {'cart': cart} %}
+
+            {% include 'AppBundle:ShopCart/boxes:step1-shipping-payment.html.twig' with {'cart': cart, 'shippings': shippings, 'payments': payments} %}
+
+            {% include 'AppBundle:ShopCart/boxes:step1-total.html.twig' with {'cart': cart} %}
+
+            <a class="btn btn-success" href="{{ path('shop_customer') }}">Pokračovat k dodacím údajům</a>
+
+        {% else %}
+
+            <p>Váš košík je prázdný</p>
+
+        {% endif %}
+
+        {% if cart.items %}
+
+            {#
             <table class="items" width="100%">
                 <tr>
                     <th>Model</th>
@@ -28,7 +50,7 @@
                 </tr>
                 {% for item in cart.items %}
                 <tr>
-                    <td valign="top">{{ item.product.model }}</td>
+                        <td valign="top">{{ item.product.model }}</td>
                     <td>
                         <strong>{{ item.product.name }}</strong>
                         {% if item.attributes %}
@@ -43,28 +65,10 @@
                 </tr>
                 {% endfor %}
             </table>
+            #}
 
 
-            <div class="cart-shipping-payment">
-                <h3><i class="fas fa-truck"></i> Způsob dopravy</h3>
-                {% for shipping in shippings %}
-                    <div class="item shipping">
-                        <input type="radio" id="shipping-{{ shipping.id }}" name="shipping" value="{{ shipping.id }}" {{ (cart.shipping and cart.shipping.id == shipping.id)?'checked':'' }} />
-                        <label for="shipping-{{ shipping.id }}">{{ shipping.name }}</label>
-                    </div>
-                {% endfor %}
-                <h3><i class="fas fa-wallet"></i> Způsob platby</h3>
-                {% for payment in payments %}
-                    <div class="item shipping">
-                        <input type="radio" id="payment-{{ payment.id }}" name="payment" value="{{ payment.id }}" {{ (cart.payment and cart.payment.id == payment.id)?'checked':'' }} />
-                        <label for="payment-{{ payment.id }}">{{ payment.name }}</label>
-                    </div>
-                {% endfor %}
-            </div>
 
-            <input type="submit" value="Pokračovat k dodacím údajům" />
-
-        </form>
     </div>
     {% else %}
     <p>Váš košík je prázdný</p>

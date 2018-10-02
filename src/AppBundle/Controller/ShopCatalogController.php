@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
+
 class ShopCatalogController extends Controller
 {
     /**
@@ -88,7 +89,7 @@ class ShopCatalogController extends Controller
                     $choices = [];
                     foreach ($attribute->getOptions() as $option)
                     {
-                        $choices[$option->getName()] = $option->getId();
+                        $choices[$option->getName()] = $option->getName();
                     }
 
                     $options['choices'] = $choices;

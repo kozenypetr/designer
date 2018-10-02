@@ -1,0 +1,23 @@
+<div id="box-step1-shipping-payment" class="cart-shipping-payment">
+
+    <h3><i class="fas fa-truck"></i> Způsob dopravy</h3>
+    {% for shipping in shippings %}
+        <div class="item shipping">
+            <input class="event click" data-handle="{{ path('shop_cart_update', { do: 'setShipping' }) }}" data-value="1" type="radio" id="shipping-{{ shipping.id }}" name="shipping" value="{{ shipping.id }}" {{ (cart.shipping and cart.shipping.id == shipping.id)?'checked':'' }} />
+            <label for="shipping-{{ shipping.id }}">{{ shipping.name }}</label>
+            <span class="price">
+                {{ shipping.getPrice(cart) | price }}
+            </span>
+            {% if shipping.description %}
+              <p>{{ shipping.description }}</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <h3><i class="fas fa-wallet"></i> Způsob platby</h3>
+    {% for payment in payments %}
+        <div class="item shipping">
+            <input class="event change" data-handle="{{ path('shop_cart_update', { do: 'setPayment' }) }}" data-value="1" type="radio" id="payment-{{ payment.id }}" name="payment" value="{{ payment.id }}" {{ (cart.payment and cart.payment.id == payment.id)?'checked':'' }} />
+            <label for="payment-{{ payment.id }}">{{ payment.name }}</label>
+        </div>
+    {% endfor %}
+</div>

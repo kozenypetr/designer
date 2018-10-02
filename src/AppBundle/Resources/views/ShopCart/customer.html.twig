@@ -11,17 +11,96 @@
         </div>
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-9">
 
-        <h3><i class="fas fa-shopping-basket"></i>Fakturační údaje</h3>
-
-
-
-
+        <h3><i class="fas fa-money-check-alt"></i> Fakturační údaje</h3>
 
         <form action="{{ path('shop_customer') }}" method="POST" novalidate>
 
-            {{ form_widget(billingForm) }}
+        <div class="row">
+            <div class="col-md-2">
+                {{ form_label(billingForm.billing_name) }}
+            </div>
+            <div class="col-md-10">
+                {{ form_widget(billingForm.billing_name) }}
+                {{ form_errors(billingForm.billing_name) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                {{ form_label(billingForm.billing_company) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(billingForm.billing_company) }}
+                {{ form_errors(billingForm.billing_company) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                {{ form_label(billingForm.billing_ico) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(billingForm.billing_ico) }}
+                {{ form_errors(billingForm.billing_ico) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_label(billingForm.billing_dic) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(billingForm.billing_dic) }}
+                {{ form_errors(billingForm.billing_dic) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                {{ form_label(billingForm.email) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(billingForm.email) }}
+                {{ form_errors(billingForm.email) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_label(billingForm.phone) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(billingForm.phone) }}
+                {{ form_errors(billingForm.phone) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_label(billingForm.billing_address) }}
+            </div>
+            <div class="col-md-10">
+                {{ form_widget(billingForm.billing_address) }}
+                {{ form_errors(billingForm.billing_address) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_label(billingForm.billing_city) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(billingForm.billing_city) }}
+                {{ form_errors(billingForm.billing_city) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_label(billingForm.billing_postcode) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(billingForm.billing_postcode) }}
+                {{ form_errors(billingForm.billing_postcode) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_widget(billingForm.is_delivery) }}
+            </div>
+        </div>
+
+        <h3><i class="fas fa-box-open"></i> Doručovací údaje</h3>
+
+        <div class="delivery-form">
+            {{ form_widget(deliveryForm) }}
+        </div>
+
+            {#{ form_widget(billingForm) }#}
 
             {{ form_widget(deliveryForm) }}
 
@@ -29,9 +108,9 @@
 
             <input type="submit" class="btn btn-primary" value="Pokračovat ke shrnutí objednávky" />
         </form>
-    </div>
+    </form>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div><strong>Objednávka</strong></div>
 
         <table width="100%">
@@ -63,4 +142,9 @@
         <div>{{ cm.cart.total | price }}</div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/customer.js') }}"></script>
 {% endblock %}

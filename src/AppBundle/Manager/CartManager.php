@@ -27,6 +27,10 @@ class CartManager {
     protected $session    = null;
     protected $em         = null;
     protected $tokenStorage = null;
+
+    /**
+     * @var Cart
+     */
     public    $cart = null;
 
 
@@ -128,6 +132,14 @@ class CartManager {
         $this->cart->setPayment($this->em->getRepository('AppBundle:Payment')->find((int)$paymentId));
     }
 
+    public function getSummary()
+    {
+        $summary = [];
+        $summary['count'] = $this->cart->getItems()->count();
+        $summary['total'] = $this->cart->getTotal();
+
+        return $summary;
+    }
 
     /**
      * @param Product
@@ -190,10 +202,36 @@ class CartManager {
         return true;
     }
 
+    public function getActiveShippingList($locale)
+    {
+        return $this->em->getRepository('AppBundle:Shipping')->findActive($locale);
+    }
+
+    public function getActivePaymentList($locale)
+    {
+        return $this->em->getRepository('AppBundle:Payment')->findActive($locale);
+    }
+
+    public function updateQuantityItem($id, $quantity)
+    {
+        $cartItem = $this->em->getRepository('AppBundle:CartItem')->find($id);
+        $cartItem->setQuantity($quantity);
+
+        $this->em->persist($cartItem);
+        $this->em->flush();
+    }
+
+    public function deleteItem($id)
+    {
+        $cartItem = $this->em->getRepository('AppBundle:CartItem')->find($id);
+
+        $this->em->remove($cartItem);
+        $this->em->flush();
+    }
 
     private function findCartItem($cart, $product, $attributes)
     {
-        $attributesHash = '';
+        $attributesHash = null;
         if ($attributes)
         {
             $attributesHash = md5(serialize($attributes));

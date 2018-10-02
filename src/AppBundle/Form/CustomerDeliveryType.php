@@ -32,6 +32,10 @@ class CustomerDeliveryType extends AbstractType {
                 'required' => true,
                 'constraints' => array(new NotBlank())
             ))
+            ->add('delivery_note', null, array(
+                'required' => true,
+                'constraints' => array(new NotBlank())
+            ))
         ;
     }
 

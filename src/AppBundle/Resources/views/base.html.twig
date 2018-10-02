@@ -12,42 +12,47 @@
         <header>
             <div class="container">
                 <div class="topbar__content row">
-                    <div class="col-md-3 ml-auto d-md-block d-none">
+                    <div class="col-md-3 ml-auto d-md-block">
                     </div>
                     <div class="col-md-4 topbar__logo">
                         <a href="/">
                             <img src="{{ asset('images/gowood.svg.png') }}" />
                         </a>
                     </div>
-                    <div class="col-md-3 ml-auto d-md-block d-none">
-                        <div class="topbar__cart"><a href="basket.html" class="btn btn-outline-dark"><i class="fa fa-shopping-cart"></i><span>3 Items in cart</span></a></div>
+                    <div class="col-md-3 ml-auto d-md-block">
+                        {% include 'AppBundle:ShopCart/boxes:head-cart.html.twig' %}
                     </div>
                 </div>
-                <div class="topbar_menu">
-                    {{ render(controller(
-                    'AppBundle:ShopCatalog:categories'
-                    )) }}
-                </div>
             </div>
+
+            <div class="separator"></div>
         </header>
 
-
-
-        <div class="container">
-            <div class="row">
-                {#<div class="col-md-2">
-                    <div id="sidebar">
-                        {{ render(controller(
-                        'AppBundle:ShopCatalog:categories'
-                        )) }}
-                    </div>
-                </div>#}
-                <div class="col-md-12">{% block body %}{% endblock %}</div>
+        <div class="container menu">
+            <div class="topbar_menu">
+                {{ render(controller(
+                'AppBundle:ShopCatalog:categories'
+                )) }}
             </div>
         </div>
+
+        <section id="content" class="clearfix">
+            <div class="checkout container">
+
+                    {#<div class="col-md-2">
+                        <div id="sidebar">
+                            {{ render(controller(
+                            'AppBundle:ShopCatalog:categories'
+                            )) }}
+                        </div>
+                    </div>#}
+                    {% block body %}{% endblock %}
+            </div>
+        </section>
         {% block javascripts %}
             <script src="{{ asset('js/jquery.min.js') }}"></script>
             <script src="{{ asset('js/editor.js') }}"></script>
+            <script src="{{ asset('js/shopping-cart.js') }}"></script>
         {% endblock %}
     </body>
 </html>

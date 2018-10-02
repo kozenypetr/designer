@@ -42,6 +42,7 @@ twig:
     strict_variables: '%kernel.debug%'
     globals:
         admin_skin: "%admin_skin%"
+        cm: '@AppBundle\Manager\CartManager'
     #Sonata with Symfony >= 2.6
     form_themes:
         - 'SonataFormatterBundle:Form:formatter.html.twig'
