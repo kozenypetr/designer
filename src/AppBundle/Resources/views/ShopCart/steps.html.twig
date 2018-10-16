@@ -1,0 +1,27 @@
+<div class="col-md-12">
+    <div class="steps row">
+        <div class="col-md-4">
+            <span class="step{{ (step >= 1)?' active':'' }}">
+                {% if step > 1 %}
+                <a href="{{ path('shop_cart') }}">
+                {% endif %}
+                1 Způsob dopravy a platby
+                {% if step > 1 %}
+                </a>
+                {% endif %}
+            </span>
+        </div>
+        <div class="col-md-4">
+            <span class="step{{ (step >= 2)?' active':'' }}">
+                {% if step > 2 %}
+                <a href="{{ path('shop_customer') }}">
+                {% endif %}
+                2 Dodací a fakturační údaje
+                {% if step > 2 %}
+                </a>
+                {% endif %}
+            </span>
+        </div>
+        <div class="col-md-4"><span class="step{{ (step >= 3)?' active':'' }}">3 Shrnutí a platba</span></div>
+    </div>
+</div>

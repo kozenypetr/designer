@@ -4,20 +4,40 @@
     {% for shipping in shippings %}
         <div class="item shipping">
             <input class="event click" data-handle="{{ path('shop_cart_update', { do: 'setShipping' }) }}" data-value="1" type="radio" id="shipping-{{ shipping.id }}" name="shipping" value="{{ shipping.id }}" {{ (cart.shipping and cart.shipping.id == shipping.id)?'checked':'' }} />
-            <label for="shipping-{{ shipping.id }}">{{ shipping.name }}</label>
+            <label for="shipping-{{ shipping.id }}">
+                {% if shipping.icon %}
+                <img src="/images/shipping/{{ shipping.icon }}" />
+                {% endif %}
+                <span>{{ shipping.name }}</span>
+            </label>
             <span class="price">
-                {{ shipping.getPrice(cart) | price }}
+                {{ shipping.getPrice(cart) ? (shipping.getPrice(cart) | price) : 'zdarma' }}
             </span>
             {% if shipping.description %}
-              <p>{{ shipping.description }}</p>
+              <div class="description{{ (cart.shipping and cart.shipping.id == shipping.id)?' show':'' }}">
+                <p>{{ shipping.description }}</p>
+              </div>
             {% endif %}
         </div>
     {% endfor %}
+
     <h3><i class="fas fa-wallet"></i> Způsob platby</h3>
     {% for payment in payments %}
-        <div class="item shipping">
+        <div class="item payment">
             <input class="event change" data-handle="{{ path('shop_cart_update', { do: 'setPayment' }) }}" data-value="1" type="radio" id="payment-{{ payment.id }}" name="payment" value="{{ payment.id }}" {{ (cart.payment and cart.payment.id == payment.id)?'checked':'' }} />
             <label for="payment-{{ payment.id }}">{{ payment.name }}</label>
+
+            {% if payment.icon %}
+            <span class="icon">
+              <img src="/images/payment/{{ payment.icon }}" />
+            </span>
+            {% endif %}
+
+            {% if payment.description %}
+                <div class="description{{ (cart.payment and cart.payment.id == payment.id)?' show':'' }}">
+                    <p>{{ payment.description }}</p>
+                </div>
+            {% endif %}
         </div>
     {% endfor %}
 </div>

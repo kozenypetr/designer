@@ -7,45 +7,121 @@
 
   .steps {
     .step {
-      border: solid #eee 1px;
-      padding: 20px;
+      // border: solid #999 1px;
+      padding: 10px;
       display: inline-block;
       width: 100%;
       text-align: center;
+      border-radius: 6px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      box-shadow: 0px 3px 10px #ddd;
+      color: #888;
+
+
+
+      span.number {
+
+      }
+    }
+
+    .step.active {
+      color: #fff;
+      border: solid #0275d8 2px;
+      background-color: #0275d8;
+
+      a {
+        color: #fff;
+      }
+
     }
   }
 
   .cart-shipping-payment {
 
     .item {
-      border: solid #aaa 1px;
+      background-color: #fff;
+      border: 1px solid #D9D9D9;
+      box-shadow: 0px 3px 10px #ddd;
+      border-radius: @border-radius-cart;
       margin: 10px 0;
       padding: 20px;
+
+      input {
+        vertical-align: middle;
+      }
+
+      label {
+        font-weight: bold;
+
+        span {
+          display: inline-block;
+          margin-left: 15px;
+        }
+      }
+
+      .price {
+        display: inline-block;
+        float: right;
+        font-weight: bold;
+      }
+
+      .description {
+        display: none;
+      }
+
+      .description.show {
+        display: block;
+      }
+    }
+
+    .item.payment {
+      label {
+        display: inline-block;
+        margin-left: 15px;
+      }
+
+      span.icon {
+        display: inline-block
+      }
     }
 
   }
 
-  table.items {
-    border-collapse: collapse;
-    td, th {
-      border: solid #eee 1px;
-      padding: 10px;
+
+  #box-step1-cart-items {
+    .subtotal {
+      text-align: right;
+
+      span {
+        font-weight: bold;
+      }
     }
   }
+
 
   .checkout-item {
-    border: solid #aaa 1px;
+    background-color: #fff;
+    border: 1px solid #D9D9D9;
+    box-shadow: 0px 3px 10px #ddd;
+
+    border-radius: @border-radius-cart;
     margin-bottom: 10px;
     padding: 10px;
 
     & > div {
       float: left;
       width: 80px;
-      height: 100px;
+      min-height: 100px;
     }
 
     .image {
-      width: 80px;
+      width: 100px;
+      margin-right: 20px;
+
+      img {
+        border-radius: 3px;
+      }
     }
 
     .model {
@@ -53,14 +129,46 @@
     }
 
     .name {
-      width: 200px;
-      span {
-        font-size:75%;
+      width: 300px;
+      a {
+        color: @link-color;
+      }
+
+      .attributes {
+        font-size: 80%;
+        .value {
+          font-weight: bold;
+        }
       }
     }
 
     .quantity {
       width: 50px;
+      padding-top: 30px;
+      vertical-align: middle;
+      input
+      {
+        text-align: center;
+      }
+
+      &.summary {
+        padding-top: 0px;
+        font-weight: bold;
+        line-height: 100px;
+      }
+    }
+
+    .price {
+      color: #0275d8;
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 100px;
+      width: 150px;
+      text-align: center;
+    }
+
+    .delete a {
+      line-height: 100px;
     }
 
     .availability {
@@ -74,10 +182,147 @@
     }
   }
 
+  .cart-total {
+    background-color: #fff;
+    box-shadow: 0px 3px 10px #ddd;
+    border-radius: @border-radius-cart;
+    font-size: 20px;
+    margin-top: 15px;
+
+    span.title {
+      display: inline-block;
+      width: 70%;
+      padding: 30px 10px;
+      text-align: right;
+    }
+
+    span.price {
+      padding: 30px 10px;
+      font-weight: bold;
+      background-color: #0a246a;
+      color: #fff;
+      float: right;
+      width: 30%;
+      display: inline-block;
+      border-radius: @border-radius-cart;
+      text-align: center;
+    }
+  }
+
+  .continue {
+    margin-top: 15px;
+
+    a.link {
+      line-height: 60px;
+    }
+
+    a.btn, button {
+      cursor: pointer;
+      padding: 1.2rem 1rem;
+      font-size: 20px;
+      font-weight: bold;
+      display: inline-block;
+      float: right;
+
+      i {
+        width: 30px;
+        display: inline-block;
+        text-align: center;
+      }
+    }
+  }
+
 }
 
 .customer {
+
+  .billing-address, .delivery-address {
+    background-color: #fff;
+    box-shadow: 0px 3px 10px #ddd;
+    border-radius: @border-radius-cart;
+    padding: 30px;
+
+    input[type=text], input[type=email] {
+      background-color: #eee;
+
+      &:focus {
+        background-color: #fff;
+      }
+    }
+
+    div.row > div {
+      margin-bottom: 10px;
+    }
+  }
+
+  .delivery-address {
+    padding-bottom: 10px;
+  }
+
   .delivery-form {
     display: none;
+  }
+
+  .step2-box-summary {
+    .title, .subtitle {
+      font-weight: bold;
+    }
+
+    .title {
+      margin-top: 65px;
+    }
+
+    .subtitle {
+      margin-top: 20px;
+    }
+
+    .item {
+      background-color: #fff;
+      box-shadow: 0px 3px 10px #ddd;
+      border-radius: @border-radius-cart;
+      padding: 10px;
+      margin-top: 10px;
+
+      .price {
+        display: block;
+      }
+    }
+
+    .total-price {
+      color: #0275d8;
+      font-weight: bold;
+    }
+  }
+}
+
+.summary {
+
+  .payment {
+    margin-top: 15px;
+  }
+
+  .shipping-payment {
+
+    .image {
+      text-align: center;
+      font-size: 40px;
+      padding-top: 20px;
+    }
+
+    .title {
+      font-weight: bold;
+
+      .icon {
+        vertical-align: middle;
+      }
+    }
+
+    p { font-size: 0.9em;}
+  }
+
+  .delivery-billing  {
+    .box-shaddow {
+      padding: 25px;
+    }
   }
 }

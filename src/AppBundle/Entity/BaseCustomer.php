@@ -37,6 +37,13 @@ abstract class BaseCustomer
     /**
      * @var string
      *
+     * @ORM\Column(name="delivery_company", type="string", length=255, nullable=true)
+     */
+    private $deliveryCompany;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="delivery_address", type="string", length=255, nullable=true)
      */
     private $deliveryAddress;
@@ -55,6 +62,14 @@ abstract class BaseCustomer
      */
     private $deliveryPostcode;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="delivery_phone", type="string", length=255, nullable=true)
+     */
+    private $deliveryPhone;
+
     /**
      * @var string
      *
@@ -68,6 +83,27 @@ abstract class BaseCustomer
      * @ORM\Column(name="billing_name", type="string", length=255, nullable=true)
      */
     private $billingName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="billing_company", type="string", length=255, nullable=true)
+     */
+    private $billingCompany;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="billing_ico", type="string", length=32, nullable=true)
+     */
+    private $billingIco;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="billing_dic", type="string", length=32, nullable=true)
+     */
+    private $billingDic;
 
     /**
      * @var string
@@ -101,6 +137,9 @@ abstract class BaseCustomer
             'email' => $this->getEmail(),
             'phone' => $this->getPhone(),
             'billing_name' => $this->getBillingName(),
+            'billing_company' => $this->getBillingCompany(),
+            'billing_ico' => $this->getBillingIco(),
+            'billing_dic' => $this->getBillingDic(),
             'billing_address' => $this->getBillingAddress(),
             'billing_city' => $this->getBillingCity(),
             'billing_postcode' => $this->getBillingPostcode(),
@@ -112,14 +151,30 @@ abstract class BaseCustomer
      * Informace o dodaci adrese v poli
      * @return array
      */
-    public function getDeliveryData()
+    public function getDeliveryData($final = false)
     {
-        return [
-            'delivery_name' => $this->getDeliveryName(),
-            'delivery_address' => $this->getDeliveryAddress(),
-            'delivery_city' => $this->getDeliveryCity(),
-            'delivery_postcode' => $this->getDeliveryPostcode(),
-        ];
+        if (!$final || $this->getIsDelivery())
+        {
+            return [
+                'delivery_name' => $this->getDeliveryName(),
+                'delivery_address' => $this->getDeliveryAddress(),
+                'delivery_city' => $this->getDeliveryCity(),
+                'delivery_postcode' => $this->getDeliveryPostcode(),
+                'delivery_phone' => $this->getDeliveryPhone(),
+                'delivery_company' => $this->getDeliveryCompany()
+            ];
+        }
+        else
+        {
+            return [
+                'delivery_name' => $this->getBillingName(),
+                'delivery_company' => $this->getBillingCompany(),
+                'delivery_address' => $this->getBillingAddress(),
+                'delivery_city' => $this->getBillingCity(),
+                'delivery_postcode' => $this->getBillingPostcode(),
+                'delivery_phone' => $this->getPhone()
+            ];
+        }
     }
 
     public function setBillingData($data)
@@ -127,6 +182,9 @@ abstract class BaseCustomer
         $this->setEmail($data['email']);
         $this->setPhone($data['phone']);
         $this->setBillingName($data['billing_name']);
+        $this->setBillingCompany($data['billing_company']);
+        $this->setBillingIco($data['billing_ico']);
+        $this->setBillingDic($data['billing_dic']);
         $this->setBillingAddress($data['billing_address']);
         $this->setBillingCity($data['billing_city']);
         $this->setBillingPostcode($data['billing_postcode']);
@@ -139,6 +197,8 @@ abstract class BaseCustomer
         $this->setDeliveryAddress($data['delivery_address']);
         $this->setDeliveryCity($data['delivery_city']);
         $this->setDeliveryPostcode($data['delivery_postcode']);
+        $this->setDeliveryPhone($data['delivery_phone']);
+        $this->setDeliveryCompany($data['delivery_company']);
     }
 
 
@@ -404,5 +464,149 @@ abstract class BaseCustomer
     public function getIsDelivery()
     {
         return $this->isDelivery;
+    }
+
+    /**
+     * Set deliveryCompany.
+     *
+     * @param string|null $deliveryCompany
+     *
+     * @return BaseCustomer
+     */
+    public function setDeliveryCompany($deliveryCompany = null)
+    {
+        $this->deliveryCompany = $deliveryCompany;
+
+        return $this;
+    }
+
+    /**
+     * Get deliveryCompany.
+     *
+     * @return string|null
+     */
+    public function getDeliveryCompany()
+    {
+        return $this->deliveryCompany;
+    }
+
+    /**
+     * Set deliveryEmail.
+     *
+     * @param string|null $deliveryEmail
+     *
+     * @return BaseCustomer
+     */
+    public function setDeliveryEmail($deliveryEmail = null)
+    {
+        $this->deliveryEmail = $deliveryEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get deliveryEmail.
+     *
+     * @return string|null
+     */
+    public function getDeliveryEmail()
+    {
+        return $this->deliveryEmail;
+    }
+
+    /**
+     * Set deliveryPhone.
+     *
+     * @param string|null $deliveryPhone
+     *
+     * @return BaseCustomer
+     */
+    public function setDeliveryPhone($deliveryPhone = null)
+    {
+        $this->deliveryPhone = $deliveryPhone;
+
+        return $this;
+    }
+
+    /**
+     * Get deliveryPhone.
+     *
+     * @return string|null
+     */
+    public function getDeliveryPhone()
+    {
+        return $this->deliveryPhone;
+    }
+
+    /**
+     * Set billingCompany.
+     *
+     * @param string|null $billingCompany
+     *
+     * @return BaseCustomer
+     */
+    public function setBillingCompany($billingCompany = null)
+    {
+        $this->billingCompany = $billingCompany;
+
+        return $this;
+    }
+
+    /**
+     * Get billingCompany.
+     *
+     * @return string|null
+     */
+    public function getBillingCompany()
+    {
+        return $this->billingCompany;
+    }
+
+    /**
+     * Set billingIco.
+     *
+     * @param string|null $billingIco
+     *
+     * @return BaseCustomer
+     */
+    public function setBillingIco($billingIco = null)
+    {
+        $this->billingIco = $billingIco;
+
+        return $this;
+    }
+
+    /**
+     * Get billingIco.
+     *
+     * @return string|null
+     */
+    public function getBillingIco()
+    {
+        return $this->billingIco;
+    }
+
+    /**
+     * Set billingDic.
+     *
+     * @param string|null $billingDic
+     *
+     * @return BaseCustomer
+     */
+    public function setBillingDic($billingDic = null)
+    {
+        $this->billingDic = $billingDic;
+
+        return $this;
+    }
+
+    /**
+     * Get billingDic.
+     *
+     * @return string|null
+     */
+    public function getBillingDic()
+    {
+        return $this->billingDic;
     }
 }

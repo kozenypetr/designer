@@ -12,14 +12,14 @@
         <header>
             <div class="container">
                 <div class="topbar__content row">
-                    <div class="col-md-3 ml-auto d-md-block">
-                    </div>
-                    <div class="col-md-4 topbar__logo">
+                    <div class="col-md-4 col-sm-6 col-6 topbar__logo">
                         <a href="/">
-                            <img src="{{ asset('images/gowood.svg.png') }}" />
+                            <img width="70%" src="{{ asset('images/gowood.svg.png') }}" />
                         </a>
                     </div>
-                    <div class="col-md-3 ml-auto d-md-block">
+                    <div class="col-md-3 d-sm-none d-none ml-auto d-md-block">
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-6 ml-auto d-md-block">
                         {% include 'AppBundle:ShopCart/boxes:head-cart.html.twig' %}
                     </div>
                 </div>
@@ -27,7 +27,7 @@
 
             <div class="separator"></div>
         </header>
-
+        {#
         <div class="container menu">
             <div class="topbar_menu">
                 {{ render(controller(
@@ -35,7 +35,7 @@
                 )) }}
             </div>
         </div>
-
+        #}
         <section id="content" class="clearfix">
             <div class="checkout container">
 
@@ -49,10 +49,17 @@
                     {% block body %}{% endblock %}
             </div>
         </section>
+
+        <footer>
+
+        </footer>
+
+
         {% block javascripts %}
             <script src="{{ asset('js/jquery.min.js') }}"></script>
             <script src="{{ asset('js/editor.js') }}"></script>
             <script src="{{ asset('js/shopping-cart.js') }}"></script>
+            <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
         {% endblock %}
     </body>
 </html>

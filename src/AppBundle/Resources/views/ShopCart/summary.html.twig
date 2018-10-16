@@ -3,53 +3,116 @@
 {% block body %}
 <div class="summary row">
 
-    <div class="col-md-12">
-        <div class="steps row">
-            <div class="col-md-4"><span class="step"><a href="{{ path('shop_cart') }}">1 Způsob dopravy a platby</a></span></div>
-            <div class="col-md-4"><span class="step"><a href="{{ path('shop_customer') }}">2 Dodací a fakturační údaje</a></span></div>
-            <div class="col-md-4"><span class="step">3 Shrnutí a platba</span></div>
+    {% include '@App/ShopCart/steps.html.twig' with {'step': 3} %}
+
+    <div class="col-md-9">
+        <h3><i class="fas fa-clipboard-list"></i> Přehled objednávky</h3>
+
+        {% include 'AppBundle:ShopCart/boxes:step1-items.html.twig' with {'cart': cm.cart, 'summary': true} %}
+
+        <div class="divider divider-plus"></div>
+
+        <div class="box-shaddow shipping">
+            <div class="row shipping-payment">
+                <div class="col-md-2 image">
+                     <i class="fas fa-truck"></i>
+                </div>
+                <div class="col-md-8">
+                    <div class="title">
+                        {{ cm.cart.shipping.name }}
+                        {% if cm.cart.shipping.icon %}
+                        <span class="icon">
+                            <img src="/images/shipping/{{ cm.cart.shipping.icon }}" />
+                        </span>
+                    </div>
+                    {% endif %}
+                    <p>{{ cm.cart.shipping.description }}</p>
+                </div>
+                <div class="col-md-2 price">
+                    {{ cm.cart.getShippingPrice ? ( cm.cart.getShippingPrice | price) : 'zdarma' }}
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div class="col-md-8">
-        <h3>Přehled objednávky</h3>
 
-        <table width="100%">
-            <tr>
-                <th>Model</th>
-                <th>Název</th>
-                <th>Počet</th>
-                <th>Cena</th>
-                <th>Akce</th>
-            </tr>
-            {% for item in cm.cart.items %}
-                <tr>
-                    <td>{{ item.product.model }}</td>
-                    <td>{{ item.product.name }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.price }}</td>
-                    <td>smazat</td>
-                </tr>
-            {% endfor %}
-        </table>
+        <div class="box-shaddow payment">
+            <div class="row shipping-payment">
+                <div class="col-md-2 image">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <div class="col-md-8">
+                    <div class="title">
+                        {{ cm.cart.payment.name }}
+                        {% if cm.cart.payment.icon %}
+                        <span class="icon">
+                            <img src="/images/payment/{{ cm.cart.payment.icon }}" />
+                        </span>
+                        {% endif %}
+                    </div>
+                    <p>{{ cm.cart.payment.description }}</p>
+                </div>
+                <div class="col-md-2 price">
+                    zdarma
+                </div>
+            </div>
+        </div>
 
-        <div><strong>Fakturační adresa</strong></div>
-        {{ billing.billing_name }}<br />
-        {{ billing.billing_address }}<br />
-        {{ billing.billing_postcode }} {{ billing.billing_city }}<br />
+        <div class="divider"></div>
 
-        <div><strong>Dodací adresa</strong></div>
-        {{ delivery.delivery_name }}<br />
-        {{ delivery.delivery_address }}<br />
-        {{ delivery.delivery_postcode }} {{ delivery.delivery_city }}<br />
+        <div class="row delivery-billing">
+            <div class="col-md-6">
+                <h3><i class="fas fa-box-open"></i> Dodací údaje</h3>
+                <div class="box-shaddow">
+                    <strong>{{ delivery.delivery_name }}</strong><br />
+                    {% if delivery.delivery_company %}
+                    <strong>{{ delivery.delivery_company }}</strong><br />
+                    {% endif %}
+                    <br />
+                    {{ delivery.delivery_address }}<br />
+                    {{ delivery.delivery_city }}, {{ delivery.delivery_postcode }}<br /><br />
+                    {{ delivery.delivery_phone }}<br />
+                    {{ billing.email }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3><i class="fas fa-money-check-alt"></i> Fakturační údaje</h3>
+                <div class="box-shaddow">
+                    <strong>{{ billing.billing_name }}</strong><br />
+                    {% if billing.billing_company %}
+                        <strong>{{ billing.billing_company }}</strong><br />
+                    {% endif %}
 
+                    {% if billing.billing_ico %}
+                        <br />IČO: {{ billing.billing_ico }}<br />
+                    {% endif %}
+                    {% if billing.billing_dic %}
+                        DIČ: {{ billing.billing_dic }}<br />
+                    {% endif %}
+                    <br />
+                    {{ billing.billing_address }}<br />
+                    {{ billing.billing_city }}, {{ billing.billing_postcode }}<br />
+                    <br />
+                </div>
+            </div>
+        </div>
+
+
+        <div class="cart-total">
+            <span class="title"> Konečná cena k úhradě: </span>
+            <span class="price">{{ cm.cart.total | price }}</span>
+        </div>
 
         <form action="{{ path('shop_order_finish') }}" method="POST" novalidate>
 
-            <input type="submit" class="btn btn-primary" value="Dokončit objednávku" />
+            <div class="continue">
+                <a class="link" href="{{ path('shop_cart') }}"><i class="fas fa-chevron-left"></i> Chci změnit údaje</a>
+                <button class="btn btn-primary">Dokončit objednávku <i class="fas fa-chevron-right"></i></button>
+            </div>
 
         </form>
     </div>
-
+    <div class="col-md-3">
+        Tady bude něco hezkého
+    </div>
 </div>
 {% endblock %}

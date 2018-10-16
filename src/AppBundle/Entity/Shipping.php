@@ -35,6 +35,14 @@ class Shipping
     private $isActive;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="full_address", type="boolean", options={"default": true})
+     */
+    private $fullAddress = true;
+
+
+    /**
      * @var string
      *
      * @ORM\Column(name="locale", type="string", length=2)
@@ -88,6 +96,13 @@ class Shipping
      * )
      */
     private $payments;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="icon", type="string", length=255, nullable=true)
+     */
+    private $icon;
 
 
     /**
@@ -368,5 +383,53 @@ class Shipping
     public function getAnnotation()
     {
         return $this->annotation;
+    }
+
+    /**
+     * Set fullAddress.
+     *
+     * @param bool $fullAddress
+     *
+     * @return Shipping
+     */
+    public function setFullAddress($fullAddress)
+    {
+        $this->fullAddress = $fullAddress;
+
+        return $this;
+    }
+
+    /**
+     * Get fullAddress.
+     *
+     * @return bool
+     */
+    public function getFullAddress()
+    {
+        return $this->fullAddress;
+    }
+
+    /**
+     * Set icon.
+     *
+     * @param string $icon
+     *
+     * @return Shipping
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * Get icon.
+     *
+     * @return string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
     }
 }

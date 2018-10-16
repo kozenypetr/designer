@@ -3,13 +3,7 @@
 {% block body %}
 <div class="customer row">
 
-    <div class="col-md-12">
-        <div class="steps row">
-            <div class="col-md-4"><span class="step"><a href="{{ path('shop_cart') }}">1 Způsob dopravy a platby</a></span></div>
-            <div class="col-md-4"><span class="step">2 Dodací a fakturační údaje</span></div>
-            <div class="col-md-4"><span class="step">3 Shrnutí a platba</span></div>
-        </div>
-    </div>
+    {% include '@App/ShopCart/steps.html.twig' with {'step': 2} %}
 
     <div class="col-md-9">
 
@@ -17,129 +11,222 @@
 
         <form action="{{ path('shop_customer') }}" method="POST" novalidate>
 
-        <div class="row">
-            <div class="col-md-2">
-                {{ form_label(billingForm.billing_name) }}
+        {{ form_widget(billingForm._token) }}
+
+        <div class="billing-address">
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(billingForm.billing_name) }}
+                </div>
+                <div class="col-md-10">
+                    {{ form_widget(billingForm.billing_name) }}
+                    {{ form_errors(billingForm.billing_name) }}
+                </div>
             </div>
-            <div class="col-md-10">
-                {{ form_widget(billingForm.billing_name) }}
-                {{ form_errors(billingForm.billing_name) }}
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(billingForm.email) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_widget(billingForm.email) }}
+                    {{ form_errors(billingForm.email) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(billingForm.phone) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_widget(billingForm.phone) }}
+                    {{ form_errors(billingForm.phone) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(billingForm.billing_address) }}
+                </div>
+                <div class="col-md-10">
+                    {{ form_widget(billingForm.billing_address) }}
+                    {{ form_errors(billingForm.billing_address) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(billingForm.billing_city) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_widget(billingForm.billing_city) }}
+                    {{ form_errors(billingForm.billing_city) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(billingForm.billing_postcode) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_widget(billingForm.billing_postcode) }}
+                    {{ form_errors(billingForm.billing_postcode) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(billingForm.billing_company) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_widget(billingForm.billing_company) }}
+                    {{ form_errors(billingForm.billing_company) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(billingForm.billing_ico) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_widget(billingForm.billing_ico) }}
+                    {{ form_errors(billingForm.billing_ico) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(billingForm.billing_dic) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_widget(billingForm.billing_dic) }}
+                    {{ form_errors(billingForm.billing_dic) }}
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-2">
-                {{ form_label(billingForm.billing_company) }}
+
+            <h3><i class="fas fa-box-open"></i> Dodací údaje</h3>
+
+        <div class="delivery-address">
+            <div class="row">
+                <div class="col-md-12">
+                    {{ form_widget(billingForm.is_delivery) }}
+                </div>
             </div>
-            <div class="col-md-4">
-                {{ form_widget(billingForm.billing_company) }}
-                {{ form_errors(billingForm.billing_company) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2">
-                {{ form_label(billingForm.billing_ico) }}
-            </div>
-            <div class="col-md-4">
-                {{ form_widget(billingForm.billing_ico) }}
-                {{ form_errors(billingForm.billing_ico) }}
-            </div>
-            <div class="col-md-2">
-                {{ form_label(billingForm.billing_dic) }}
-            </div>
-            <div class="col-md-4">
-                {{ form_widget(billingForm.billing_dic) }}
-                {{ form_errors(billingForm.billing_dic) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2">
-                {{ form_label(billingForm.email) }}
-            </div>
-            <div class="col-md-4">
-                {{ form_widget(billingForm.email) }}
-                {{ form_errors(billingForm.email) }}
-            </div>
-            <div class="col-md-2">
-                {{ form_label(billingForm.phone) }}
-            </div>
-            <div class="col-md-4">
-                {{ form_widget(billingForm.phone) }}
-                {{ form_errors(billingForm.phone) }}
-            </div>
-            <div class="col-md-2">
-                {{ form_label(billingForm.billing_address) }}
-            </div>
-            <div class="col-md-10">
-                {{ form_widget(billingForm.billing_address) }}
-                {{ form_errors(billingForm.billing_address) }}
-            </div>
-            <div class="col-md-2">
-                {{ form_label(billingForm.billing_city) }}
-            </div>
-            <div class="col-md-4">
-                {{ form_widget(billingForm.billing_city) }}
-                {{ form_errors(billingForm.billing_city) }}
-            </div>
-            <div class="col-md-2">
-                {{ form_label(billingForm.billing_postcode) }}
-            </div>
-            <div class="col-md-4">
-                {{ form_widget(billingForm.billing_postcode) }}
-                {{ form_errors(billingForm.billing_postcode) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                {{ form_widget(billingForm.is_delivery) }}
+
+            <div class="delivery-form">
+                {{ form_widget(deliveryForm._token) }}
+
+                {#{ form_widget(deliveryForm) }#}
+                <div class="row">
+                    <div class="col-md-2">
+                        {{ form_label(deliveryForm.delivery_name) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_widget(deliveryForm.delivery_name) }}
+                        {{ form_errors(deliveryForm.delivery_name) }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ form_label(deliveryForm.delivery_phone) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_widget(deliveryForm.delivery_phone) }}
+                        {{ form_errors(deliveryForm.delivery_phone) }}
+                    </div>
+                </div>
+                {% if fullDeliveryAddress %}
+                <div class="row">
+                    <div class="col-md-2">
+                        {{ form_label(deliveryForm.delivery_company) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_widget(deliveryForm.delivery_company) }}
+                        {{ form_errors(deliveryForm.delivery_company) }}
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-md-2">
+                        {{ form_label(deliveryForm.delivery_address) }}
+                    </div>
+                    <div class="col-md-10">
+                        {{ form_widget(deliveryForm.delivery_address) }}
+                        {{ form_errors(deliveryForm.delivery_address) }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ form_label(deliveryForm.delivery_city) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_widget(deliveryForm.delivery_city) }}
+                        {{ form_errors(deliveryForm.delivery_city) }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ form_label(deliveryForm.delivery_postcode) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_widget(deliveryForm.delivery_postcode) }}
+                        {{ form_errors(deliveryForm.delivery_postcode) }}
+                    </div>
+                </div>
+                {% else %}
+                    {{ form_widget(deliveryForm.delivery_company) }}
+                    {{ form_widget(deliveryForm.delivery_address) }}
+                    {{ form_widget(deliveryForm.delivery_city) }}
+                    {{ form_widget(deliveryForm.delivery_postcode) }}
+                    <p>Pro tento typ doručení nepotřebujeme znát všechny údaje, stačí nám jenom jméno a případně telefon.</p>
+                {% endif %}
             </div>
         </div>
 
-        <h3><i class="fas fa-box-open"></i> Doručovací údaje</h3>
+        {#
+        <h3><i class="fas fa-user"></i></i> Účet u GOWOOD</h3>
 
-        <div class="delivery-form">
-            {{ form_widget(deliveryForm) }}
+        <div style="border: solid #999 1px; border-radius: 5px; padding: 20px;">
+            <div class="row">
+                <div class="col-md-12">
+                    {{ form_widget(billingForm.is_create_account) }}
+                </div>
+            </div>
+
+            <div class="password-form row">
+                <div class="col-md-2">
+                    {{ form_label(passwordForm.plainPassword.first) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_widget(passwordForm.plainPassword.first) }}
+                    {{ form_errors(passwordForm.plainPassword.first) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(passwordForm.plainPassword.second) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_widget(passwordForm.plainPassword.second) }}
+                    {{ form_errors(passwordForm.plainPassword.second) }}
+                </div>
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-10">
+                    Vaše heslo u nás bude bezpečně uložené v zašifrované podobě. Nikdo k němu nebude mít přístup.
+                </div>
+            </div>
+
+        </div>
+        #}
+        {#{ form_widget(passwordForm) }#}
+        <div class="continue">
+            <a class="link" href="{{ path('shop_cart') }}"><i class="fas fa-chevron-left"></i> Zpět k dopravě a platbě</a>
+            <button class="btn btn-primary">Shrnutí objednávky <i class="fas fa-chevron-right"></i></button>
         </div>
 
-            {#{ form_widget(billingForm) }#}
-
-            {{ form_widget(deliveryForm) }}
-
-            {{ form_widget(passwordForm) }}
-
-            <input type="submit" class="btn btn-primary" value="Pokračovat ke shrnutí objednávky" />
         </form>
-    </form>
+    </div>
 
     <div class="col-md-3">
-        <div><strong>Objednávka</strong></div>
+        <div class="step2-box-summary">
+            <div class="title">Objednávka</div>
 
-        <table width="100%">
-            <tr>
-                <th>Model</th>
-                <th>Název</th>
-                <th>Počet</th>
-                <th>Cena</th>
-                <th>Akce</th>
-            </tr>
             {% for item in cm.cart.items %}
-                <tr>
-                    <td>{{ item.product.model }}</td>
-                    <td>{{ item.product.name }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.price }}</td>
-                    <td>smazat</td>
-                </tr>
+                <div class="item">
+                    <span class="product">{{ item.quantity }} x {{ item.product.name }}</span>
+                    <span class="price">{{ item.price | price }}</span>
+                </div>
             {% endfor %}
-        </table>
 
-        <div><strong>Doprava</strong></div>
-        <div>{{ cm.cart.shipping }}</div>
+            <div class="subtitle">Doprava</div>
+            <div>{{ cm.cart.shipping }}</div>
+            <div>{{ cm.cart.getShippingPrice ? ( cm.cart.getShippingPrice | price) : 'zdarma' }}</div>
 
-        <div><strong>Platba</strong></div>
-        <div>{{ cm.cart.payment }}</div>
+            <div class="subtitle">Platba</div>
+            <div>{{ cm.cart.payment }}</div>
 
-        <div><strong>Celková cena</strong></div>
-        <div>{{ cm.cart.total | price }}</div>
+            <div class="subtitle">Celková cena</div>
+            <div class="total-price">{{ cm.cart.total | price }}</div>
+
+        </div>
     </div>
 </div>
 {% endblock %}

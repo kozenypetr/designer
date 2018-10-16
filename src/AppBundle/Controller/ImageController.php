@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Intervention\Image\ImageManagerStatic as ImageEditor;
 use AppBundle\Entity\Image;
 
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
 
 class ImageController extends Controller
 {
@@ -25,8 +27,12 @@ class ImageController extends Controller
 
         if (file_exists($this->getCacheDir() . '/' . $filename))
         {
+            /*header('Content-Type: image/' . $extension);
+            header('Content-Length: ' . filesize($this->getCacheDir() . '/' . $filename));
             readfile($this->getCacheDir() . '/' . $filename);
-            exit;
+            exit;*/
+            $response = new BinaryFileResponse($this->getCacheDir() . '/' . $filename);
+            return $response;
         }
 
         $file = $this->getDataDir() . '/' . $image->getFilename();
@@ -43,6 +49,8 @@ class ImageController extends Controller
         }
 
         $im->save($this->getCacheDir() . '/' . $filename);
+
+        header('Content-type: image/jpg');
 
         echo $im->response();
         exit;

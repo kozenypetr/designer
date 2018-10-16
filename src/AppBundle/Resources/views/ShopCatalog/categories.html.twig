@@ -1,5 +1,13 @@
-<ul>
-{% for category in categories %}
-    <li><a href="{{ path('shop_catalog_list', { slug: category.slug }) }}">{{ category.name }}</a></li>
-{% endfor %}
-</ul>
+<div class="box-category">
+    <ul>
+    {% for category in categories %}
+        <li>
+
+            <a href="{{ path('shop_catalog_list', { slug: category.slug }) }}">
+                <i class="fas {{ category.icon ? category.icon : 'fa-angle-right' }}"></i>
+                <span>{{ category.name }}</span>
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+</div>

@@ -11,6 +11,8 @@ var cart = {
         $(cart.eventSelector + '.keyup').keyup(cart.processEvent);
         $(cart.eventSelector + '.click').click(cart.processEvent);
         $(cart.eventSelector + '.change').click(cart.processEvent);
+
+        // $('.shipping input, .payment input').click(cart.changeShippingPayment);
     },
 
     processEvent: function(event)

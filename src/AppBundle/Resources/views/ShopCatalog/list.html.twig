@@ -2,25 +2,29 @@
 
 {% block body %}
 
- <h2 class="product-list-head">{{ category.name }}</h2>
-
  <div class="product-item-list row">
- {%  for product in category.products %}
-   <div class="col-md-3">
-       <div class="item">
-           <div class="image">
-               <a href="{{ path('shop_catalog_detail', { slug: product.slug }) }}">
-                  <img width="100%" src="{{ path('image_cache', { id: product.images[0].id, setting: '800x800x1'}) }}" />
-               </a>
-           </div>
-           <h3><a href="{{ path('shop_catalog_detail', { slug: product.slug }) }}">{{ product.name }}</a></h3>
-           <p>{{ product.price | round }} Kč</p>
-           <p><a href="{{ path('shop_catalog_detail', { slug: product.slug }) }}" class="btn btn-primary active">Koupit</a></p>
-           {#% for image in product.images %}
-               <img width="100" src="{{ path('image_cache', { id: image.id, setting: '300x200x1'}) }}" />
-           {% endfor %#}
-       </div>
+     <div class="col-md-3">
+         {{ render(controller(
+         'AppBundle:ShopCatalog:categories'
+         )) }}
+     </div>
+     <div class="col-md-9">
+         <div class="row">
+             <div class="col-md-12">
+                 <div class="bread">
+                    <a href="/">Úvod</a> / <span>{{ category.name }}</span>
+                 </div>
+                 <h2>{{ category.name }}</h2>
+                 {% if category.description %}
+                 <p>{{ category.description }}</p>
+                 {% endif %}
+             </div>
+             {%  for product in category.products %}
+               <div class="col-md-4">
+                   {% include 'AppBundle::ShopCatalog/listItem.html.twig' with {'product': product} %}
+               </div>
+             {%  endfor %}
+         </div>
    </div>
- {%  endfor %}
  </div>
 {% endblock %}

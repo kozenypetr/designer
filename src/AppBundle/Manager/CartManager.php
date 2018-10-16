@@ -9,6 +9,7 @@ namespace AppBundle\Manager;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 use AppBundle\Entity\Cart;
 use AppBundle\Entity\CartItem;
@@ -27,11 +28,13 @@ class CartManager {
     protected $session    = null;
     protected $em         = null;
     protected $tokenStorage = null;
+    protected $mailer     = null;
+    protected $twig  = null;
 
     /**
      * @var Cart
      */
-    public    $cart = null;
+    public $cart = null;
 
 
     /**
@@ -39,11 +42,13 @@ class CartManager {
      * @param EntityManager $em
      * @param TokenStorage $tokenStorage
      */
-    public function __construct(Session $session, EntityManagerInterface $em, TokenStorage $tokenStorage)
+    public function __construct(Session $session, EntityManagerInterface $em, TokenStorage $tokenStorage, \Swift_Mailer $mailer,  EngineInterface $twig)
     {
         $this->session = $session;
         $this->em = $em;
         $this->tokenStorage = $tokenStorage;
+        $this->mailer = $mailer;
+        $this->twig = $twig;
         $this->cart = $this->getCart();
     }
 
@@ -51,7 +56,7 @@ class CartManager {
     {
         $order = new Order();
         $order->setBillingData($this->cart->getBillingData());
-        $order->setDeliveryData($this->cart->getDeliveryData());
+        $order->setDeliveryData($this->cart->getDeliveryData(true));
 
         $order->setSubtotal($this->cart->getSubtotal());
         $order->setTax($this->cart->getTax());
@@ -80,14 +85,43 @@ class CartManager {
             $orderItem->setQuantity($item->getQuantity());
             $orderItem->setPrice($item->getPrice());
             $orderItem->setOrder($order);
+            $orderItem->setAttributes($item->getAttributes());
 
             $this->em->persist($orderItem);
         }
+
+        $this->em->flush();
+
+        $message = (new \Swift_Message('Potvrzení objednávky č. ' . $order->getId()))
+            ->setFrom('info@kozenypetr.cz')
+            ->setTo($order->getEmail())
+            ->setBody(
+                $this->twig->render('AppBundle:ShopCart:finishOrderEmail.html.twig',
+                    array(
+                        'order' => $order,
+                    )
+                ),
+                'text/html'
+            )
+            /*
+             * If you also want to include a plaintext version of the message
+            ->addPart(
+                $this->renderView(
+                    'Emails/registration.txt.twig',
+                    array('name' => $name)
+                ),
+                'text/plain'
+            )
+            */
+        ;
+
+        $this->mailer->send($message);
 
         $this->em->remove($this->cart);
         $this->session->set('cart', null);
 
         $this->em->flush();
+
 
     }
 

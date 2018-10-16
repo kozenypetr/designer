@@ -29,11 +29,11 @@ class ShopCatalogController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $categories = $em->getRepository('AppBundle:Category')->findAll();
+        $categories = $em->getRepository('AppBundle:Category')->findBy(['isActive' => true]);
 
         $products   = $em->getRepository('AppBundle:Product')->findAll();
 
-        return $this->render('AppBundle:ShopCatalog:index.html.twig', array('products' => $products));
+        return $this->render('AppBundle:ShopCatalog:index.html.twig', array('products' => $products, 'categories' => $categories));
     }
 
 
@@ -96,6 +96,7 @@ class ShopCatalogController extends Controller
                 }
 
                 $options['label'] = $attribute->getName();
+                $options['attr']['title'] = $attribute->getHelp();
                 $options['attr']['class'] = $attribute->getClass();
                 $formBuilder->add($attribute->getId(), $attribute->getType(), $options);
             }
@@ -113,7 +114,7 @@ class ShopCatalogController extends Controller
     {
         $this->em = $this->getDoctrine()->getManager();
 
-        $categories = $this->em->getRepository('AppBundle:Category')->findAll();
+        $categories = $this->em->getRepository('AppBundle:Category')->findAllActive();
 
         return $this->render('AppBundle:ShopCatalog:categories.html.twig', array('categories' => $categories));
     }

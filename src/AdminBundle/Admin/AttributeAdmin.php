@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 use Sonata\CoreBundle\Validator\ErrorElement;
 use AppBundle\Entity\Order;
@@ -26,12 +27,14 @@ class AttributeAdmin extends AbstractAdmin
         ->add('isRequired', CheckboxType::class, array('label' => 'Povinný', 'required' => false))
         ->add('modul', 'text', array('label' => 'Modul', 'required' => false))
         ->add('class', 'text', array('label' => 'Třída', 'required' => false))
+        ->add('help', null, array('label' => 'Nápověda'))
         ->add('type', ChoiceType::class, array(
             'choices'  => array(
                 'Text' => TextType::class,
                 'Dlouhý text' => TextareaType::class,
                 'Select' => ChoiceType::class,
                 'Checkbox' => CheckboxType::class,
+                'Soubor' => FileType::class,
         )))
         ->add('options', CollectionType::class, [
             'label' => 'Možnosti',

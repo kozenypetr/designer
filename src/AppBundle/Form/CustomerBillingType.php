@@ -13,7 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerBillingType extends AbstractType {
 
@@ -66,20 +65,9 @@ class CustomerBillingType extends AbstractType {
                 'required' => true,
                 'label' => 'Poznámky k objednávce'
             ))
-            ->add('is_delivery', CheckboxType::class, array('required' => false, 'label' => 'Jiné doručovací údaje'))
-            ->add('is_create_account', CheckboxType::class)
+            ->add('is_delivery', CheckboxType::class, array('required' => false, 'label' => 'Jiná doručovací adresa'))
+            ->add('is_create_account', CheckboxType::class, array('required' => false, 'label' => 'Chci si tu vytvořit účet'))
         ;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'full_address' => true,
-        ));
-    }
-
 
 }

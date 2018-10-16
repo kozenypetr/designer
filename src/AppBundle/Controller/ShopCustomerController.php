@@ -36,21 +36,21 @@ class ShopCustomerController extends Controller
 
         // @TODO kontrola obsahu kosiku + nastaveni dopravy a platby
         $valid = true;
-        if (!$cm->getCart()->getPayment())
-        {
-            $valid = false;
-            $this->addFlash(
-                'danger',
-                'Potřebovali bychom znát platební metodu :)'
-            );
-        }
-
         if (!$cm->getCart()->getShipping())
         {
             $valid = false;
             $this->addFlash(
                 'danger',
                 'Potřebovali bychom vědět, jak Vám máme balíček doručit :)'
+            );
+        }
+
+        if (!$cm->getCart()->getPayment())
+        {
+            $valid = false;
+            $this->addFlash(
+                'danger',
+                'Potřebovali bychom znát platební metodu :)'
             );
         }
 
@@ -64,7 +64,7 @@ class ShopCustomerController extends Controller
         $billingForm->setData($cm->cart->getBillingData());
 
         // formular pro dodaci adresu
-        $deliveryForm = $this->createForm(CustomerDeliveryType::class);
+        $deliveryForm = $this->createForm(CustomerDeliveryType::class, null, array('full_address' => $cm->getCart()->getShipping()->getFullAddress()));
         $deliveryForm->setData($cm->cart->getDeliveryData());
 
         // formular pro zadani hesla
@@ -74,7 +74,7 @@ class ShopCustomerController extends Controller
         if ($request->isMethod('POST'))
         {
             $billingForm->handleRequest($request);
-            $deliveryForm->handleRequest($request);
+
             $passwordForm->handleRequest($request);
 
             // validace fakturacni adresy
@@ -86,7 +86,12 @@ class ShopCustomerController extends Controller
                 // pokud je dodaci adresa jina, tak ji ulozime
                 if ($cm->cart->getIsDelivery())
                 {
+                    $deliveryForm->handleRequest($request);
                     $deliveryForm->isValid()?$cm->cart->setDeliveryData($deliveryForm->getData()):$valid = false;
+                }
+                else
+                {
+                    $cm->cart->clearDeliveryData();
                 }
 
                 if ($billingForm->get('is_create_account')->getViewData())
@@ -124,6 +129,11 @@ class ShopCustomerController extends Controller
                 }
             }
 
+            /*if ($billingForm->getData()['is_delivery'])
+            {
+                $deliveryForm->handleRequest($request);
+            }*/
+
             /* @TODO: presmerovani na sumarizaci objednavky */
         }
 
@@ -134,6 +144,7 @@ class ShopCustomerController extends Controller
                               'billingForm' => $billingForm->createView(),
                               'deliveryForm' => $deliveryForm->createView(),
                               'passwordForm' => $passwordForm->createView(),
+                              'fullDeliveryAddress' => $cm->getCart()->getShipping()->getFullAddress()
                         )
         );
     }
@@ -150,7 +161,7 @@ class ShopCustomerController extends Controller
             array(
                 'cm' => $cm,
                 'billing'  => $cm->cart->getBillingData(),
-                'delivery' => $cm->cart->getDeliveryData()
+                'delivery' => $cm->cart->getDeliveryData(true)
             )
         );
     }

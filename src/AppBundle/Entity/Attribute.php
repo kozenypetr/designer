@@ -43,6 +43,13 @@ class Attribute
      */
     private $name;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="help", type="text", nullable=true)
+     */
+    private $help;
+
 
     /**
      * @var boolean
@@ -345,5 +352,29 @@ class Attribute
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * Set help.
+     *
+     * @param string|null $help
+     *
+     * @return Attribute
+     */
+    public function setHelp($help = null)
+    {
+        $this->help = $help;
+
+        return $this;
+    }
+
+    /**
+     * Get help.
+     *
+     * @return string|null
+     */
+    public function getHelp()
+    {
+        return $this->help;
     }
 }

@@ -20,7 +20,7 @@ class OrderAdmin extends AbstractAdmin
   protected function configureFormFields(FormMapper $formMapper)
   {
     $formMapper
-      ->with('Fakturační adresa', array('class' => 'col-md-6'))
+      ->with('Fakturační adresa', array('class' => 'billing-address col-md-6'))
         ->add('email', 'text', array('label' => 'Email'))
         ->add('phone', 'text', array('label' => 'Telefon'))
         ->add('billingName', 'text', array('label' => 'Jméno'))
@@ -28,19 +28,25 @@ class OrderAdmin extends AbstractAdmin
         ->add('billingCity', 'text', array('label' => 'Město'))
         ->add('billingPostcode', 'text', array('label' => 'Město'))
       ->end()
-      ->with('Dodací adresa', array('class' => 'col-md-6'))
-        ->add('deliveryName', 'text', array('label' => 'Jméno'))
-        ->add('deliveryAddress', 'text', array('label' => 'Adresa'))
-        ->add('deliveryCity', 'text', array('label' => 'Město'))
-        ->add('deliveryPostcode', 'text', array('label' => 'Město'))
+      ->with('Dodací adresa', array('class' => ' delivery-address col-md-6'))
+        ->add('deliveryName', 'text', array('label' => 'Jméno', 'required' => false))
+        ->add('deliveryAddress', 'text', array('label' => 'Adresa', 'required' => false))
+        ->add('deliveryCity', 'text', array('label' => 'Město', 'required' => false))
+        ->add('deliveryPostcode', 'text', array('label' => 'Město', 'required' => false))
       ->end()
-      ->with('Celkově', array('class' => 'col-md-12'))
+      ->with('Celkově', array('class' => 'col-md-6 clearfix'))
             ->add('subtotal', 'text', array('label' => 'Cena bez DPH'))
             ->add('tax', 'text', array('label' => 'DPH'))
             ->add('total', 'text', array('label' => 'Celkem s DPH'))
       ->end()
+      ->with('Doprava a platba', array('class' => 'col-md-6'))
+        ->add('shippingName', 'text', array('label' => 'Doprava'))
+        ->add('shippingCode', 'text', array('label' => 'Doprava kód'))
+        ->add('paymentName', 'text', array('label' => 'Platba'))
+        ->add('paymentCode', 'text', array('label' => 'Platba kód'))
+      ->end()
       ->with('Objednávka', array('class' => 'col-md-12'))
-        ->add('attributes', CollectionType::class, [
+        ->add('items', CollectionType::class, [
             'by_reference' => false,
             'type_options' => [
                 // Prevents the "Delete" option from being displayed
@@ -79,7 +85,10 @@ class OrderAdmin extends AbstractAdmin
   {
     $listMapper
       ->addIdentifier('id')
-      ->add('created', null, array('label' => 'Vytvořeno'))
+      ->add('created', null, array('label' => 'Vytvořeno',
+          'pattern' => 'dd MMM y G',
+          'locale' => 'cs',
+          ))
       ->add('billingName', null, array('label' => 'Jméno'))
       ->add('billingCity', null, array('label' => 'Město'))
       ->add('total', null, array('label' => 'Celková cena'))

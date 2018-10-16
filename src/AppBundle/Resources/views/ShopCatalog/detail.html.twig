@@ -3,49 +3,81 @@
 {% block body %}
 <div class="product-detail row">
 
-    <div class="col-md-12 bread">
-        Úvod
-        &gt; <a href="{{ path('shop_catalog_list', { slug: product.mainCategory.slug }) }}">{{ product.mainCategory.name }}</a>
-        &gt; <span>{{ product.name }}</span>
+    <div class="col-md-3">
+        {{ render(controller(
+        'AppBundle:ShopCatalog:categories'
+        )) }}
     </div>
 
-    <div class="col-md-6">
-        <div class="image">
-            <img width="100%" src="{{ path('image_cache', { id: product.images[0].id, setting: '800x600x1'}) }}" />
-        </div>
+    <div class="col-md-9">
+         <div class="row">
+            <div class="col-md-12 bread">
+                <a href="/">Úvod</a>
+                / <a href="{{ path('shop_catalog_list', { slug: product.mainCategory.slug }) }}">{{ product.mainCategory.name }}</a>
+                / <span>{{ product.name }}</span>
+            </div>
 
-        <div class="row">
-            {% for key, image in product.images %}
-                {% if key > 0 %}
-                <div class="col-md-3">
-                    <img width="100" src="{{ path('image_cache', { id: image.id, setting: '300x200x1'}) }}" />
+            <div class="col-md-12">
+                <h2>{{ product.name }}</h2>
+            </div>
+
+            <div class="col-md-6">
+                <div class="image img-thumbnail">
+
+                    <a class="gallery" data-fancybox="images" data-type="image" href="{{ path('image_cache', { id: product.images[0].id, setting: '1200x1200x0'}) }}">
+                      <img width="100%" src="{{ path('image_cache', { id: product.images[0].id, setting: '800x800x0'}) }}" />
+                    </a>
                 </div>
+
+                <div class="row" style="margin-top: 10px;">
+                    {% for key, image in product.images %}
+                        {% if key > 0 %}
+                        <div class="col-md-4 col-4">
+                            <div class="img-thumbnail">
+                                <a class="gallery" data-fancybox="images" data-type="image" href="{{ path('image_cache', { id: image.id, setting: '1200x1200x0'}) }}">
+                                    <img width="100%" src="{{ path('image_cache', { id: image.id, setting: '400x300x1'}) }}" />
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+
+
+                <p>{{ product.annotation }}</p>
+
+                <p class="price">{{ product.price | round }} Kč</p>
+
+                <form action="{{ path('shop_cart_add', { id: product.id}) }}" method="POST">
+                    <div class="cart-add">
+                        <input type="text" size="5" class="quantity" name="quantity" value="1" />
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-shopping-basket"></i>&nbsp;Přidat do košíku
+                        </button>
+                    </div>
+
+                    <div class="attribute-form-title">Napište, jak to máme vyrobit :)</div>
+
+                    {{ form_widget(attributeForm) }}
+                </form>
+
+                {% if product.module %}
+                    {% include('AppBundle::ShopCatalog/Editor/' ~ product.module ~ '.html.twig') %}
                 {% endif %}
-            {% endfor %}
-        </div>
 
+            </div>
+         </div>
     </div>
-
-    <div class="col-md-6">
-
-        <h2>{{ product.name }}</h2>
-
-        <p>{{ product.annotation }}</p>
-
-        <p>{{ product.price | round }} Kč</p>
-
-        <form action="{{ path('shop_cart_add', { id: product.id}) }}" method="POST">
-            <input type="text" name="quantity" value="1" />
-            <input type="submit" value="Přidat do košíku" />
-
-            {{ form_widget(attributeForm) }}
-        </form>
-
-        {% if product.module %}
-            {% include('AppBundle::ShopCatalog/Editor/' ~ product.module ~ '.html.twig') %}
-        {% endif %}
-
-    </div>
-
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/detail.js') }}"></script>
+    <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
 {% endblock %}

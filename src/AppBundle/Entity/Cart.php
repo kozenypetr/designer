@@ -146,64 +146,32 @@ class Cart extends BaseCustomer
 
     public function getTotal()
     {
-        $total = $this->getTotalProducts();
+        $total = $this->getTotalProducts() + $this->getShippingPrice();
 
-        if ($this->getShipping())
-        {
-            $total = $total + $this->getShipping()->getPrice($this);
-        }
+
 
         return $total;
     }
 
-    /**
-     * Informace o fakturacni adrese v poli
-     * @return array
-     */
-    public function getBillingData()
+    public function getShippingPrice()
     {
-        return [
-            'email' => $this->getEmail(),
-            'phone' => $this->getPhone(),
-            'billing_name' => $this->getBillingName(),
-            'billing_address' => $this->getBillingAddress(),
-            'billing_city' => $this->getBillingCity(),
-            'billing_postcode' => $this->getBillingPostcode(),
-            'is_delivery' => $this->getIsDelivery()
-        ];
+        $price = 0;
+        if ($this->getShipping())
+        {
+            $price = $this->getShipping()->getPrice($this);
+        }
+        return $price;
     }
 
-    /**
-     * Informace o dodaci adrese v poli
-     * @return array
-     */
-    public function getDeliveryData()
+    public function clearDeliveryData()
     {
-        return [
-            'delivery_name' => $this->getDeliveryName(),
-            'delivery_address' => $this->getDeliveryAddress(),
-            'delivery_city' => $this->getDeliveryCity(),
-            'delivery_postcode' => $this->getDeliveryPostcode(),
-        ];
-    }
-
-    public function setBillingData($data)
-    {
-        $this->setEmail($data['email']);
-        $this->setPhone($data['phone']);
-        $this->setBillingName($data['billing_name']);
-        $this->setBillingAddress($data['billing_address']);
-        $this->setBillingCity($data['billing_city']);
-        $this->setBillingPostcode($data['billing_postcode']);
-        $this->setIsDelivery($data['is_delivery']);
-    }
-
-    public function setDeliveryData($data)
-    {
-        $this->setDeliveryName($data['delivery_name']);
-        $this->setDeliveryAddress($data['delivery_address']);
-        $this->setDeliveryCity($data['delivery_city']);
-        $this->setDeliveryPostcode($data['delivery_postcode']);
+        $this->setDeliveryName(null);
+        $this->setDeliveryAddress(null);
+        $this->setDeliveryCity(null);
+        $this->setDeliveryPostcode(null);
+        $this->setDeliveryEmail(null);
+        $this->setDeliveryPhone(null);
+        $this->setDeliveryCompany(null);
     }
 
     /**

@@ -83,6 +83,20 @@ class Payment
      */
     private $shippings;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="icon", type="string", length=255, nullable=true)
+     */
+    private $icon;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="time", type="string", length=255, nullable=true)
+     */
+    private $time;
+
 
     /**
      * @var integer
@@ -339,5 +353,53 @@ class Payment
     public function getAnnotation()
     {
         return $this->annotation;
+    }
+
+    /**
+     * Set icon.
+     *
+     * @param string $icon
+     *
+     * @return Payment
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * Get icon.
+     *
+     * @return string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * Set time.
+     *
+     * @param string $time
+     *
+     * @return Payment
+     */
+    public function setTime($time)
+    {
+        $this->time = $time;
+
+        return $this;
+    }
+
+    /**
+     * Get time.
+     *
+     * @return string
+     */
+    public function getTime()
+    {
+        return $this->time;
     }
 }

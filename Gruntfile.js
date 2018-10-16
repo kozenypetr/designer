@@ -29,6 +29,18 @@ module.exports = function(grunt) {
             src: 'jquery.min.js',
             dest: 'web/js'
       },
+      fancybox_js: {
+          expand: true,
+          cwd: 'web/vendor/fancyBox/dist',
+          src: 'jquery.fancybox.min.js',
+          dest: 'web/js'
+      },
+      fancybox_css: {
+          expand: true,
+          cwd: 'web/vendor/fancyBox/dist',
+          src: 'jquery.fancybox.min.css',
+          dest: 'web/css'
+      },
     },
     watch: {
         less: {
@@ -74,9 +86,15 @@ module.exports = function(grunt) {
     concat: {
       styles: {
          files: {
-            'web/css/styles.css': ['web/css/bootstrap.css', 'web/css/fontawesome.css', 'web/css/gowood.min.css'],
+            'web/css/styles.css': [
+                'web/css/bootstrap.css',
+                'web/css/fontawesome.css',
+                'web/css/gowood.min.css',
+                'web/css/jquery.fancybox.min.css',
+
+            ],
          },
-      },
+      }
     },
 
     clean: {

@@ -3,17 +3,11 @@
 {% block body %}
 <div class="cart row">
 
-    <div class="col-md-12">
-        <div class="steps row">
-            <div class="col-md-4"><span class="step">1 Způsob dopravy a platby</span></div>
-            <div class="col-md-4"><span class="step">2 Dodací a fakturační údaje</span></div>
-            <div class="col-md-4"><span class="step">3 Shrnutí a platba</span></div>
-        </div>
-    </div>
+    {% include '@App/ShopCart/steps.html.twig' with {'step': 1} %}
 
-    <div class="col-md-8">
+    <div class="col-md-9">
 
-        <h3><i class="fas fa-shopping-basket"></i>Můj košík</h3>
+        <h3><i class="fas fa-shopping-basket"></i>&nbsp;Můj košík</h3>
 
         {% for label, messages in app.flashes %}
             {% for message in messages %}
@@ -23,14 +17,15 @@
 
         {% if cart.items.count %}
 
-            {% include 'AppBundle:ShopCart/boxes:step1-items.html.twig' with {'cart': cart} %}
+            {% include 'AppBundle:ShopCart/boxes:step1-items.html.twig' with {'cart': cart, 'summary': false} %}
 
             {% include 'AppBundle:ShopCart/boxes:step1-shipping-payment.html.twig' with {'cart': cart, 'shippings': shippings, 'payments': payments} %}
 
             {% include 'AppBundle:ShopCart/boxes:step1-total.html.twig' with {'cart': cart} %}
 
-            <a class="btn btn-success" href="{{ path('shop_customer') }}">Pokračovat k dodacím údajům</a>
-
+            <div class="continue">
+              <a class="btn btn-success" href="{{ path('shop_customer') }}">Pokračovat k dodacím údajům <i class="fas fa-chevron-right"></i></a>
+            </div>
         {% else %}
 
             <p>Váš košík je prázdný</p>
@@ -70,6 +65,7 @@
 
 
     </div>
+    <div class="col-md-3">Tady bude něco hezkého</div>
     {% else %}
     <p>Váš košík je prázdný</p>
     {% endif %}

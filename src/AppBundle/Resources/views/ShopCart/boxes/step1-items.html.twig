@@ -1,33 +1,44 @@
 <div id="box-step1-cart-items">
     {% for item in cart.items %}
         <div class="checkout-item" data-id="{{ item.id }}">
-            <div class="image"></div>
-            <div class="model">{{ item.product.model }}</div>
+            <div class="image">
+                <a href="{{ path('shop_catalog_detail', { slug: item.product.slug }) }}">
+                    <img width="100%" src="{{ path('image_cache', { id: item.product.images[0].id, setting: '200x150x1'}) }}" />
+                </a>
+            </div>
+            {#<div class="model">{{ item.product.model }}</div>#}
             <div class="name">
                 <strong>
                     <a href="{{ path('shop_catalog_detail', { slug: item.product.slug }) }}">{{ item.product.name }}</a>
                 </strong>
                 {% if item.attributes %}
-                    <span>
+                    <span class="attributes">
                         {% for attribute in item.attributes %}
-                            <br />{{ attribute.name }}: {{ attribute.value }}
+                            <br />{{ attribute.name }}: <span class="value">{{ attribute.value }}</span>
                         {% endfor  %}
                     </span>
                 {% endif %}
             </div>
             <div class="availability"></div>
-            <div class="quantity">
-                <input type="text" class="form-control event keyup" data-validation="number" data-handle="{{ path('shop_cart_update', { do: 'updateQuantity', id: item.id }) }}" data-value="1" value="{{ item.quantity }}" name="quantity[{{ item.id }}]" />
+            <div class="quantity{{ summary ? ' summary':'' }}">
+                {% if not summary %}
+                <input type="text" class="form-control event keyup" data-validation="number" data-handle="{{ path('shop_cart_update', { do: 'updateQuantity', id: item.id }) }}" data-value="1" value="{{ item.quantity }}" name="quantity[{{ item.id }}]" /> ks
+                {% else %}
+                    {{ item.quantity }} ks
+                {% endif  %}
             </div>
-            <div class="price">{{ item.price | price }}</div>
+            <div class="price">{{ (item.price * item.quantity) | price }}</div>
             <div class="delete">
-                <a class="event click" data-handle="{{ path('shop_cart_update', { do: 'deleteItem', id: item.id }) }}" data-value="0" href="#">smazat</a>
+                {% if not summary %}
+                <a class="event click" data-handle="{{ path('shop_cart_update', { do: 'deleteItem', id: item.id }) }}" data-value="0" href="#"><i class="fas fa-trash-alt"></i></a>
+                {% endif %}
             </div>
         </div>
     {% endfor %}
 
-    <div>
-        Počet položek: {{ cart.items.count }},
-        Celkem: {{ cart.totalProducts | price }}
+    {% if not summary %}
+    <div class="subtotal">
+        Celkem bez dopravy a platby: <span>{{ cart.totalProducts | price }}</span>
     </div>
+    {% endif %}
 </div>

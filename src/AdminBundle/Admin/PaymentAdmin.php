@@ -27,6 +27,8 @@ class PaymentAdmin extends AbstractAdmin
         ->add('name', 'text', array('label' => 'Název produktu'))
         ->add('annotation', 'text', array('label' => 'Krátký text', 'required' => false))
         ->add('code', 'text', array('label' => 'Kód'))
+        ->add('icon', 'text', array('label' => 'Ikona', 'required' => false))
+        ->add('time', 'text', array('label' => 'Čas platby', 'required' => false))
         ->add('is_active', 'checkbox', array('label' => 'Aktivní', 'required' => false))
         ->add('description', 'textarea', array('label' => 'Popis', 'required' => false, 'attr' => array('class' => 'ckeditor')))
         ->add('priceTable', 'textarea', array('label' => 'Cenová tabulka', 'required' => false))

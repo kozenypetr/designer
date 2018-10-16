@@ -18,4 +18,9 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery();
     }
 
+    public function findAllActive($locale = 'cs')
+    {
+        return $this->findBy(array('isActive' => true, 'locale' => 'cs'), array('sort' => 'ASC'));
+    }
+
 }
