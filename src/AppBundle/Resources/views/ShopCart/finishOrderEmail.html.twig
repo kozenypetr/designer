@@ -1,9 +1,184 @@
 <html>
   <body>
-    <table>
-        <tr>
-            <td>Potvrzení objednávky č. {{ order.id }}</td>
-        </tr>
-    </table>
+
+
+
+<table width="100%" cellspacing="0" cellpadding="20" border="0" bgcolor="#ECECEC"><tbody><tr><td>
+            <table width="800" cellspacing="0" cellpadding="0" border="0" bgcolor="white" align="center"><tbody><tr><td>
+                        <table width="100%" cellspacing="20" cellpadding="0" border="0"><tbody><tr><td>
+                                    <table width="100%" cellspacing="0" cellpadding="10" border="0"><tbody><tr><td>
+                                                <br></td></tr></tbody></table>
+
+                                    <table style="border-bottom:1px solid #ececec;padding-bottom:6px" width="100%" cellspacing="0" cellpadding="0">
+                                        <tbody><tr>
+                                            <td align="left"><img alt="gowood.cz" src="http://localhost:8000/images/logo_v2.png" width="173" height="54"></td>
+                                            <td align="right"><font size="+1" color="#00285A">Objednávka: <b>{{ order.id }}</b></font></td>
+                                        </tr>
+                                        </tbody></table>
+                                    <br>
+
+
+                                    <p style="padding: 10px;">Vážený zákazníku,</p>
+                                    <p style="padding: 10px;">děkujeme za Váš nákup, objednávku jsme v pořádku přijali. O jejím zpracování Vás budeme dále informovat e-mailem.</p>
+
+                                    <h2 style="font-family:Arial;color:#0b3166;font-size:23px;padding:10px;">Vaše objednávka</h2>
+
+
+                                    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                        <colgroup><col width="1%">
+                                            <col width="7%">
+                                            <col width="67%">
+                                            <col width="5%">
+                                            <col width="20%">
+                                        </colgroup><tbody>
+                                        <tr>
+                                            <td style="border-top:1px#e0e0e0 solid">&nbsp;</td>
+                                            <td style="border-top:1px#e0e0e0 solid">&nbsp;</td>
+                                            <td style="border-top:1px#e0e0e0 solid">&nbsp;</td>
+                                            <td style="border-top:1px#e0e0e0 solid">&nbsp;</td>
+                                            <td style="border-top:1px#e0e0e0 solid">&nbsp;</td>
+                                        </tr>
+
+                                        {% for item in order.items %}
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td valign="top"><img width="100%" src="http://localhost:8000{{ path('image_cache', { id: item.product.images[0].id, setting: '200x150x1'}) }}" /></td>
+                                            <td style="padding:5px 10px" valign="center">
+                                                <b>{{ item.name }}</b> ({{ item.model }})
+
+                                                {% if item.attributes %}
+                                                <font size="-1">
+                                                    <span class="attributes">
+                                                        {% for attribute in item.attributes %}
+                                                            <br />
+                                                            {% if attribute.type == 'FileType' %}
+                                                            {{ attribute.name }}: <span class="value"><a class="cart-item-image" href="{{ attribute.file }}">{{ attribute.value }}</a></span>
+                                                            {% else %}
+                                                            {{ attribute.name }}: <span class="value">{{ attribute.value }}</span>
+                                                        {% endif %}
+                                                        {% endfor  %}
+                                                    </span>
+                                                </font>
+                                                {% endif %}
+
+                                            </td>
+                                            <td style="padding:5px 10px 5px 0px" valign="center" nowrap="">{{ item.quantity }} ks</td>
+                                            <td style="padding:5px 10px 0px 0px" valign="center" align="right"><font color="#0b3166"><b>{{ item.price | price }}</b></font></td>
+                                        </tr>
+                                        <tr>
+                                                <td style="border-bottom:1px#e0e0e0 solid">&nbsp;</td>
+                                                <td style="border-bottom:1px#e0e0e0 solid">&nbsp;</td>
+                                                <td style="border-bottom:1px#e0e0e0 solid">&nbsp;</td>
+                                                <td style="border-bottom:1px#e0e0e0 solid">&nbsp;</td>
+                                                <td style="border-bottom:1px#e0e0e0 solid">&nbsp;</td>
+                                        </tr>
+                                        {% endfor %}
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td valign="top"></td>
+                                            <td style="padding:5px 10px" valign="center">
+                                                <b>Doprava: {{ order.shippingName }}</b>
+                                            </td>
+                                            <td style="padding:5px 10px 5px 0px" valign="center" nowrap="">1 ks</td>
+                                            <td style="padding:5px 10px 0px 0px" valign="center" align="right">
+                                                <font color="#0b3166">
+                                                    <b>
+                                                        {{ order.shippingPrice?(order.shippingPrice | price):'zdarma' }}
+                                                    </b>
+                                                </font></td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td style="border-bottom:1px#e0e0e0 solid">&nbsp;</td>
+                                            <td style="border-bottom:1px#e0e0e0 solid">&nbsp;</td>
+                                            <td style="border-bottom:1px#e0e0e0 solid">&nbsp;</td>
+                                            <td style="border-bottom:1px#e0e0e0 solid">&nbsp;</td>
+                                            <td style="border-bottom:1px#e0e0e0 solid">&nbsp;</td>
+                                        </tr>
+                                        <tr><td colspan="3">&nbsp;</td></tr>
+
+
+                                        <tr>
+                                            <td style="padding:10px" colspan="4" align="right">Celková cena:</td>
+                                            <td style="padding:10px" align="right"><strong>{{ order.total | price }}</strong></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <br>
+
+                                    <h2 style="font-family:Arial;color:#0b3166;font-size:23px;padding:10px;margin-top: 10px; margin-bottom: 10px;">Platba</h2>
+
+                                    <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Způsob platby: <b>{{ order.paymentName }}</b></p>
+                                    <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">
+                                        <b>Fakturační adresa</b><br><br>
+                                        <strong>{{ order.billingName }}</strong><br />
+                                        {% if order.billingCompany %}
+                                            <strong>{{ order.billingCompany }}</strong><br />
+                                        {% endif %}
+
+                                        {% if order.billingIco %}
+                                           IČO: {{ order.billingIco }}<br />
+                                        {% endif %}
+                                        {% if order.billingDic %}
+                                            DIČ: {{ order.billingDic }}<br />
+                                        {% endif %}
+
+                                        {{ order.billingAddress }}<br />
+                                        {{ order.billingCity }}, {{ order.billingPostcode }}
+                                    </p>
+
+                                    <h2 style="font-family:Arial;color:#0b3166;font-size:23px;padding:10px;margin-top: 10px; margin-bottom: 10px;">Doprava</h2>
+
+                                    <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Dopravní metoda: <b>{{ order.shippingName }}</b></p>
+                                    <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">
+                                        <b style="color:#0b3166;">Dodací adresa</b><br><br>
+                                        <strong>{{ order.deliveryName }}</strong><br />
+                                        {% if order.deliveryCompany %}
+                                            <strong>{{ order.deliveryCompany }}</strong><br />
+                                        {% endif %}
+
+                                        {{ order.deliveryAddress }}<br />
+                                        {{ order.deliveryCity }}, {{ order.deliveryPostcode }}<br />
+                                        {{ order.deliveryPhone }}<br />
+                                        {{ order.email }}
+                                    </p>
+
+                                </td></tr></tbody></table>
+
+                    </td></tr><tr bgcolor="white">
+                    <td>
+                        <center>
+                            <center>
+
+
+
+                            </center>
+                            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                <tbody><tr>
+                                    <td>
+                                        <a href="https://www.alza.cz/aby-vam-slevy-uz-neutekly-art16669.htm" style="font-family:Segoe UI,Arial,Verdana;font-size:14px;color:silver" target="_blank" rel="noopener"><center><span>Podívejte se, jak neminout žádnou z našich slevových akcí.</span></center></a>
+                                    </td>
+                                </tr>
+                                <tr style="height:10px;line-height:10px">
+                                    <td>
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                                </tbody></table>
+                            </center>
+                    </td>
+                </tr>
+
+
+
+                </tbody></table>
+
+
+
+
+        </td></tr></tbody></table>
+
   </body>
 </html>

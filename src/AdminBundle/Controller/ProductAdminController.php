@@ -107,7 +107,6 @@ class ProductAdminController extends Controller
          */
         $file = $request->files->get('file');
 
-
         $image = new Image();
 
         $extension = $file->getClientOriginalExtension();

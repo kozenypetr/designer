@@ -14,7 +14,12 @@
                 {% if item.attributes %}
                     <span class="attributes">
                         {% for attribute in item.attributes %}
-                            <br />{{ attribute.name }}: <span class="value">{{ attribute.value }}</span>
+                            <br />
+                            {% if attribute.type == 'FileType' %}
+                            {{ attribute.name }}: <span class="value"><a class="cart-item-image" href="{{ attribute.file }}">{{ attribute.value }}</a></span>
+                            {% else %}
+                              {{ attribute.name }}: <span class="value">{{ attribute.value }}</span>
+                            {% endif %}
                         {% endfor  %}
                     </span>
                 {% endif %}
@@ -22,7 +27,7 @@
             <div class="availability"></div>
             <div class="quantity{{ summary ? ' summary':'' }}">
                 {% if not summary %}
-                <input type="text" class="form-control event keyup" data-validation="number" data-handle="{{ path('shop_cart_update', { do: 'updateQuantity', id: item.id }) }}" data-value="1" value="{{ item.quantity }}" name="quantity[{{ item.id }}]" /> ks
+                <input type="text" class="form-control event keyup" data-validation="number" data-handle="{{ path('shop_cart_update', { do: 'updateQuantity', id: item.id }) }}" data-value="1" value="{{ item.quantity }}" name="quantity[{{ item.id }}]" />
                 {% else %}
                     {{ item.quantity }} ks
                 {% endif  %}

@@ -12,6 +12,7 @@ use Sonata\CoreBundle\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 
+use Sonata\AdminBundle\Route\RouteCollection;
 
 use Sonata\CoreBundle\Validator\ErrorElement;
 use AppBundle\Entity\Product;
@@ -30,11 +31,14 @@ class ProductAdmin extends AbstractAdmin
                 ]
             ])
         ->add('name', 'text', array('label' => 'Název produktu'))
+        ->add('subname', 'text', array('label' => 'Upřesňující název', 'required' => false))
+        ->add('feedName', 'text', array('label' => 'Název pro katalogy', 'required' => false))
         ->add('model', 'text', array('label' => 'Kód'))
         ->add('annotation', 'text', array('label' => 'Krátký popis'))
-        ->add('description', 'textarea', array('label' => 'Popis', 'required' => false, 'attr' => array('class' => 'ckeditor')))
+        ->add('description', 'textarea', array('label' => 'Popis', 'required' => false, 'attr' => array('class' => 'tiny')))
         ->add('price', null, array('label' => 'Cena'))
         ->add('is_active', 'checkbox', array('label' => 'Aktivní', 'required' => false))
+        ->add('availability', null, array('label' => 'Doručení (ve dnech)', 'required' => false))
         ->add('module', 'text', array('label' => 'Modul editace', 'required' => false))
       ->end()
       ->with('Kategorie', array('class' => 'col-md-3'))
@@ -63,9 +67,14 @@ class ProductAdmin extends AbstractAdmin
         ],[
                 'edit' => 'inline',
                 'inline' => 'natural',
-                'sortable' => 'id'
+                // 'sortable' => 'position'
             ]
         )
+      ->end()
+      ->with('Metadata', array('class' => 'col-md-9'))
+        ->add('customMetatitle', 'text', array('label' => 'Metatitle', 'required' => false))
+        ->add('customMetadescription', 'text', array('label' => 'Metadescription', 'required' => false))
+        ->add('customMetakeywords', 'text', array('label' => 'Metakeywords', 'required' => false))
       ->end()
     ;
     // navod na tiny
@@ -98,11 +107,19 @@ class ProductAdmin extends AbstractAdmin
         'actions' => array(
           'edit' => array(),
           'delete' => array(),
+            'clone' => [
+                'template' => 'AdminBundle::CRUD/list__action_clone.html.twig'
+            ]
         ),
         'label' => 'Akce'
       ))
     ;
   }
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('clone', $this->getRouterIdParameter().'/clone');
+    }
 
 
   // add this method

@@ -90,15 +90,20 @@ sonata_block:
 
 sonata_admin:
     title:      GOWOOD
-    title_logo: images/gowood.svg.png
+    title_logo: images/logo_v2.png
     security:
         handler: sonata.admin.security.handler.role
     assets:
         extra_stylesheets:
           - bundles/sonatatranslation/css/sonata-translation.css
           - css/admin/admin.min.css
+          - vendor/tinymce/skins/lightgray/skin.min.css
+          - vendor/tinymce/skins/lightgray/content.min.css'
         extra_javascripts:
           - js/admin/admin.js
+          - vendor/tinymce/tinymce.min.js
+          - vendor/tinymce/jquery.tinymce.min.js
+          - vendor/tinymce/themes/modern/theme.min.js
           - bundles/fosjsrouting/js/router.min.js
     dashboard:
         groups:
@@ -207,14 +212,14 @@ liip_imagine :
         cache : ~
 
         # the name of the "filter set"
-        product_detail_large:
+        categories_list:
             # adjust the image quality to 75%
             quality : 85
             # list of transformations to apply (the "filters")
             filters :
                 # create a thumbnail: set size to 120x90 and use the "outbound" mode
                 # to crop the image when the size ratio of the input differs
-                thumbnail  : { size : [1200, 1200],  mode : inset }
+                thumbnail  : { size : [800 , 600],  mode : inset }
 
 #knp_doctrine_behaviors:
 #    translatable: true

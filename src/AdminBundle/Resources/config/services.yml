@@ -9,7 +9,7 @@ services:
 
     admin.shop.product:
         class: AdminBundle\Admin\ProductAdmin
-        arguments: [~, AppBundle\Entity\Product, ~]
+        arguments: [~, AppBundle\Entity\Product, AdminBundle\Controller\CRUDController]
         tags:
           - { name: sonata.admin, manager_type: orm, label: Produkty, group: "Eshop", show_in_dashboard: "true" }
         calls:
@@ -25,7 +25,7 @@ services:
 
     admin.shop.payment:
         class: AdminBundle\Admin\PaymentAdmin
-        arguments: [~, AppBundle\Entity\Payment, ~]
+        arguments: [~, AppBundle\Entity\Payment, ~ ]
         tags:
           - { name: sonata.admin, manager_type: orm, label: Platby, group: "Eshop", show_in_dashboard: "true" }
         public: true

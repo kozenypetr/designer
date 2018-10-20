@@ -23,42 +23,47 @@ class AttributeAdmin extends AbstractAdmin
   protected function configureFormFields(FormMapper $formMapper)
   {
     $formMapper
-        ->add('name', 'text', array('label' => 'Název'))
-        ->add('isRequired', CheckboxType::class, array('label' => 'Povinný', 'required' => false))
-        ->add('modul', 'text', array('label' => 'Modul', 'required' => false))
-        ->add('class', 'text', array('label' => 'Třída', 'required' => false))
-        ->add('help', null, array('label' => 'Nápověda'))
-        ->add('type', ChoiceType::class, array(
+        ->with('Základní', array('class' => 'col-md-6'))
+            ->add('name', 'text', array('label' => 'Název'))
+            ->add('isRequired', CheckboxType::class, array('label' => 'Povinný', 'required' => false))
+            ->add('type', ChoiceType::class, array(
             'choices'  => array(
                 'Text' => TextType::class,
                 'Dlouhý text' => TextareaType::class,
                 'Select' => ChoiceType::class,
                 'Checkbox' => CheckboxType::class,
                 'Soubor' => FileType::class,
-        )))
-        ->add('options', CollectionType::class, [
-            'label' => 'Možnosti',
-            'required' => false,
-            'by_reference' => false,
-            'type_options' => [
-                // Prevents the "Delete" option from being displayed
-                'delete' => true,
-                'delete_options' => [
-                    // You may otherwise choose to put the field but hide it
-                    'type'         => CheckboxType::class,
-                    // In that case, you need to fill in the options as well
-                    'type_options' => [
-                        'mapped'   => false,
-                        'required' => true,
+            )))
+            ->add('position', 'text', array('label' => 'Řazení', 'required' => false))
+        ->end()
+        ->with('Možnosti', array('class' => 'col-md-6'))
+            ->add('class', 'text', array('label' => 'Třída', 'required' => false))
+            ->add('help', null, array('label' => 'Nápověda'))
+            ->add('modul', 'text', array('label' => 'Modul', 'required' => false))
+            ->add('options', CollectionType::class, [
+                'label' => 'Možnosti',
+                'required' => false,
+                'by_reference' => false,
+                'type_options' => [
+                    // Prevents the "Delete" option from being displayed
+                    'delete' => true,
+                    'delete_options' => [
+                        // You may otherwise choose to put the field but hide it
+                        'type'         => CheckboxType::class,
+                        // In that case, you need to fill in the options as well
+                        'type_options' => [
+                            'mapped'   => false,
+                            'required' => true,
+                        ]
                     ]
                 ]
-            ]
-            ],[
-                'edit' => 'inline',
-                'inline' => 'table',
-                'sortable' => 'id'
-            ]
-        )
+                ],[
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                    'sortable' => 'id'
+                ]
+            )
+        ->end()
      //    ->add('product')
     ;
     // navod na tiny

@@ -96,6 +96,7 @@ class ShopCatalogController extends Controller
                 }
 
                 $options['label'] = $attribute->getName();
+                // $options['required'] = $attribute->getIsRequired();
                 $options['attr']['title'] = $attribute->getHelp();
                 $options['attr']['class'] = $attribute->getClass();
                 $formBuilder->add($attribute->getId(), $attribute->getType(), $options);

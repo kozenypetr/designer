@@ -1,13 +1,35 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+// @import url('https://fonts.googleapis.com/css?family=Roboto');
+// @import url('https://fonts.googleapis.com/css?family=Ubuntu');
+// @import url('https://fonts.googleapis.com/css?family=K2D');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&subset=latin-ext');
 
+@color1: #ccb39d;
+@color2: #b19780;
+@color3: #B7695C;
+@color4: #CDBB79;
+@color5: #F2F2F2;
+@color6: #06425C;
 
 @link-color: #5c5c5c;
 @box-border-radius: 5px;
-@border-radius-cart: 5px;
-@dark-text: #5c5c5c;
+@border-radius-cart: 0px;
+// @dark-text: #5c5c5c;
+@dark-text: #3c3c3c;
+
+@xs-min: 0;
+@sm-min: 576px;
+@md-min: 768px;
+@lg-min: 992px;
+@xl-min: 1200px;
+
+@xs-max: 575.98px;
+@sm-max: 767.98px;
+@md-max: 991.98px;
+@lg-max: 1199.98px;
+
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open Sans', 'Roboto', sans-serif;
 
   & > .container {
     padding: 20px;
@@ -61,7 +83,7 @@ footer {
 
 .box-shaddow {
   background-color: #fff;
-  box-shadow: 0px 3px 10px #ddd;
+  box-shadow: 0px 2px 8px #ddd;
   border-radius: @box-border-radius;
   padding: 10px;
 }

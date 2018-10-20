@@ -9,23 +9,77 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
+
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v3.1';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
+
         <header>
             <div class="container">
-                <div class="topbar__content row">
-                    <div class="col-md-4 col-sm-6 col-6 topbar__logo">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-6 header-logo">
                         <a href="/">
-                            <img width="70%" src="{{ asset('images/gowood.svg.png') }}" />
+                            <img width="60%" src="{{ asset('images/logo_v2.png') }}" />
                         </a>
                     </div>
-                    <div class="col-md-3 d-sm-none d-none ml-auto d-md-block">
+                    <div class="col-md-4 d-sm-none d-none ml-auto d-md-block search-contact">
+                        <div class="contact row">
+                            <div class="col-lg-6 col-md-12 phone">
+                                <span class="d-none d-md-block"><i class="fas fa-phone"></i> +420728870246</span>
+                            </div>
+                            <div class="col-lg-6 col-md-12 email"><i class="fas fa-envelope"></i> <a href="mailto:info@gowood.cz"><span>
+                            info@gowood.cz</span></a></div>
+                        </div>
+                        <div class="search row">
+                            <div class="col-md-12">
+                                <div class="search-input">
+                                    <i class="fas fa-search"></i>
+                                    <input type="text" placeholder="" />
+                                    <div class="submit">
+                                        <input type="submit" value="HLEDAT" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-3 col-sm-6 col-6 ml-auto d-md-block">
+                    <div class="cart col-md-4 col-sm-6 col-6 ml-auto d-md-block header-cart-box">
                         {% include 'AppBundle:ShopCart/boxes:head-cart.html.twig' %}
+                    </div>
+                    <div class="col-12 d-sm-block d-md-none search-contact">
+                        <div class="contact row">
+                            <div class="col-6 phone">
+                                <a href="tel:+420728870246" title="Telefon"><span><i class="fas fa-phone"></i> +420728870246</span></a>
+                            </div>
+                            <div class="col-6 email">
+                                <a href="mailto:info@gowood.cz"><span><i class="fas fa-envelope"></i>
+                            info@gowood.cz</span></a></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="separator"></div>
+
+            <div class="menu">
+                <div class="container">
+                <ul>
+                    <li><a href="/">E-shop</a></li>
+                    <li><a href="/">O nás</a></li>
+                    <li><a href="/">Vše o nákupu</a></li>
+                    <li><a href="/">Blog</a></li>
+                    <li><a href="/">Pro firmy</a></li>
+                    <li><a href="/">Obchodní podmínky</a></li>
+                    <li><a href="/">Kontakt</a></li>
+                </ul>
+                </div>
+            </div>
+
         </header>
         {#
         <div class="container menu">
@@ -58,8 +112,6 @@
         {% block javascripts %}
             <script src="{{ asset('js/jquery.min.js') }}"></script>
             <script src="{{ asset('js/editor.js') }}"></script>
-            <script src="{{ asset('js/shopping-cart.js') }}"></script>
-            <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
         {% endblock %}
     </body>
 </html>

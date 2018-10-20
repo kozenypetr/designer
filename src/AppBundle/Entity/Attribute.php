@@ -87,6 +87,13 @@ class Attribute
      */
     private $type;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="position", type="integer", nullable=true)
+     */
+    private $position = 1;
+
 
     /**
      * @var \DateTime $created
@@ -376,5 +383,29 @@ class Attribute
     public function getHelp()
     {
         return $this->help;
+    }
+
+    /**
+     * Set position.
+     *
+     * @param int|null $position
+     *
+     * @return Attribute
+     */
+    public function setPosition($position = null)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get position.
+     *
+     * @return int|null
+     */
+    public function getPosition()
+    {
+        return $this->position;
     }
 }

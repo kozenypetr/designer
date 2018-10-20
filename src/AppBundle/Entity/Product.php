@@ -36,6 +36,20 @@ class Product
     private $isActive;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_new", type="boolean", options={"default": false})
+     */
+    private $isNew;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_top", type="boolean", options={"default": false})
+     */
+    private $isTop;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="locale", type="string", length=2)
@@ -48,6 +62,45 @@ class Product
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="subname", type="string", length=255, nullable=true)
+     */
+    private $subname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="custom_metatitle", type="string", length=255, nullable=true)
+     */
+    private $customMetatitle;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="custom_metadescription", type="text", nullable=true, nullable=true)
+     */
+    private $customMetadescription;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="custom_metakeywords", type="string", length=255, nullable=true)
+     */
+    private $customMetakeywords;
+
+
+    /**
+     * @var json
+     *
+     * @ORM\Column(name="parameters", type="json", nullable=true)
+     */
+    private $parameters;
+
 
     /**
      * @var string
@@ -153,16 +206,9 @@ class Product
      *
      * @var AttributeOption
      * @ORM\OneToMany(targetEntity="Attribute", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"position" = "ASC"})
      */
     protected $attributes;
-
-
-    /**
-     * @var text
-     *
-     * @ORM\Column(name="parameters", type="text", nullable=true)
-     */
-    private $parameters;
 
     /**
      * @var integer
@@ -170,6 +216,13 @@ class Product
      * @ORM\Column(name="sort", type="integer", nullable=true)
      */
     private $sort;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="availability", type="integer", nullable=true, options={"default": 14})
+     */
+    private $availability = 14;
 
     /**
      * @var string
@@ -183,6 +236,37 @@ class Product
     {
       $this->categories = new ArrayCollection();
       $this->images     = new ArrayCollection();
+      $this->attributes = new ArrayCollection();
+    }
+
+    public function __clone() {
+        if ($this->getAttributes()->count())
+        {
+            $attributes = $this->getAttributes();
+
+            $this->attributes = new ArrayCollection();
+
+            foreach ($attributes as $attribute)
+            {
+                $a = clone $attribute;
+                $a->setProduct($this);
+                $this->addAttribute($a);
+            }
+        }
+
+        if ($this->getImages()->count())
+        {
+            $images = $this->getImages();
+
+            $this->images = new ArrayCollection();
+
+            foreach ($images as $image)
+            {
+                $i = clone $image;
+                $i->setProduct($this);
+                $this->addImage($i);
+            }
+        }
     }
 
     public function __toString() {
@@ -729,5 +813,173 @@ class Product
     public function getModule()
     {
         return $this->module;
+    }
+
+    /**
+     * Set subname.
+     *
+     * @param string|null $subname
+     *
+     * @return Product
+     */
+    public function setSubname($subname = null)
+    {
+        $this->subname = $subname;
+
+        return $this;
+    }
+
+    /**
+     * Get subname.
+     *
+     * @return string|null
+     */
+    public function getSubname()
+    {
+        return $this->subname;
+    }
+
+    /**
+     * Set customMetatitle.
+     *
+     * @param string|null $customMetatitle
+     *
+     * @return Product
+     */
+    public function setCustomMetatitle($customMetatitle = null)
+    {
+        $this->customMetatitle = $customMetatitle;
+
+        return $this;
+    }
+
+    /**
+     * Get customMetatitle.
+     *
+     * @return string|null
+     */
+    public function getCustomMetatitle()
+    {
+        return $this->customMetatitle;
+    }
+
+    /**
+     * Set customMetadescription.
+     *
+     * @param string|null $customMetadescription
+     *
+     * @return Product
+     */
+    public function setCustomMetadescription($customMetadescription = null)
+    {
+        $this->customMetadescription = $customMetadescription;
+
+        return $this;
+    }
+
+    /**
+     * Get customMetadescription.
+     *
+     * @return string|null
+     */
+    public function getCustomMetadescription()
+    {
+        return $this->customMetadescription;
+    }
+
+    /**
+     * Set customMetakeywords.
+     *
+     * @param string|null $customMetakeywords
+     *
+     * @return Product
+     */
+    public function setCustomMetakeywords($customMetakeywords = null)
+    {
+        $this->customMetakeywords = $customMetakeywords;
+
+        return $this;
+    }
+
+    /**
+     * Get customMetakeywords.
+     *
+     * @return string|null
+     */
+    public function getCustomMetakeywords()
+    {
+        return $this->customMetakeywords;
+    }
+
+    /**
+     * Set availability.
+     *
+     * @param int|null $availability
+     *
+     * @return Product
+     */
+    public function setAvailability($availability = null)
+    {
+        $this->availability = $availability;
+
+        return $this;
+    }
+
+    /**
+     * Get availability.
+     *
+     * @return int|null
+     */
+    public function getAvailability()
+    {
+        return $this->availability;
+    }
+
+    /**
+     * Set isNew.
+     *
+     * @param bool $isNew
+     *
+     * @return Product
+     */
+    public function setIsNew($isNew)
+    {
+        $this->isNew = $isNew;
+
+        return $this;
+    }
+
+    /**
+     * Get isNew.
+     *
+     * @return bool
+     */
+    public function getIsNew()
+    {
+        return $this->isNew;
+    }
+
+    /**
+     * Set isTop.
+     *
+     * @param bool $isTop
+     *
+     * @return Product
+     */
+    public function setIsTop($isTop)
+    {
+        $this->isTop = $isTop;
+
+        return $this;
+    }
+
+    /**
+     * Get isTop.
+     *
+     * @return bool
+     */
+    public function getIsTop()
+    {
+        return $this->isTop;
     }
 }

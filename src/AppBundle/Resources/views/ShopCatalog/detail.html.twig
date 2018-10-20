@@ -4,9 +4,7 @@
 <div class="product-detail row">
 
     <div class="col-md-3">
-        {{ render(controller(
-        'AppBundle:ShopCatalog:categories'
-        )) }}
+        {% include '@App/ShopCatalog/leftPanel.html.twig' %}
     </div>
 
     <div class="col-md-9">
@@ -21,8 +19,8 @@
                 <h2>{{ product.name }}</h2>
             </div>
 
-            <div class="col-md-6">
-                <div class="image img-thumbnail">
+            <div class="col-lg-6 col-md-12 left">
+                <div class="image">
 
                     <a class="gallery" data-fancybox="images" data-type="image" href="{{ path('image_cache', { id: product.images[0].id, setting: '1200x1200x0'}) }}">
                       <img width="100%" src="{{ path('image_cache', { id: product.images[0].id, setting: '800x800x0'}) }}" />
@@ -33,7 +31,7 @@
                     {% for key, image in product.images %}
                         {% if key > 0 %}
                         <div class="col-md-4 col-4">
-                            <div class="img-thumbnail">
+                            <div>
                                 <a class="gallery" data-fancybox="images" data-type="image" href="{{ path('image_cache', { id: image.id, setting: '1200x1200x0'}) }}">
                                     <img width="100%" src="{{ path('image_cache', { id: image.id, setting: '400x300x1'}) }}" />
                                 </a>
@@ -42,34 +40,55 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-
             </div>
 
-            <div class="col-md-6">
+            <div class="col-lg-6 col-md-12 right">
 
+                {% if product.subname %}
+                <h3>{{ product.subname }}</h3>
+                {% endif %}
 
+                <p class="short-description">{{ product.annotation }}</p>
 
-                <p>{{ product.annotation }}</p>
+                <div class="availability">U vás do {{ product.availability }} dní</div>
 
-                <p class="price">{{ product.price | round }} Kč</p>
+                <form id="product-detail-form" action="{{ path('shop_cart_add', { id: product.id}) }}" method="POST" enctype="multipart/form-data">
+                <table style="width: 100%;">
+                    <colgroup><col><col style="width: 60%">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td class="price">
+                                {{ product.price | price }}
+                            </td>
+                            <td>
 
-                <form action="{{ path('shop_cart_add', { id: product.id}) }}" method="POST">
-                    <div class="cart-add">
-                        <input type="text" size="5" class="quantity" name="quantity" value="1" />
-                        <button type="submit" class="btn btn-success">
-                            <i class="fas fa-shopping-basket"></i>&nbsp;Přidat do košíku
-                        </button>
-                    </div>
+                                    <div class="cart-add">
+                                        <input type="text" size="5" class="quantity" name="quantity" value="1" />
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="fas fa-shopping-basket"></i>&nbsp;DO KOŠÍKU
+                                        </button>
+                                    </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                    <div class="attribute-form-title">Napište, jak to máme vyrobit :)</div>
+                <div class="attribute-form-title">Napište, jak to máme vyrobit :)</div>
 
-                    {{ form_widget(attributeForm) }}
+                {{ form_widget(attributeForm) }}
+
                 </form>
 
                 {% if product.module %}
                     {% include('AppBundle::ShopCatalog/Editor/' ~ product.module ~ '.html.twig') %}
                 {% endif %}
 
+            </div>
+
+            <div class="col-md-12">
+                <div class="description-title">Popis</div>
+                {{ product.description | raw }}
             </div>
          </div>
     </div>
@@ -80,4 +99,6 @@
     {{ parent() }}
     <script src="{{ asset('js/detail.js') }}"></script>
     <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
+    <script src="{{ asset('js/jqueryvalidation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('js/jqueryvalidation/localization/messages_cs.js') }}"></script>
 {% endblock %}

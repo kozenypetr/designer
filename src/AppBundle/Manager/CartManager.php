@@ -10,6 +10,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
+
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 use AppBundle\Entity\Cart;
 use AppBundle\Entity\CartItem;
@@ -30,6 +33,7 @@ class CartManager {
     protected $tokenStorage = null;
     protected $mailer     = null;
     protected $twig  = null;
+    protected $kernel;
 
     /**
      * @var Cart
@@ -42,13 +46,14 @@ class CartManager {
      * @param EntityManager $em
      * @param TokenStorage $tokenStorage
      */
-    public function __construct(Session $session, EntityManagerInterface $em, TokenStorage $tokenStorage, \Swift_Mailer $mailer,  EngineInterface $twig)
+    public function __construct(Session $session, EntityManagerInterface $em, TokenStorage $tokenStorage, \Swift_Mailer $mailer,  EngineInterface $twig, KernelInterface $kernel)
     {
         $this->session = $session;
         $this->em = $em;
         $this->tokenStorage = $tokenStorage;
         $this->mailer = $mailer;
         $this->twig = $twig;
+        $this->kernel = $kernel;
         $this->cart = $this->getCart();
     }
 
@@ -64,6 +69,7 @@ class CartManager {
 
         $order->setShippingName($this->cart->getShipping()->getName());
         $order->setShippingCode($this->cart->getShipping()->getCode());
+        $order->setShippingPrice($this->cart->getShippingPrice());
 
         $order->setPaymentName($this->cart->getPayment()->getName());
         $order->setPaymentCode($this->cart->getPayment()->getCode());
@@ -86,6 +92,8 @@ class CartManager {
             $orderItem->setPrice($item->getPrice());
             $orderItem->setOrder($order);
             $orderItem->setAttributes($item->getAttributes());
+
+            $order->addItem($orderItem);
 
             $this->em->persist($orderItem);
         }
@@ -181,7 +189,7 @@ class CartManager {
      * @param array $attributes
      * @return bool
      */
-    public function addItem($product, $quantity = 1, $attributes = null, $parameters = null)
+    public function addItem($product, $quantity = 1, $attributes = null, $files = null)
     {
         $cart = $this->loadCart();
 
@@ -207,16 +215,40 @@ class CartManager {
         }
 
         $attributesHash = '';
-        if ($attributes && $productAttributes)
+        if (($attributes || isset($files['attribute'])) && $productAttributes)
         {
             $attributesSaveData = [];
             foreach ($attributes as $id => $value)
             {
                 if (isset($productAttributes[$id])) {
+
                     $attributesSaveData[$id] = [
                         'name' => $productAttributes[$id]->getName(),
-                        'value' => $value
+                        'value' => $value,
+                        'type' => (substr($productAttributes[$id]->getType(), strrpos($productAttributes[$id]->getType(), '\\') + 1)),
                     ];
+                }
+            }
+
+            if (isset($files['attribute'])) {
+                foreach ($files['attribute'] as $id => $file) {
+                    if (isset($productAttributes[$id])) {
+
+                        $uploadDir = realpath($this->kernel->getRootDir() . '/../web/data/shop/attributes/');
+
+                        $file = $files['attribute'][$id];
+
+                        $filename = md5(date('his') . $id) . '.' . $file->guessExtension();
+
+                        $file->move($uploadDir, $filename);
+
+                        $attributesSaveData[$id] = [
+                            'name' => $productAttributes[$id]->getName(),
+                            'value' => $file->getClientOriginalName(),
+                            'type' => (substr($productAttributes[$id]->getType(), strrpos($productAttributes[$id]->getType(), '\\') + 1)),
+                            'file' => '/data/shop/attributes/' . $filename
+                        ];
+                    }
                 }
             }
 

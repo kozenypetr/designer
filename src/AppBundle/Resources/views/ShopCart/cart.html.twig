@@ -4,8 +4,8 @@
 <div class="cart row">
 
     {% include '@App/ShopCart/steps.html.twig' with {'step': 1} %}
-
-    <div class="col-md-9">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
 
         <h3><i class="fas fa-shopping-basket"></i>&nbsp;Můj košík</h3>
 
@@ -65,9 +65,15 @@
 
 
     </div>
-    <div class="col-md-3">Tady bude něco hezkého</div>
+    <div class="col-md-1"></div>
     {% else %}
     <p>Váš košík je prázdný</p>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/shopping-cart.js') }}"></script>
+    <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
 {% endblock %}

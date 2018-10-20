@@ -113,4 +113,28 @@ var productImages = {
 
 $( document ).ready(function() {
     productImages.init();
+
+    tinymce.init({
+        selector: '.tiny',
+        themes: "modern",
+        menubar: false,
+        language: 'cs',
+        force_br_newlines : false,
+        force_p_newlines : true,
+        forced_root_block : '',
+        convert_urls: false,
+        verify_html: false,
+        remove_script_host: false,
+        codemirror: { indentOnInit:true, path:'/vendor/tinymce/plugins/codemirror/codemirror-4.8'},
+        plugins: [
+            "advlist autolink link image lists charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking spellchecker",
+            "table contextmenu directionality emoticons paste textcolor code codemirror codesample table"
+        ],
+        height : "250",
+        entity_encoding : "raw",
+        toolbar1: "undo redo | bold italic underline | forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent",
+        toolbar2: "styleselect |  image | media | link unlink | table | code codesample"
+    });
+
 });

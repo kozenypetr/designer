@@ -19,9 +19,11 @@ var detail = {
                 defaultType: "image"
             }
         );
+
+        $('#product-detail-form').validate();
     }
 };
 
 $(function() {
     detail.init();
-})
+});

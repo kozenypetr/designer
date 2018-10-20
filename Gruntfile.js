@@ -41,6 +41,12 @@ module.exports = function(grunt) {
           src: 'jquery.fancybox.min.css',
           dest: 'web/css'
       },
+      jqueryvalidation: {
+            expand: true,
+            cwd: 'web/vendor/jqueryvalidation',
+            src: '**',
+            dest: 'web/js/jqueryvalidation'
+      },
     },
     watch: {
         less: {
