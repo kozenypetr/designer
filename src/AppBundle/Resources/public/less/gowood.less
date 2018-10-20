@@ -60,6 +60,18 @@ header {
       .email {
         text-align: right;
       }
+
+      .search-button {
+        margin-top: 15px;
+
+        .search {
+          border: solid #555 1px;
+        }
+
+        .btn-menu-toggle {
+          cursor: pointer;
+        }
+      }
     }
   }
 
@@ -145,37 +157,62 @@ header {
   }
 
   .menu {
-    ul {
-      margin: 0;
-      padding: 0;
 
-      li {
-        float: left;
-        display:inline-block;
-        height: 50px;
-        line-height: 50px;
-        margin-right: 50px;
+    @media (min-width: @md-min) {
+      ul {
+        margin: 0;
+        padding: 0;
 
-        a {
-          color: @dark-text;
-          display: block;
-          padding: 0 15px;
+        li {
+          float: left;
+          display: inline-block;
+          height: 50px;
+          line-height: 50px;
+          margin-right: 50px;
+
+          a {
+            color: @dark-text;
+            display: block;
+            padding: 0 15px;
+          }
+
+          a:hover {
+            border-top: solid #aaa 4px;
+            position: relative;
+            top: -4px;
+          }
         }
 
-        a:hover {
-          border-top: solid #aaa 4px;
-          position: relative;
-          top: -4px;
+        &:after {
+          content: "";
+          display: block;
+          clear: both;
         }
       }
+    }
 
-      &:after {
-        content: "";
-        display: block;
-        clear: both;
+    @media (max-width: @sm-max) {
+      display: none;
+      ul {
+
+        margin: 0;
+        padding: 0;
+
+        width: 100%;
+
+        li {
+          margin: 0;
+          padding-left: 10px;
+          list-style-type: none;
+          height: 40px;
+          line-height: 40px;
+          border-bottom: solid #555 1px;
+        }
       }
     }
   }
+
+
 }
 
 section#content {
