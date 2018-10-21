@@ -33,21 +33,21 @@ class Product
      *
      * @ORM\Column(name="is_active", type="boolean", options={"default": true})
      */
-    private $isActive;
+    private $isActive = true;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_new", type="boolean", options={"default": false})
      */
-    private $isNew;
+    private $isNew = false;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_top", type="boolean", options={"default": false})
      */
-    private $isTop;
+    private $isTop = false;
 
     /**
      * @var string
