@@ -74,9 +74,47 @@
                     </tbody>
                 </table>
 
-                <div class="attribute-form-title">Napište, jak to máme vyrobit :)</div>
+                <table id="product-detail-info" style="width: 100%">
+                    <colgroup><col><col style="width: 60%">
+                    </colgroup><tbody>
 
-                {{ form_widget(attributeForm) }}
+                    <tr>
+                        <td class="l-col">
+                            Kód produktu
+                        </td>
+                        <td class="td-code">
+                            <span>{{ product.model }}</span>
+                        </td>
+                    </tr>
+
+
+
+                    <tr>
+                        <td class="l-col">
+                            Značka
+                        </td>
+                        <td>
+                            GOWOOD
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="l-col">
+                            Záruka
+                        </td>
+                        <td>
+                            2 roky
+                        </td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+
+                {% if product.attributes.count %}
+                  <div class="attribute-form-title">Napište, jak to máme vyrobit :)</div>
+                  {{ form_widget(attributeForm) }}
+                {% endif %}
 
                 </form>
 
@@ -86,10 +124,12 @@
 
             </div>
 
+            {% if product.description %}
             <div class="col-md-12">
                 <div class="description-title">Popis</div>
                 {{ product.description | raw }}
             </div>
+            {% endif %}
          </div>
     </div>
 </div>
