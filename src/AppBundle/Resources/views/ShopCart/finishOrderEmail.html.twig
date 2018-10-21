@@ -11,7 +11,7 @@
 
                                     <table style="border-bottom:1px solid #ececec;padding-bottom:6px" width="100%" cellspacing="0" cellpadding="0">
                                         <tbody><tr>
-                                            <td align="left"><img alt="gowood.cz" src="http://localhost:8000/images/logo_v2.png" width="173" height="54"></td>
+                                            <td align="left"><img alt="gowood.cz" src="https://www.gowood.cz/images/logo_v2.png" width="173" height="54"></td>
                                             <td align="right"><font size="+1" color="#00285A">Objednávka: <b>{{ order.id }}</b></font></td>
                                         </tr>
                                         </tbody></table>
@@ -42,7 +42,7 @@
                                         {% for item in order.items %}
                                         <tr>
                                             <td>&nbsp;</td>
-                                            <td valign="top"><img width="100%" src="http://localhost:8000{{ path('image_cache', { id: item.product.images[0].id, setting: '200x150x1'}) }}" /></td>
+                                            <td valign="top"><img width="100%" src="https://www.gowood.cz{{ path('image_cache', { id: item.product.images[0].id, setting: '200x150x1'}) }}" /></td>
                                             <td style="padding:5px 10px" valign="center">
                                                 <b>{{ item.name }}</b> ({{ item.model }})
 

@@ -101,8 +101,9 @@ class CartManager {
         $this->em->flush();
 
         $message = (new \Swift_Message('Potvrzení objednávky č. ' . $order->getId()))
-            ->setFrom('info@kozenypetr.cz')
+            ->setFrom('info@kozenypetr.cz', 'GOWOOD.CZ')
             ->setTo($order->getEmail())
+            ->addBcc('info@gowood.cz')
             ->setBody(
                 $this->twig->render('AppBundle:ShopCart:finishOrderEmail.html.twig',
                     array(
