@@ -74,6 +74,13 @@ class Shipping
     /**
      * @var string
      *
+     * @ORM\Column(name="text", type="text", nullable=true)
+     */
+    private $text;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="code", type="string", length=255)
      */
     private $code;
@@ -431,5 +438,29 @@ class Shipping
     public function getIcon()
     {
         return $this->icon;
+    }
+
+    /**
+     * Set text.
+     *
+     * @param string|null $text
+     *
+     * @return Shipping
+     */
+    public function setText($text = null)
+    {
+        $this->text = $text;
+
+        return $this;
+    }
+
+    /**
+     * Get text.
+     *
+     * @return string|null
+     */
+    public function getText()
+    {
+        return $this->text;
     }
 }

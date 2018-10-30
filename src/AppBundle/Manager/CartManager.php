@@ -6,6 +6,7 @@
 
 namespace AppBundle\Manager;
 
+
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,6 +20,8 @@ use AppBundle\Entity\CartItem;
 use AppBundle\Entity\Order;
 use AppBundle\Entity\OrderItem;
 use AppBundle\Entity\Product;
+use AppBundle\Entity\Customer;
+use AppBundle\Entity\OrderStatus;
 
 
 /**
@@ -57,6 +60,92 @@ class CartManager {
         $this->cart = $this->getCart();
     }
 
+    /**
+     * Aktualizace kosiku pro zakaznika
+     * @param $user Customer
+     */
+    public function updateCart($customer)
+    {
+        $cart = $this->em->getRepository('AppBundle:Cart')->findOneBy(['customer' => $customer]);
+        $currentCart = $this->em->getRepository('AppBundle:Cart')->find((int)$this->session->get('cart'));
+
+        $joinQuantity = 0;
+
+        if ($cart)
+        {
+            $joinQuantity = $cart->getItems()->count();
+
+            $cart->setFromObject($customer);
+
+            if ($currentCart) {
+                $this->join($cart, $currentCart);
+                $this->em->remove($currentCart);
+            }
+
+            $this->session->set('cart', $cart->getId());
+        }
+        else
+        {
+            $currentCart = $this->loadCart();
+            $currentCart->setFromObject($customer);
+            $currentCart->setCustomer($customer);
+            $this->em->persist($currentCart);
+        }
+
+        $this->em->flush();
+
+        return $joinQuantity;
+    }
+
+    /**
+     * Spojeni kosiku - nacteny od uzivatele a aktualni
+     * @param $cart
+     * @param $joinCart
+     */
+    public function join(Cart $first, Cart $second)
+    {
+        if ($second)
+        {
+            if ($second->getItems()->count())
+            {
+                foreach ($second->getItems() as $item)
+                {
+                   // zkusime najit polozku podle produktu a hash atributu
+                   $query = ['cart' => $first, 'product' => $item->getProduct(), 'attributesHash' => $item->getAttributesHash()];
+                   $orderItem  = $this->em->getRepository('AppBundle:CartItem')->findOneBy($query);
+
+                   if ($orderItem)
+                   {
+                       $orderItem->addQuantity($item->getQuantity());
+                   }
+                   else
+                   {
+                       $orderItem = clone $item;
+                       $orderItem->setCart($first);
+                       $first->addItem($orderItem);
+                   }
+
+                   $this->em->persist($orderItem);
+                }
+
+                if ($second->getShipping())
+                {
+                    $first->setShipping($second->getShipping());
+                    $first->setShippingParameters($second->getShippingParameters());
+                }
+
+                if ($second->getPayment());
+                {
+                    $first->setPayment($second->getPayment());
+                    $first->setPaymentParameters($second->getPaymentParameters());
+                }
+
+                $this->em->persist($first);
+                $this->em->flush();
+            }
+        }
+    }
+
     public function finishOrder()
     {
         $order = new Order();
@@ -67,12 +156,18 @@ class CartManager {
         $order->setTax($this->cart->getTax());
         $order->setTotal($this->cart->getTotal());
 
+        $order->setShipping($this->cart->getShipping());
         $order->setShippingName($this->cart->getShipping()->getName());
         $order->setShippingCode($this->cart->getShipping()->getCode());
         $order->setShippingPrice($this->cart->getShippingPrice());
 
+        $order->setPayment($this->cart->getPayment());
         $order->setPaymentName($this->cart->getPayment()->getName());
         $order->setPaymentCode($this->cart->getPayment()->getCode());
+
+        // stav objednavky
+        $status = $this->em->getRepository('AppBundle:OrderStatus')->find(1);
+        $order->setStatus($status);
 
         if ($this->cart->getCustomer())
         {
@@ -100,7 +195,7 @@ class CartManager {
 
         $this->em->flush();
 
-        $message = (new \Swift_Message('Potvrzení objednávky č. ' . $order->getId()))
+        $message = (new \Swift_Message('Přijali jsme vaši objednávku č. ' . $order->getId()))
             ->setFrom('info@kozenypetr.cz', 'GOWOOD.CZ')
             ->setTo($order->getEmail())
             ->addBcc('info@gowood.cz')
@@ -312,7 +407,7 @@ class CartManager {
     /**
      * @return \AppBundle\Entity\Cart
      */
-    private function loadCart()
+    public function loadCart()
     {
         if ($this->session->get('cart', null))
         {
@@ -324,9 +419,9 @@ class CartManager {
         }
 
         $cart = new Cart();
-        /*if ($this->securityContext->isGranted('IS_AUTHENTICATED_FULLY'))
-            $cart->setUser($this->securityContext->getToken()->getUser());*/
-
+        if ($this->tokenStorage->getToken()->getUser() instanceof Customer) {
+            $cart->setCustomer($this->tokenStorage->getToken()->getUser());
+        }
         $this->em->persist($cart);
         $this->em->flush();
         $this->session->set('cart', $cart->getId());

@@ -1,6 +1,7 @@
 var customer = {
 
     init: function() {
+        customer.initValidation();
         customer.initEvent();
     },
 
@@ -10,6 +11,15 @@ var customer = {
         $('#customer_billing_is_delivery').change();
         $('#customer_billing_is_create_account').change(customer.togglePasswordForm);
         $('#customer_billing_is_create_account').change();
+        $('#login').submit(customer.login);
+        $('.login-box .show-form').click(customer.showLoginForm);
+
+
+    },
+
+    initValidation: function()
+    {
+        $('#login').validate();
     },
 
     toggleDeliveryForm: function(event)
@@ -36,6 +46,55 @@ var customer = {
         {
             $('.password-form').hide();
         }
+    },
+
+    showLoginForm: function(event)
+    {
+        event.preventDefault();
+
+        $('.login-box .login-box-form').toggle('slow');
+
+    },
+
+    login: function(event)
+    {
+        if (!$(this).valid())
+        {
+            return false;
+        }
+
+        event.preventDefault();
+
+        var url = $(this).attr('action');
+
+        var data = {
+            username: $("#username").val(),
+            password: $("#password").val()
+        }
+
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json",
+            url: url,
+            data: JSON.stringify(data),
+            async: false,
+            success: function (data) {
+                if (data.redirect)
+                {
+                    window.location.href = data.redirect;
+                }
+                else
+                {
+                    location.reload();
+                }
+            },
+            statusCode: {
+                401: function() {
+                    $('.login-error').show();
+                }
+            }
+        });
     }
 };
 

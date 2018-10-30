@@ -241,13 +241,51 @@
 
 .customer {
 
-  .billing-address, .delivery-address {
+  .login-box {
+    p {
+      margin-bottom: 15px;
+      a {
+        color: @orange;
+      }
+    }
+
+    .login-box-form {
+      margin-bottom: 15px;
+    }
+
+    .login-error {
+      display: none;
+      color: red;
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 15px 0;
+
+      a {
+        font-weight: bold;
+      }
+    }
+
+    input.error {
+      border-color: red;
+    }
+
+    label.error {
+      color: red;
+      font-size: 0.9rem;
+    }
+  }
+
+  .billing-address, .delivery-address, .order-note, .create-account {
     background-color: #fff;
     box-shadow: 0px 3px 10px #ddd;
     border-radius: @border-radius-cart;
     padding: 30px;
 
-    input[type=text], input[type=email] {
+    .checkbox {
+      text-align: center;
+    }
+
+    input[type=text], input[type=email], textarea, input[type=password] {
       background-color: #eee;
 
       &:focus {
@@ -262,6 +300,13 @@
 
   .delivery-address {
     padding-bottom: 10px;
+  }
+
+  .create-account {
+    .password-info {
+      text-align: center;
+      font-size: 0.8em;
+    }
   }
 
   .delivery-form {

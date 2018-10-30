@@ -103,6 +103,15 @@ class CartItem
      */
     private $tax;
 
+    // === add methods ===
+    public function addQuantity($quantity)
+    {
+        $this->setQuantity($this->getQuantity() + $quantity);
+    }
+
+
+    // === generated methods ===
+
     /**
      * Set quantity.
      *

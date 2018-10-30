@@ -517,4 +517,28 @@ class Category
     {
         return $this->icon;
     }
+
+    /**
+     * Set type.
+     *
+     * @param int $type
+     *
+     * @return Category
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type.
+     *
+     * @return int
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 }

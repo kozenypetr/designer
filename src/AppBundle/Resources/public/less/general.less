@@ -2,6 +2,7 @@
 // @import url('https://fonts.googleapis.com/css?family=Ubuntu');
 // @import url('https://fonts.googleapis.com/css?family=K2D');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script:400,700&subset=latin-ext');
 
 @color1: #ccb39d;
 @color2: #b19780;
@@ -9,12 +10,14 @@
 @color4: #CDBB79;
 @color5: #F2F2F2;
 @color6: #06425C;
+@orange: #f60;
 
 @link-color: #5c5c5c;
 @box-border-radius: 5px;
 @border-radius-cart: 0px;
 // @dark-text: #5c5c5c;
 @dark-text: #3c3c3c;
+@dark-bg: #716960;
 
 @xs-min: 0;
 @sm-min: 576px;
@@ -43,10 +46,29 @@ a {
 }
 
 footer {
-  min-height: 150px;
+  min-height: 200px;
   background-color: #555;
-  color: #fff;
+  color: #ddd;
   margin-top: 30px;
+  padding: 30px 0;
+
+  box-shadow: 0 -5px 5px -5px #333;
+
+  a { color: #ddd; text-decoration: underline; }
+  a:hover { color: #fff }
+
+  .title { font-weight:bold; margin-bottom: 10px; margin-top: 10px; }
+
+  .foot-shipping-payment {
+
+    .line { margin: 10px 0 }
+  }
+
+  .foot-logo {
+    text-align: center;
+    font-family: 'Dancing Script';
+    font-size: 20px;
+  }
 }
 
 
@@ -86,4 +108,23 @@ footer {
   box-shadow: 0px 2px 8px #ddd;
   border-radius: @box-border-radius;
   padding: 10px;
+}
+
+.checkbox {
+  label {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+  }
+  input {
+    width: 13px;
+    height: 13px;
+    padding: 0;
+    margin:0;
+    vertical-align: bottom;
+    position: relative;
+    top: -3px;
+    left: -5px;
+    *overflow: hidden;
+  }
 }

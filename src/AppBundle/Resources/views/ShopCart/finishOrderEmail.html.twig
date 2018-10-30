@@ -42,7 +42,7 @@
                                         {% for item in order.items %}
                                         <tr>
                                             <td>&nbsp;</td>
-                                            <td valign="top"><img width="100%" src="https://www.gowood.cz{{ path('image_cache', { id: item.product.images[0].id, setting: '200x150x1'}) }}" /></td>
+                                            <td valign="top"><img width="100%" src="{{ app.request.getSchemeAndHttpHost }}{{ path('image_cache', { id: item.product.images[0].id, setting: '200x150x1'}) }}" /></td>
                                             <td style="padding:5px 10px" valign="center">
                                                 <b>{{ item.name }}</b> ({{ item.model }})
 
@@ -111,6 +111,13 @@
                                     <h2 style="font-family:Arial;color:#0b3166;font-size:23px;padding:10px;margin-top: 10px; margin-bottom: 10px;">Platba</h2>
 
                                     <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Způsob platby: <b>{{ order.paymentName }}</b></p>
+
+                                    {% id order.paymentCode == 'transfer' %}
+                                        <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Platbu prosím pošlete na účet <strong></strong>115-1652560227 / 0100</strong> (Komerční banka, a.s.)</p><br />
+                                    Variabilní symbol: <strong>{{ order.getPaymentReference }}</strong>
+
+                                    {% endif %}
+
                                     <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">
                                         <b>Fakturační adresa</b><br><br>
                                         <strong>{{ order.billingName }}</strong><br />
@@ -158,7 +165,8 @@
                             <table width="100%" cellspacing="0" cellpadding="0" border="0">
                                 <tbody><tr>
                                     <td>
-                                        <a href="https://www.alza.cz/aby-vam-slevy-uz-neutekly-art16669.htm" style="font-family:Segoe UI,Arial,Verdana;font-size:14px;color:silver" target="_blank" rel="noopener"><center><span>Podívejte se, jak neminout žádnou z našich slevových akcí.</span></center></a>
+                                        <p>Přikládáme plné znění našich <a href="{{ app.request.getSchemeAndHttpHost }}{{ path('page_terms') }}">obchodních podmínek</a>.<p>
+                                        <p>Máte jakoukoli otázku? Něco nesedí? Pište na info@gowood.cz nebo volejte na 728 870 246.
                                     </td>
                                 </tr>
                                 <tr style="height:10px;line-height:10px">

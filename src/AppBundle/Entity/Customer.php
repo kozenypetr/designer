@@ -58,6 +58,17 @@ class Customer extends BaseCustomer implements UserInterface, \Serializable
      */
     private $isActive = true;
 
+    /**
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private $resetPasswordHash;
+
+    /**
+     * @var \DateTime $updated
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $resetPasswordExpireAt;
+
 
     /**
      * @var \DateTime $created
@@ -76,22 +87,6 @@ class Customer extends BaseCustomer implements UserInterface, \Serializable
     private $updated;
 
 
-    public function fromCart(Cart $cart)
-    {
-        $this->setEmail($cart->getEmail());
-
-        $this->setBillingName($cart->getBillingName());
-        $this->setBillingAddress($cart->getBillingAddress());
-        $this->setBillingCity($cart->getBillingCity());
-        $this->setBillingPostcode($cart->getBillingPostcode());
-
-        $this->setDeliveryName($cart->getDeliveryName());
-        $this->setDeliveryAddress($cart->getDeliveryAddress());
-        $this->setDeliveryCity($cart->getDeliveryCity());
-        $this->setDeliveryPostcode($cart->getDeliveryPostcode());
-    }
-
-
     public function getUsername()
     {
         return $this->email;
@@ -99,7 +94,7 @@ class Customer extends BaseCustomer implements UserInterface, \Serializable
 
 
     public function getPassword() {
-        return $this->getPassword();
+        return $this->password;
     }
 
 
@@ -263,5 +258,53 @@ class Customer extends BaseCustomer implements UserInterface, \Serializable
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set resetPasswordHash.
+     *
+     * @param string|null $resetPasswordHash
+     *
+     * @return Customer
+     */
+    public function setResetPasswordHash($resetPasswordHash = null)
+    {
+        $this->resetPasswordHash = $resetPasswordHash;
+
+        return $this;
+    }
+
+    /**
+     * Get resetPasswordHash.
+     *
+     * @return string|null
+     */
+    public function getResetPasswordHash()
+    {
+        return $this->resetPasswordHash;
+    }
+
+    /**
+     * Set resetPasswordExpireAt.
+     *
+     * @param \DateTime|null $resetPasswordExpireAt
+     *
+     * @return Customer
+     */
+    public function setResetPasswordExpireAt($resetPasswordExpireAt = null)
+    {
+        $this->resetPasswordExpireAt = $resetPasswordExpireAt;
+
+        return $this;
+    }
+
+    /**
+     * Get resetPasswordExpireAt.
+     *
+     * @return \DateTime|null
+     */
+    public function getResetPasswordExpireAt()
+    {
+        return $this->resetPasswordExpireAt;
     }
 }

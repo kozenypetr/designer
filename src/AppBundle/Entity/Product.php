@@ -9,6 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Image;
 use AppBundle\Entity\Attribute;
+use AppBundle\Entity\Material;
 
 
 /**
@@ -149,6 +150,16 @@ class Product
      */
     private $categories;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Event", inversedBy="products")
+     * @ORM\JoinTable(
+     *      name="product_event",
+     *      joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
+     * )
+     */
+    private $events;
+
 
     /**
      * Many Products have One Category.
@@ -230,6 +241,14 @@ class Product
      * @ORM\Column(name="module", type="string", length=255, nullable=true)
      */
     private $module;
+
+
+    /**
+     * Many Products have One Material.
+     * @ORM\ManyToOne(targetEntity="Material", inversedBy="products")
+     * @ORM\JoinColumn(name="material_id", referencedColumnName="id")
+     */
+    private $material;
     
     
     public function __construct()
@@ -981,5 +1000,65 @@ class Product
     public function getIsTop()
     {
         return $this->isTop;
+    }
+
+    /**
+     * Set material.
+     *
+     * @param \AppBundle\Entity\Material|null $material
+     *
+     * @return Product
+     */
+    public function setMaterial(\AppBundle\Entity\Material $material = null)
+    {
+        $this->material = $material;
+
+        return $this;
+    }
+
+    /**
+     * Get material.
+     *
+     * @return \AppBundle\Entity\Material|null
+     */
+    public function getMaterial()
+    {
+        return $this->material;
+    }
+
+    /**
+     * Add event.
+     *
+     * @param \AppBundle\Entity\Event $event
+     *
+     * @return Product
+     */
+    public function addEvent(\AppBundle\Entity\Event $event)
+    {
+        $this->events[] = $event;
+
+        return $this;
+    }
+
+    /**
+     * Remove event.
+     *
+     * @param \AppBundle\Entity\Event $event
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeEvent(\AppBundle\Entity\Event $event)
+    {
+        return $this->events->removeElement($event);
+    }
+
+    /**
+     * Get events.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEvents()
+    {
+        return $this->events;
     }
 }

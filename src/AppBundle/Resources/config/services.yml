@@ -2,3 +2,20 @@ services:
   cart.manager:
     class:    AppBundle\Manager\CartManager
     autowire: true
+
+  order.manager:
+    class:    AppBundle\Manager\OrderManager
+    autowire: true
+
+  shop.mailer:
+    class:    AppBundle\Service\Mailer
+
+  customer_authenticator:
+    class:    AppBundle\Security\CustomerAuthenticator
+    autowire: true
+
+  unique.email.validator:
+    class: AppBundle\Validator\Constraints\CustomerEmailValidator
+    autowire: true
+    tags:
+      - { name: validator.constraint_validator, alias: unqiue.email.validator }

@@ -44,8 +44,9 @@ class ProductAdmin extends AbstractAdmin
       ->with('Kategorie', array('class' => 'col-md-3'))
         ->add('mainCategory', 'sonata_type_model', array('class' => 'AppBundle\Entity\Category', 'label' => 'Hlavní kategorie', 'expanded' => false, 'multiple' => false))
         ->add('categories', 'sonata_type_model', array('class' => 'AppBundle\Entity\Category', 'label' => 'Kategorie produktu', 'expanded' => true, 'multiple' => true))
+        ->add('events', 'sonata_type_model', array('class' => 'AppBundle\Entity\Event', 'label' => 'Události', 'expanded' => true, 'multiple' => true))
+        ->add('material', null, array('label' => 'Materiál', 'expanded' => false, 'multiple' => false))
       ->end()
-
       ->with('Atributy', array('class' => 'col-md-9 '))
         ->add('attributes', CollectionType::class, [
             'label' => false,

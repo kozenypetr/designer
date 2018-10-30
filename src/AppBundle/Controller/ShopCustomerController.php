@@ -25,6 +25,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class ShopCustomerController extends Controller
 {
 
+
+    protected function getCustomer()
+    {
+        $customer = $this->getUser(); // $this->get('security.token_storage')->getToken()->getUser();
+        if (!is_object($customer))
+        {
+            $customer = null;
+        }
+        // dump($customer);
+        // dump($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY'));
+        return $customer;
+    }
+
     /**
      * @Route("/objednavka/zakaznik", name="shop_customer")
      * @Method({"GET", "POST"})
@@ -33,6 +46,8 @@ class ShopCustomerController extends Controller
     {
         $cm = $this->get('cart.manager');
         $em = $this->getDoctrine()->getManager();
+
+        $customer = $this->getCustomer();
 
         // @TODO kontrola obsahu kosiku + nastaveni dopravy a platby
         $valid = true;
@@ -59,8 +74,18 @@ class ShopCustomerController extends Controller
             return $this->redirectToRoute('shop_cart');
         }
 
+        $billingFormOptions = [];
+        if ($request->isMethod('POST'))
+        {
+            $billingData = $request->get('customer_billing');
+            if ($billingData['is_create_account'])
+            {
+                $billingFormOptions['registration'] = true;
+            }
+        }
+
         // formular pro fakturacni adresu
-        $billingForm = $this->createForm(CustomerBillingType::class);
+        $billingForm = $this->createForm(CustomerBillingType::class, null, $billingFormOptions);
         $billingForm->setData($cm->cart->getBillingData());
 
         // formular pro dodaci adresu
@@ -68,14 +93,12 @@ class ShopCustomerController extends Controller
         $deliveryForm->setData($cm->cart->getDeliveryData());
 
         // formular pro zadani hesla
-        $passwordForm = $this->createForm(CustomerPasswordType::class);
+        $passwordForm = $this->createForm(CustomerPasswordType::class, null, array('csrf_protection' => false));
 
         // po odeslani formulare provedeme validaci a ulozime data
         if ($request->isMethod('POST'))
         {
             $billingForm->handleRequest($request);
-
-            $passwordForm->handleRequest($request);
 
             // validace fakturacni adresy
             if ($billingForm->isValid())
@@ -96,13 +119,15 @@ class ShopCustomerController extends Controller
 
                 if ($billingForm->get('is_create_account')->getViewData())
                 {
+                    $passwordForm->handleRequest($request);
+                    dump($passwordForm->isValid());
                     if ($passwordForm->isValid())
                     {
                         $passwordData = $passwordForm->getData();
 
                         // vytvorime zakaznika
                         $customer = new Customer();
-                        $customer->fromCart($cm->cart);
+                        $customer->setFromObject($cm->cart);
 
                         // vytvorime heslo
                         $password = $passwordEncoder->encodePassword($customer, $passwordData['plainPassword']);
@@ -112,6 +137,9 @@ class ShopCustomerController extends Controller
 
                         $em->persist($customer);
                         $em->flush();
+
+                        // prihlaseni zakaznika
+
 
                         $cm->flush();
                     }
@@ -125,9 +153,16 @@ class ShopCustomerController extends Controller
 
                 if ($valid)
                 {
+                    if ($this->getUser()) {
+                        $this->getUser()->setFromObject($cm->cart);
+                        $em->flush();
+                    }
+
                     return $this->redirectToRoute('shop_summary');
                 }
             }
+
+
 
             /*if ($billingForm->getData()['is_delivery'])
             {

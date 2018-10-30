@@ -10,6 +10,8 @@ use AppBundle\Entity\BaseCustomer;
 use AppBundle\Entity\Shipping;
 use AppBundle\Entity\Payment;
 use AppBundle\Entity\Customer;
+use AppBundle\Entity\OrderStatus;
+use AppBundle\Entity\OrderStatusHistory;
 
 
 /**
@@ -35,6 +37,13 @@ class Order extends BaseCustomer
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
     private $email;
+
+    /**
+     * Many Cart have One Shipping.
+     * @ORM\ManyToOne(targetEntity="Shipping")
+     * @ORM\JoinColumn(name="shipping_id", referencedColumnName="id")
+     */
+    private $shipping;
 
     /**
      * @var string
@@ -70,6 +79,14 @@ class Order extends BaseCustomer
      * @ORM\Column(name="shipping_parameters", type="json", nullable=true)
      */
     private $shippingParameters;
+
+
+    /**
+     * Many Cart have One Payment.
+     * @ORM\ManyToOne(targetEntity="Payment")
+     * @ORM\JoinColumn(name="payment_id", referencedColumnName="id")
+     */
+    private $payment;
 
     /**
      * @var string
@@ -144,10 +161,18 @@ class Order extends BaseCustomer
     /**
      * Cart
      *
-     * @var CartItem
+     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="OrderItem", mappedBy="order", cascade={"persist"})
      */
     protected $items;
+
+    /**
+     * Cart
+     *
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="OrderStatusHistory", mappedBy="order", cascade={"persist"})
+     */
+    protected $history;
 
     /**
      * Zakaznik
@@ -156,6 +181,35 @@ class Order extends BaseCustomer
      */
     protected $customer = null;
 
+    /**
+     * Stav objednavky
+     * @ORM\ManyToOne(targetEntity="OrderStatus")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     */
+    protected $status = null;
+
+    /**
+     * @var decimal $weight
+     *
+     * @ORM\Column(name="weight", type="decimal", precision=15, scale=4, nullable=true)
+     */
+    private $weight;
+
+    /**
+     * @var string $packageId
+     *
+     * @ORM\Column(name="package_id", type="string", length=255, nullable=true)
+     */
+    private $packageId;
+
+    /**
+     * @var \DateTime $created
+     *
+     * @ORM\Column(name="estimated_delivery_date", type="datetime", nullable=true)
+     */
+    private $estimatedDeliveryDate;
+
+    
     /**
      * @var \DateTime $created
      *
@@ -175,9 +229,22 @@ class Order extends BaseCustomer
 
     public function __construct()
     {
-      $this->items = new ArrayCollection();
+      $this->items   = new ArrayCollection();
+      $this->history = new ArrayCollection();
     }
 
+    // === add methods ===
+    public function estDateFormat()
+    {
+        return $this->getEstimatedDeliveryDate();
+    }
+
+    public function getPaymentReference()
+    {
+        return $this->getId();
+    }
+
+    // === generated methods
 
     /**
      * Get id.
@@ -630,6 +697,8 @@ class Order extends BaseCustomer
      */
     public function addItem(\AppBundle\Entity\OrderItem $item)
     {
+        $item->setOrder($this);
+
         $this->items[] = $item;
 
         $item->setOrder($this);
@@ -681,5 +750,187 @@ class Order extends BaseCustomer
     public function getCustomer()
     {
         return $this->customer;
+    }
+
+    /**
+     * Set status.
+     *
+     * @param \AppBundle\Entity\OrderStatus|null $status
+     *
+     * @return Order
+     */
+    public function setStatus(\AppBundle\Entity\OrderStatus $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status.
+     *
+     * @return \AppBundle\Entity\OrderStatus|null
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Add history.
+     *
+     * @param \AppBundle\Entity\OrderStatusHistory $history
+     *
+     * @return Order
+     */
+    public function addHistory(\AppBundle\Entity\OrderStatusHistory $history)
+    {
+        $history->setOrder($this);
+
+        $this->history[] = $history;
+
+        return $this;
+    }
+
+    /**
+     * Remove history.
+     *
+     * @param \AppBundle\Entity\OrderStatusHistory $history
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeHistory(\AppBundle\Entity\OrderStatusHistory $history)
+    {
+        return $this->history->removeElement($history);
+    }
+
+    /**
+     * Get history.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getHistory()
+    {
+        return $this->history;
+    }
+
+    /**
+     * Set packageId.
+     *
+     * @param string|null $packageId
+     *
+     * @return Order
+     */
+    public function setPackageId($packageId = null)
+    {
+        $this->packageId = $packageId;
+
+        return $this;
+    }
+
+    /**
+     * Get packageId.
+     *
+     * @return string|null
+     */
+    public function getPackageId()
+    {
+        return $this->packageId;
+    }
+
+    /**
+     * Set estimatedDeliveryDate.
+     *
+     * @param \DateTime|null $estimatedDeliveryDate
+     *
+     * @return Order
+     */
+    public function setEstimatedDeliveryDate($estimatedDeliveryDate = null)
+    {
+        $this->estimatedDeliveryDate = $estimatedDeliveryDate;
+
+        return $this;
+    }
+
+    /**
+     * Get estimatedDeliveryDate.
+     *
+     * @return \DateTime|null
+     */
+    public function getEstimatedDeliveryDate()
+    {
+        return $this->estimatedDeliveryDate;
+    }
+
+    /**
+     * Set weight.
+     *
+     * @param string|null $weight
+     *
+     * @return Order
+     */
+    public function setWeight($weight = null)
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    /**
+     * Get weight.
+     *
+     * @return string|null
+     */
+    public function getWeight()
+    {
+        return $this->weight;
+    }
+
+    /**
+     * Set shipping.
+     *
+     * @param \AppBundle\Entity\Shipping|null $shipping
+     *
+     * @return Order
+     */
+    public function setShipping(\AppBundle\Entity\Shipping $shipping = null)
+    {
+        $this->shipping = $shipping;
+
+        return $this;
+    }
+
+    /**
+     * Get shipping.
+     *
+     * @return \AppBundle\Entity\Shipping|null
+     */
+    public function getShipping()
+    {
+        return $this->shipping;
+    }
+
+    /**
+     * Set payment.
+     *
+     * @param \AppBundle\Entity\Payment|null $payment
+     *
+     * @return Order
+     */
+    public function setPayment(\AppBundle\Entity\Payment $payment = null)
+    {
+        $this->payment = $payment;
+
+        return $this;
+    }
+
+    /**
+     * Get payment.
+     *
+     * @return \AppBundle\Entity\Payment|null
+     */
+    public function getPayment()
+    {
+        return $this->payment;
     }
 }

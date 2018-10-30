@@ -31,6 +31,7 @@ class ShippingAdmin extends AbstractAdmin
         ->add('is_active', 'checkbox', array('label' => 'Aktivní', 'required' => false))
         ->add('full_address', 'checkbox', array('label' => 'Plná adresa', 'required' => false))
         ->add('description', 'textarea', array('label' => 'Popis', 'required' => false, 'attr' => array('class' => 'ckeditor')))
+        // ->add('text', 'textarea', array('label' => 'Text u objednávky', 'required' => false, 'attr' => array('class' => 'tiny')))
         ->add('priceTable', 'textarea', array('label' => 'Cenová tabulka', 'required' => false))
         ->add('sort', null, array('label' => 'Řazení', 'required' => false))
       ->end()

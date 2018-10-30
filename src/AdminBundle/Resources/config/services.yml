@@ -1,40 +1,64 @@
 services:
 
+    admin.shop.order:
+        class: AdminBundle\Admin\OrderAdmin
+        arguments: [~, AppBundle\Entity\Order, ~]
+        tags:
+          - { name: sonata.admin, manager_type: orm, label: Objednávky, group: "Zákazník", show_in_dashboard: "true" }
+        calls:
+          - [ setOrderManager, [ "@order.manager" ]]
+        public: true
+
     admin.shop.category:
         class: AdminBundle\Admin\CategoryAdmin
         arguments: [~, AppBundle\Entity\Category, ~]
         tags:
-          - { name: sonata.admin, manager_type: orm, label: Kategorie, group: "Eshop", show_in_dashboard: "true" }
+          - { name: sonata.admin, manager_type: orm, label: Kategorie, group: "Katalog", show_in_dashboard: "true" }
         public: true
 
     admin.shop.product:
         class: AdminBundle\Admin\ProductAdmin
         arguments: [~, AppBundle\Entity\Product, AdminBundle\Controller\CRUDController]
         tags:
-          - { name: sonata.admin, manager_type: orm, label: Produkty, group: "Eshop", show_in_dashboard: "true" }
+          - { name: sonata.admin, manager_type: orm, label: Produkty, group: "Katalog", show_in_dashboard: "true" }
         calls:
           - [ setTemplate, [edit, "AdminBundle::ProductAdmin/edit.html.twig"]]
         public: true
+
+    admin.shop.event:
+            class: AdminBundle\Admin\EventAdmin
+            arguments: [~, AppBundle\Entity\Event, ~]
+            tags:
+              - { name: sonata.admin, manager_type: orm, label: Události, group: "Katalog", show_in_dashboard: "true" }
+            public: true
+
+    admin.shop.material:
+        class: AdminBundle\Admin\MaterialAdmin
+        arguments: [~, AppBundle\Entity\Material, ~]
+        tags:
+          - { name: sonata.admin, manager_type: orm, label: Materiál, group: "Katalog", show_in_dashboard: "true" }
+        public: true
+
 
     admin.shop.shipping:
         class: AdminBundle\Admin\ShippingAdmin
         arguments: [~, AppBundle\Entity\Shipping, ~]
         tags:
-          - { name: sonata.admin, manager_type: orm, label: Dopravy, group: "Eshop", show_in_dashboard: "true" }
+          - { name: sonata.admin, manager_type: orm, label: Dopravy, group: "Dopravy a platby", show_in_dashboard: "true" }
         public: true
 
     admin.shop.payment:
         class: AdminBundle\Admin\PaymentAdmin
         arguments: [~, AppBundle\Entity\Payment, ~ ]
         tags:
-          - { name: sonata.admin, manager_type: orm, label: Platby, group: "Eshop", show_in_dashboard: "true" }
+          - { name: sonata.admin, manager_type: orm, label: Platby, group: "Dopravy a platby", show_in_dashboard: "true" }
         public: true
 
-    admin.shop.order:
-        class: AdminBundle\Admin\OrderAdmin
-        arguments: [~, AppBundle\Entity\Order, ~]
+    admin.shop.order_status:
+        class: AdminBundle\Admin\OrderStatusAdmin
+        arguments: [~, AppBundle\Entity\OrderStatus, ~]
         tags:
-          - { name: sonata.admin, manager_type: orm, label: Objednávky, group: "Eshop", show_in_dashboard: "true" }
+          - { name: sonata.admin, manager_type: orm, label: Stavy objednávek, group: "Nastavení", show_in_dashboard: "true" }
         public: true
 
     admin.shop.order_item:
@@ -42,6 +66,13 @@ services:
         arguments: [~, AppBundle\Entity\OrderItem, ~]
         tags:
           - { name: sonata.admin, manager_type: orm, label: Objednávky položka, show_in_dashboard: "false" }
+        public: true
+
+    admin.shop.order_status_history:
+        class: AdminBundle\Admin\OrderStatusHistoryAdmin
+        arguments: [~, AppBundle\Entity\OrderStatusHistory, ~]
+        tags:
+          - { name: sonata.admin, manager_type: orm, label: Historie objednávky, show_in_dashboard: "false" }
         public: true
 
     admin.shop.attribute:

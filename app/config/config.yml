@@ -107,8 +107,15 @@ sonata_admin:
           - bundles/fosjsrouting/js/router.min.js
     dashboard:
         groups:
-            Eshop:
-                icon:  '<i class="fa fa-money"></i>'
+            Zákazník:
+                icon:  '<i class="fa fa-users"></i>'
+            Katalog:
+                icon:  '<i class="fa fa-list-alt"></i>'
+            Dopravy a platby:
+                icon:  '<i class="fa fa-truck"></i><i class="fa fa-money"></i>'
+            Nastavení:
+                icon:  '<i class="fa fa-cogs"></i>'
+
 
 #sonata_intl:
 #    timezone:
@@ -220,6 +227,15 @@ liip_imagine :
                 # create a thumbnail: set size to 120x90 and use the "outbound" mode
                 # to crop the image when the size ratio of the input differs
                 thumbnail  : { size : [800 , 600],  mode : inset }
+
+        reference:
+                    # adjust the image quality to 75%
+            quality : 85
+                    # list of transformations to apply (the "filters")
+            filters :
+                # create a thumbnail: set size to 120x90 and use the "outbound" mode
+                # to crop the image when the size ratio of the input differs
+                thumbnail  : { size : [800 , 600],  mode : outbound }
 
 #knp_doctrine_behaviors:
 #    translatable: true

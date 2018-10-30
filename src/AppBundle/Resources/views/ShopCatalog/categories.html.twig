@@ -10,4 +10,33 @@
         </li>
     {% endfor %}
     </ul>
+
+    <div class="title">Podle události</div>
+
+    <ul>
+        {% for event in events %}
+            <li>
+
+                <a href="{{ path('shop_catalog_event', { slug: event.slug }) }}">
+                    <i class="fas {{ event.icon ? event.icon : 'fa-angle-right' }}"></i>
+                    <span>{{ event.name }}</span>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="title">Podle materiálu</div>
+
+    <ul>
+        {% for material in materials %}
+            <li>
+
+                <a href="{{ path('shop_catalog_material', { slug: material.slug }) }}">
+                    <i class="fas {{ material.icon ? material.icon : 'fa-angle-right' }}"></i>
+                    <span>{{ material.listName }}</span>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
 </div>

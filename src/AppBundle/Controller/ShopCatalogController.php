@@ -55,6 +55,41 @@ class ShopCatalogController extends Controller
     }
 
     /**
+     * @Route("/material/{slug}", name="shop_catalog_material")
+     */
+    public function materialAction(Request $request, $slug)
+    {
+        $this->em = $this->getDoctrine()->getManager();
+
+        $material = $this->em->getRepository('AppBundle:Material')->findOneBySlug($slug);
+
+        if (!$material)
+        {
+            throw $this->createNotFoundException('Material neexistuje');
+        }
+
+        return $this->render('AppBundle:ShopCatalog:list.html.twig', array('category' => $material));
+    }
+
+    /**
+     * @Route("/udalost/{slug}", name="shop_catalog_event")
+     */
+    public function eventAction(Request $request, $slug)
+    {
+        $this->em = $this->getDoctrine()->getManager();
+
+        $event = $this->em->getRepository('AppBundle:Event')->findOneBySlug($slug);
+
+        if (!$event)
+        {
+            throw $this->createNotFoundException('Událost neexistuje');
+        }
+
+        return $this->render('AppBundle:ShopCatalog:list.html.twig', array('category' => $event));
+    }
+
+
+    /**
      * @Route("/produkt/{slug}", name="shop_catalog_detail")
      */
     public function detailAction(Request $request, $slug)
@@ -117,7 +152,11 @@ class ShopCatalogController extends Controller
 
         $categories = $this->em->getRepository('AppBundle:Category')->findAllActive();
 
-        return $this->render('AppBundle:ShopCatalog:categories.html.twig', array('categories' => $categories));
+        $events = $this->em->getRepository('AppBundle:Event')->findAllActive();
+
+        $materials  = $this->em->getRepository('AppBundle:Material')->findAllActive();
+
+        return $this->render('AppBundle:ShopCatalog:categories.html.twig', array('categories' => $categories, 'materials' => $materials, 'events' => $events));
     }
 
 }

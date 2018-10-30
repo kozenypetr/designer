@@ -127,6 +127,30 @@ abstract class BaseCustomer
     private $billingPostcode;
 
 
+    public function setFromObject($object, $withEmail = true)
+    {
+        if ($withEmail)
+        {
+            $this->setEmail($object->getEmail());
+        }
+        $this->setPhone($object->getPhone());
+        $this->setBillingName($object->getBillingName());
+        $this->setBillingCompany($object->getBillingCompany());
+        $this->setBillingAddress($object->getBillingAddress());
+        $this->setBillingCity($object->getBillingCity());
+        $this->setBillingPostcode($object->getBillingPostcode());
+        $this->setBillingIco($object->getBillingIco());
+        $this->setBillingDic($object->getBillingDic());
+
+        $this->setIsDelivery($object->getIsDelivery());
+        $this->setDeliveryName($object->getDeliveryName());
+        $this->setDeliveryCompany($object->getDeliveryCompany());
+        $this->setDeliveryAddress($object->getDeliveryAddress());
+        $this->setDeliveryCity($object->getDeliveryCity());
+        $this->setDeliveryPostcode($object->getDeliveryPostcode());
+        $this->setDeliveryPhone($object->getDeliveryPhone());
+    }
+
     /**
      * Informace o fakturacni adrese v poli
      * @return array
@@ -136,6 +160,7 @@ abstract class BaseCustomer
         return [
             'email' => $this->getEmail(),
             'phone' => $this->getPhone(),
+            'order_note' => $this->getOrderNote(),
             'billing_name' => $this->getBillingName(),
             'billing_company' => $this->getBillingCompany(),
             'billing_ico' => $this->getBillingIco(),
@@ -181,6 +206,7 @@ abstract class BaseCustomer
     {
         $this->setEmail($data['email']);
         $this->setPhone($data['phone']);
+        $this->setOrderNote($data['order_note']);
         $this->setBillingName($data['billing_name']);
         $this->setBillingCompany($data['billing_company']);
         $this->setBillingIco($data['billing_ico']);

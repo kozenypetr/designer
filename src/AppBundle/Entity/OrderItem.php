@@ -107,6 +107,7 @@ class OrderItem
      */
     private $updated;
 
+    // === generated methods
 
     public function __toString() {
         return (string)$this->getId();

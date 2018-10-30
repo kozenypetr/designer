@@ -6,8 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-use AppBundle\Entity\Category;
-use AppBundle\Entity\Image;
+use AppBundle\Entity\OrderStatus;
+use AppBundle\Entity\Shipping;
 
 
 /**
@@ -82,6 +82,15 @@ class Payment
      * @ORM\ManyToMany(targetEntity="Shipping", inversedBy="payments")
      */
     private $shippings;
+
+
+    /**
+     * Stav objednavky
+     * @ORM\ManyToOne(targetEntity="OrderStatus")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     */
+    protected $status = null;
+
 
     /**
      * @var string
@@ -401,5 +410,29 @@ class Payment
     public function getTime()
     {
         return $this->time;
+    }
+
+    /**
+     * Set status.
+     *
+     * @param \AppBundle\Entity\OrderStatus|null $status
+     *
+     * @return Payment
+     */
+    public function setStatus(\AppBundle\Entity\OrderStatus $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status.
+     *
+     * @return \AppBundle\Entity\OrderStatus|null
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

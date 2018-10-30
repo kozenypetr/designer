@@ -20,7 +20,7 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));</script>
 
-
+        <div align="center" class="alert alert-danger">Testovací provoz eshopu - obchod spustíme do ostrého provozu 11. 11. 2018 v 11:11 hodin :)</div>
         <header>
             <div class="container">
                 <div class="row">
@@ -32,7 +32,7 @@
                     <div class="col-md-4 d-sm-none d-none ml-auto d-md-block search-contact">
                         <div class="contact row">
                             <div class="col-lg-6 col-md-12 phone">
-                                <span class="d-none d-md-block"><i class="fas fa-phone"></i> +420728870246</span>
+                                <span class="d-none d-md-block"><i class="fas fa-phone"></i> +420 728 870 246</span>
                             </div>
                             <div class="col-lg-6 col-md-12 email"><i class="fas fa-envelope"></i> <a href="mailto:info@gowood.cz"><span>
                             info@gowood.cz</span></a></div>
@@ -50,12 +50,13 @@
                         </div>
                     </div>
                     <div class="cart col-md-4 col-sm-6 col-6 ml-auto d-md-block header-cart-box">
+                        {% include 'AppBundle:ShopCustomer/boxes:head.html.twig' %}
                         {% include 'AppBundle:ShopCart/boxes:head-cart.html.twig' %}
                     </div>
                     <div class="col-12 d-block d-sm-block d-md-none search-contact">
                         <div class="contact row">
                             <div class="col-6 phone">
-                                <a href="tel:+420728870246" title="Telefon"><span><i class="fas fa-phone"></i> +420728870246</span></a>
+                                <a href="tel:+420728870246" title="Telefon"><span><i class="fas fa-phone"></i> +420 728 870 246</span></a>
                             </div>
                             <div class="col-6 email">
                                 <a href="mailto:info@gowood.cz"><span><i class="fas fa-envelope"></i>
@@ -79,15 +80,17 @@
                 <div class="container">
                 <ul>
                     <li><a href="/">E-shop</a></li>
-                    <li><a href="/">O nás</a></li>
+                    <li><a href="{{ path('page_about_us') }}">O nás</a></li>
                     <li><a href="/">Vše o nákupu</a></li>
                     <li><a href="/">Blog</a></li>
-                    <li><a href="/">Pro firmy</a></li>
-                    <li><a href="/">Obchodní podmínky</a></li>
-                    <li><a href="/">Kontakt</a></li>
+                    <li><a href="{{ path('page_for_companies') }}">Pro firmy</a></li>
+                    <li><a href="{{ path('page_terms') }}">Obchodní podmínky</a></li>
+                    <li><a href="{{ path('page_contact') }}">Kontakt</a></li>
                 </ul>
                 </div>
             </div>
+
+
 
         </header>
         {#
@@ -114,7 +117,52 @@
         </section>
 
         <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 foot-logo"><img width="200" src="/images/logo_v1_white.png" alt="GOWOOD.CZ" />
+                        <p>Radost ze dřeva</p>
+                    </div>
+                    <div class="col-md-3 links">
+                        <a href="/">O nás</a><br />
+                        <a href="/">Vše o nákupu</a><br />
+                        <a href="/">Blog</a><br />
+                        <a href="/">Pro firmy</a><br />
+                        <a href="/">Obchodní podmínky</a><br />
+                        <a href="/">Kontakt</a><br />
+                    </div>
+                    <div class="col-md-3 foot-shipping-payment">
+                        <div class="title">Dopravci</div>
+                        <div class="line">
+                            <img src="/images/shipping/img-dpd.png">
+                            <img src="/images/shipping/img-post.png">
+                            <img src="/images/shipping/img-zasilkovna.png">
+                        </div>
 
+                        <div class="title">Platební systémy</div>
+                        <div class="line"><img src="/images/payment/img-gopay.png"></div>
+                        <div class="line">
+                            <img src="/images/payment/img-visa.png">
+                            <img src="/images/payment/img-visa-el.png">
+                            <img src="/images/payment/img-maestro.png">
+                        </div>
+                        <div class="line">
+                            <img src="/images/payment/img-mastercard.png">
+                            <img src="/images/payment/img-mastercard-el.png">
+
+                        </div>
+                    </div>
+                    <div class="col-md-3 contact">
+                        <div class="title">Kontakt</div>
+                        Petr Kožený<br />
+                        Jižní 378, Třebestovice 289 12<br />
+
+                        <a href="mailto:info@gowood.cz">info@gowood.cz</a><br />
+
+                        +420 728 870 246<br />
+
+                    </div>
+                </div>
+            </div>
         </footer>
 
 

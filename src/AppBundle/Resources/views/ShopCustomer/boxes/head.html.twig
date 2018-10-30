@@ -1,0 +1,7 @@
+<div class="header-customer">
+    {% if app.user %}
+        <i class="fas fa-user"></i> {{ app.user.email }} | <a href="{{ path('logout') }}">Odhlásit</a>
+    {% else %}
+        <i class="fas fa-user"></i> <a href="{{ path('login') }}">Přihlášení</a>
+    {% endif %}
+</div>

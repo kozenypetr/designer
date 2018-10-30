@@ -15,11 +15,17 @@ security:
             fos_userbundle:
                 id: fos_user.user_provider.username
 
+            customer_db_provider:
+                entity:
+                    class: AppBundle:Customer
+                    property: email
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+
 
         admin:
             pattern:            /admin(.*)
@@ -38,12 +44,27 @@ security:
 
         main:
             pattern: ^/
-            form_login:
-                provider: fos_userbundle
-                csrf_token_generator: security.csrf.token_manager
+            #form_login:
+            #    provider: fos_userbundle
+            #    login_path: login
+            #    check_path: login
+                # csrf_token_generator: security.csrf.token_manager
+            simple_form:
+                 provider:      customer_db_provider
+                 authenticator: customer_authenticator
+                 check_path:    login
+                 login_path:    login
 
-            logout:       true
+            logout:
+                path:   /logout
+                target: /
+                invalidate_session: true
+                # https://codereviewvideos.com/course/symfony-3-for-beginners/video/adding-logout
+
             anonymous:    true
+            json_login:
+                provider:   customer_db_provider
+                check_path: /loginAjax
             # activate different ways to authenticate
 
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
