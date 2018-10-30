@@ -112,7 +112,7 @@
 
                                     <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Způsob platby: <b>{{ order.paymentName }}</b></p>
 
-                                    {% id order.paymentCode == 'transfer' %}
+                                    {% if order.paymentCode == 'transfer' %}
                                         <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Platbu prosím pošlete na účet <strong></strong>115-1652560227 / 0100</strong> (Komerční banka, a.s.)</p><br />
                                     Variabilní symbol: <strong>{{ order.getPaymentReference }}</strong>
 

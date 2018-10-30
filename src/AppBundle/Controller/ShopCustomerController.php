@@ -78,7 +78,7 @@ class ShopCustomerController extends Controller
         if ($request->isMethod('POST'))
         {
             $billingData = $request->get('customer_billing');
-            if ($billingData['is_create_account'])
+            if (isset($billingData['is_create_account']) && $billingData['is_create_account'])
             {
                 $billingFormOptions['registration'] = true;
             }
