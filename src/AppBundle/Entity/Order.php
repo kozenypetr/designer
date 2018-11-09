@@ -19,6 +19,7 @@ use AppBundle\Entity\OrderStatusHistory;
  *
  * @ORM\Table(name="shop_order")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OrderRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Order extends BaseCustomer
 {
@@ -123,6 +124,45 @@ class Order extends BaseCustomer
      */
     private $paymentParameters;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="gopay_id", type="string", length=255, nullable=true)
+     */
+    private $gopayId;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="gopay_state", type="string", length=255, nullable=true)
+     */
+    private $gopayState;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="gopay_substate", type="string", length=255, nullable=true)
+     */
+    private $gopaySubstate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="gopay_gw_url", type="string", length=255, nullable=true)
+     */
+    private $gopayGwUrl;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="gopay_js_url", type="string", length=255, nullable=true)
+     */
+    private $gopayJsUrl;
+
+
     /**
      * @var decimal
      *
@@ -150,6 +190,13 @@ class Order extends BaseCustomer
      * @ORM\Column(name="discount_coupon", type="string", length=255, nullable=true)
      */
     private $dicountCoupon;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="hash", type="string", length=255, nullable=true)
+     */
+    private $hash;
 
     /**
      * @var string
@@ -195,6 +242,8 @@ class Order extends BaseCustomer
      */
     private $weight;
 
+
+
     /**
      * @var string $packageId
      *
@@ -234,6 +283,97 @@ class Order extends BaseCustomer
     }
 
     // === add methods ===
+    /**
+     * @ORM\PrePersist
+     */
+    public function createHash()
+    {
+        $hash = md5(rand(0, 1000000) . $this->getBillingName() . 'sdA4df6rTfd');
+        $this->setHash($hash);
+    }
+
+
+    public function getGopaySubstateText()
+    {
+        $statuses = [];
+
+        $statuses['_101']  = 'Čekáme na provedení online platby.';
+        $statuses['_3001'] = 'Bankovní platba potvrzena avízem.';
+        $statuses['_3002'] = 'Bankovní platba potvrzena výpisem.';
+        $statuses['_3003'] = 'Bankovní platba nebyla potvrzena.';
+        $statuses['_5001'] = 'Schváleno s nulovou částkou';
+        $statuses['_5002'] = 'Zamítnutí platby v autorizačním centru banky zákazníka z důvodu dosažení limitů na platební kartě.';
+        $statuses['_5003'] = 'Zamítnutí platby v autorizačním centru banky zákazníka z důvodu problémů na straně vydavatele platební karty.';
+        $statuses['_5004'] = 'Zamítnutí platby v autorizačním centru banky zákazníka z důvodu problému na straně vydavatele platební karty.';
+        $statuses['_5005'] = 'Zamítnutí platby v autorizačním centru banky zákazníka z důvodu zablokované platební karty.';
+        $statuses['_5006'] = 'Zamítnutí platby v autorizačním centru banky zákazníka z důvodu nedostatku peněžních prostředků na platební kartě.';
+        $statuses['_5007'] = 'Zamítnutí platby v autorizačním centru banky zákazníka z důvodu expirované platební karty.';
+        $statuses['_5008'] = 'Zamítnutí platby v autorizačním centru banky zákazníka z důvodu zamítnutí CVV/CVC kódu.';
+        $statuses['_5009'] = 'Zamítnutí platby v systému 3D Secure banky zákazníka.';
+        $statuses['_5015'] = 'Zamítnutí platby v systému 3D Secure banky zákazníka.';
+        $statuses['_5017'] = 'Zamítnutí platby v systému 3D Secure banky zákazníka.';
+        $statuses['_5018'] = 'Zamítnutí platby v systému 3D Secure banky zákazníka.';
+        $statuses['_5019'] = 'Zamítnutí platby v systému 3D Secure banky zákazníka.';
+        $statuses['_6502'] = 'Zamítnutí platby v systému 3D Secure banky zákazníka.';
+        $statuses['_6504'] = 'Zamítnutí platby v systému 3D Secure banky zákazníka.';
+        $statuses['_5010'] = 'Zamítnutí platby v autorizačním centru banky zákazníka z důvodu problémů na platební kartě.';
+        $statuses['_5014'] = 'Zamítnutí platby v autorizačním centru banky zákazníka z důvodu problémů na platební kartě.';
+        $statuses['_5011'] = 'Zamítnutí platby v autorizačním centru banky zákazníka z důvodu problémů na účtu platební karty.';
+        $statuses['_5036'] = 'Zamítnutí platby v autorizačním centru banky zákazníka z důvodu problémů na účtu platební karty.';
+        $statuses['_5012'] = 'Zamítnutí platby v autorizačním centru banky zákazníka z důvodu technických problémů v autorizačním centru banky zákazníka.';
+        $statuses['_5013'] = 'Zamítnutí platby v autorizačním centru banky zákazníka z důvodu chybného zadání čísla platební karty.';
+        $statuses['_5016'] = 'Zamítnutí platby v autorizačním centru banky zákazníka, platba nebyla povolena na platební kartě zákazníka.';
+        $statuses['_5020'] = 'Neznámá konfigurace.';
+        $statuses['_5021'] = 'Zamítnutí platby v autorizačním centru banky zákazníka z důvodu dosažení nastavených limitů na platební kartě.';
+        $statuses['_5022'] = 'Nastal technický problém spojený s autorizačním centrem banky zákazníka.';
+        $statuses['_5023'] = 'Platba nebyla provedena.';
+        $statuses['_5038'] = 'Platba nebyla provedena.';
+        $statuses['_5024'] = 'Platba nebyla provedena. Platební údaje nebyly zadány v časovém limitu na platební bráně.';
+        $statuses['_5025'] = 'Platba nebyla provedena. Konkrétní důvod zamítnutí je sdělen přímo zákazníkovi.';
+        $statuses['_5026'] = 'Platba nebyla provedena. Součet kreditovaných částek překročil uhrazenou částku.';
+        $statuses['_5027'] = 'Platba nebyla provedena. Uživatel není oprávněn k provedení operace.';
+        $statuses['_5028'] = 'Platba nebyla provedena. Částka k úhradě překročila autorizovanou částku.';
+        $statuses['_5029'] = 'Platba zatím nebyla provedena.';
+        $statuses['_5030'] = 'Platba nebyla provedena z důvodu opakovaného zadání platby.';
+        $statuses['_5031'] = 'Při platbě nastal technický problém na straně banky.';
+        $statuses['_5033'] = 'SMS se nepodařilo doručit.';
+        $statuses['_5035'] = 'Platební karta je vydaná v regionu, ve kterém nejsou podporovány platby kartou.';
+        $statuses['_5037'] = 'Držitel platební karty zrušil platbu.';
+        $statuses['_5039'] = 'Platba byla zamítnuta v autorizačním centru banky zákazníka z důvodu zablokované platební karty.';
+        $statuses['_5040'] = 'Duplicitni reversal transakce';
+        $statuses['_5041'] = 'Duplicitní transakce';
+        $statuses['_5042'] = 'Bankovní platba byla zamítnuta.';
+        $statuses['_5043'] = 'Platba zrušena uživatelem.';
+        $statuses['_5044'] = 'SMS byla odeslána. Zatím se ji nepodařilo doručit.';
+        $statuses['_5045'] = 'Platba byla přijata. Platba bude připsána po zpracování v síti Bitcoin.';
+        $statuses['_5046'] = 'Platba nebyla uhrazena v plné výši.';
+        $statuses['_5047'] = 'Platba byla provedena po splatnosti.';
+
+        $output = null;
+        if ($this->getGopaySubstate() && isset($statuses[$this->getGopaySubstate()]))
+        {
+            $output = $statuses[$this->getGopaySubstate()];
+        }
+        return '<p>' . $output . '</p>';
+    }
+
+    public function isGopay()
+    {
+        return preg_match('|gopay|', $this->getPaymentCode());
+    }
+
+    public function changeStatus($status, $message = null)
+    {
+        $this->setStatus($status);
+        $history = new OrderStatusHistory();
+        $history->setStatus($status);
+        $history->setOrder($this);
+        $history->setMessage($message);
+
+        $this->addHistory($history);
+    }
+
+
     public function estDateFormat()
     {
         return $this->getEstimatedDeliveryDate();
@@ -932,5 +1072,149 @@ class Order extends BaseCustomer
     public function getPayment()
     {
         return $this->payment;
+    }
+
+    /**
+     * Set gopayId.
+     *
+     * @param string $gopayId
+     *
+     * @return Order
+     */
+    public function setGopayId($gopayId)
+    {
+        $this->gopayId = $gopayId;
+
+        return $this;
+    }
+
+    /**
+     * Get gopayId.
+     *
+     * @return string
+     */
+    public function getGopayId()
+    {
+        return $this->gopayId;
+    }
+
+    /**
+     * Set gopayState.
+     *
+     * @param string $gopayState
+     *
+     * @return Order
+     */
+    public function setGopayState($gopayState)
+    {
+        $this->gopayState = $gopayState;
+
+        return $this;
+    }
+
+    /**
+     * Get gopayState.
+     *
+     * @return string
+     */
+    public function getGopayState()
+    {
+        return $this->gopayState;
+    }
+
+    /**
+     * Set gopayGwUrl.
+     *
+     * @param string $gopayGwUrl
+     *
+     * @return Order
+     */
+    public function setGopayGwUrl($gopayGwUrl)
+    {
+        $this->gopayGwUrl = $gopayGwUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get gopayGwUrl.
+     *
+     * @return string
+     */
+    public function getGopayGwUrl()
+    {
+        return $this->gopayGwUrl;
+    }
+
+    /**
+     * Set gopayJsUrl.
+     *
+     * @param string $gopayJsUrl
+     *
+     * @return Order
+     */
+    public function setGopayJsUrl($gopayJsUrl)
+    {
+        $this->gopayJsUrl = $gopayJsUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get gopayJsUrl.
+     *
+     * @return string
+     */
+    public function getGopayJsUrl()
+    {
+        return $this->gopayJsUrl;
+    }
+
+    /**
+     * Set gopaySubstate.
+     *
+     * @param string|null $gopaySubstate
+     *
+     * @return Order
+     */
+    public function setGopaySubstate($gopaySubstate = null)
+    {
+        $this->gopaySubstate = $gopaySubstate;
+
+        return $this;
+    }
+
+    /**
+     * Get gopaySubstate.
+     *
+     * @return string|null
+     */
+    public function getGopaySubstate()
+    {
+        return $this->gopaySubstate;
+    }
+
+    /**
+     * Set hash.
+     *
+     * @param string|null $hash
+     *
+     * @return Order
+     */
+    public function setHash($hash = null)
+    {
+        $this->hash = $hash;
+
+        return $this;
+    }
+
+    /**
+     * Get hash.
+     *
+     * @return string|null
+     */
+    public function getHash()
+    {
+        return $this->hash;
     }
 }

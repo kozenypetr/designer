@@ -9,6 +9,11 @@ services:
 
   shop.mailer:
     class:    AppBundle\Service\Mailer
+    autowire: true
+
+  shop.gopay:
+    class:    AppBundle\Service\Gopay
+    autowire: true
 
   customer_authenticator:
     class:    AppBundle\Security\CustomerAuthenticator
@@ -19,3 +24,11 @@ services:
     autowire: true
     tags:
       - { name: validator.constraint_validator, alias: unqiue.email.validator }
+
+  app.security.login_handler:
+    class: AppBundle\Security\LoginHandler
+    public: false
+    arguments:
+        - '@router'
+        - '@session'
+        - '@cart.manager'

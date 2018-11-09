@@ -1,0 +1,289 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <div class="page-detail about">
+     <h1>Vše o nákupu</h1>
+
+
+    <div class="article row">
+        <div class="col-md-6">
+
+
+            <h2 id="moznosti-doruceni">1. Možnosti a ceny doručení</h2>
+
+            <h3>DPD přepravní služba</h3>
+
+            <ul>
+                <li>
+                    Cena:
+                    <ul>
+                        <li><span class="price">99&nbsp;Kč</span> pro objednávky do 1 999&nbsp;Kč</li>
+                        <li><span class="price">zdarma</span> pro objednávky od 2&nbsp;000 Kč</li>
+                    </ul>
+                </li>
+                <li><strong>Možnost platby na dobírku</strong> - ano, v hotovosti i kartou, cena <span class="price">29&nbsp;Kč</span></li>
+                <li><strong>Rychlost dodání</strong> - do 2 pracovních dnů</li>
+                <li><strong>Notifikace</strong> - ano, e-mailem nebo SMS</li>
+                <li><strong>Sledování zásilky</strong> -ano</li>
+            </ul>
+
+            <h3>Zásilkovna</h3>
+
+            <ul>
+                <li>
+                    Cena
+                    <ul>
+                        <li><span class="price">49 Kč</span> pro objednávky do 999 Kč</li>
+                        <li><span class="price">zdarma</span> pro objednávky od 1000 Kč</li>
+                    </ul>
+                </li>
+
+                <li><strong>Možnost platby na dobírku</strong> - ano, pouze v hotovosti, cena <span class="price">29 Kč</span></li>
+                <li><strong>Rychlost dodání na pobočku</strong> - do 2 pracovních dnů</li>
+                <li><strong>Doba uložení</strong> - 7 dní (možno prodloužit až na 21 dní)</li>
+                <li><strong>Notifikace</strong> - ano, e-mailem nebo SMS</li>
+                <li><strong>Sledování zásilky</strong> - <a href="https://www.zasilkovna.cz/vyhledavani">ano</a></li>
+            </ul>
+
+            <h3>Česká pošta</h3>
+
+            <ul>
+                <li>
+                    Cena - Balík do ruky
+                    <ul>
+                        <li><span class="price">120 Kč</span> pro objednávky do 1 999 Kč</li>
+                        <li><span class="price">zdarma</span> pro objednávky od 2 000 Kč</li>
+                    </ul>
+                </li>
+                <li>
+                    Cena - Balík na poštu
+                    <ul>
+                        <li><span class="price">99 Kč</span> pro objednávky do 1 999 Kč</li>
+                        <li><span class="price">zdarma</span> pro objednávky od 2 000 Kč</li>
+                    </ul>
+                </li>
+                <li><strong>Možnost platby na dobírku</strong> - ano, pouze v hotovosti, cena <span class="price">29 Kč</span></li>
+                <li><strong>Rychlost dodání</strong> - do 2 pracovních dnů</li>
+                <li><strong>Opakované doručení</strong> - ano, na požádání</li>
+                <li><strong>Doba uložení na poště</strong> - 7 dní (možno prodloužit až na 15 dní)</li>
+                <li><strong>Notifikace</strong> - ano, e-mailem nebo SMS</li>
+                <li><strong>Sledování zásilky</strong> - <a href="https://www.postaonline.cz/trackandtrace/-/zasilka">ano</a></li>
+            </ul>
+
+
+            <h2 id="moznosti-placeni">2. Platební možnosti</h2>
+
+            <h3>Platební kartou</h3>
+
+            <ul>
+                <li>Přijímáme karty Visa, Visa Electron, MasterCard a Maestro.</li>
+                <li>Platba a ověření proběhne okamžitě.</li>
+            </ul>
+
+
+            <h3>Převodem z účtu</h3>
+
+            <ul>
+                <li>U následujících bank můžete využít expresního převodu pomocí tzv. bankovního tlačítka (platba na jedno kliknutí bez nutnosti vyplňovat údaje): Česká spořitelna, Komerční banka, ČSOB, mBank, Raiffeisenbank, Fio banka.</li>
+                <li>U těchto bank dojde k převodu peněz a následnému ověření v řádu minut. U ostatních bank (klasického bankovního převodu) trvá ověření obvykle 1 pracovní den.</li>
+                <li>Variabilní symbol i číslo účtu se dozvíte hned po odeslání vaší objednávky. Platební instrukce vám mimo to dorazí i na vaši e-mailovou adresu.</li>
+            </ul>
+
+            <h3>Platba při převzetí</h3>
+            <ul>
+                <li>Česká pošta - pouze v hotovosti - poplatek <span class="price">29&nbsp;Kč</span>.</li>
+                <li>GLS - v hotovosti či platební kartou - poplatek <span class="price">29&nbsp;Kč</span>.</li>
+                <li>Zásilkovna - pouze v hotovosti - poplatek <span class="price">29&nbsp;Kč</span>.</li>
+            </ul>
+
+            <p>Naším partnerem pro platební transakce je <a href="https://www.gopay.cz/">GoPay</a></p>
+
+            <h2 id="vraceni-zbozi">3. Vrácení zboží ve 30-denní lhůtě u zboží, které NEBYLO upraveno na přání zákazníka</h2>
+
+            <p>
+                Jako spotřebitel máte ze zákona právo vrátit zakoupené zboží do 14 dnů bez udání důvodu (odstoupit od kupní smlouvy).
+                My jsme tuto dobu prodloužili až na 30 dnů, protože chceme jenom spokojené zákazníky.
+                Pokud zboží kupujete jako firma nebo živnostník (tzn. na daňovém dokladu je vaše IČ), právo na odstoupení vám nevzniká.
+            </p>
+
+            <h3>Lhůta pro vrácení zboží</h3>
+
+
+            <ul>
+                <li>Trvá 30 kalendářních dnů a začíná běžet následující kalendářní den po převzetí zboží.</li>
+                <li>Pro její dodržení je rozhodující, kdy je nám doručeno odstoupení od smlouvy.</li>
+                <li>Zboží nám musí být vráceno do 14 dnů od odeslání odstoupení od smlouvy.</li>
+            </ul>
+
+
+            <h3>Jak postupovat</h3>
+
+            <ul>
+                <li>
+                    Nejprve nám e-mailem pošlete informaci o odstoupení od smlouvy (můžete využít
+                    <a href="/assets/odstoupeni.doc">vzorový formulář</a>) a přiložte fakturu.
+                </li>
+                <li>
+                    Zboží uveďte do původního stavu, abyste předešli možnému přiměřenému snížení vracené částky o
+                    náklady vynaložené na uvedení zboží do původního stavu.
+                </li>
+                <li>
+                    Nejraději budeme, pokud zboží odešlete včetně původního obalu a výplně. Obal sice není předmětem
+                    koupě ani součástí koupené věci, přesto však máme právo na náhradu skutečně vynaložených nákladů
+                    spojených s vrácením zboží. Tyto náklady posuzujeme individuálně a jako takové vám potom mohou být
+                    naúčtovány a započteny s částkou za vrácené zboží.
+                </li>
+                <li>
+                    Zboží pak neodkladně pošlete na naši adresu: Petr Kožený (GOWOOD), Jižní 378, Třebestovice, 28912.
+                </li>
+            </ul>
+
+            <h3>Vrácení peněz</h3>
+
+            <ul>
+                <li>
+                    Proběhne nejdéle do 14 dnů od doručení vráceného zboží a to stejným způsobem, jakým jsme od vás platbu
+                    přijali, nebo na váš bankovní účet.
+                </li>
+                <li>
+                    Vrátíme vám peněžní prostředky včetně nákladů na dodání zboží odpovídající nejlevnějšímu nabízenému
+                    způsobu dodání zboží dopravcem (a to i v případě, že jste zvolili jiný než nejlevnější způsob).
+                    To platí pouze v případě, že jste dopravu hradili. Pokud jste od nás měli poštovné zdarma, nárok na
+                    vrácení nákladů na dodání zboží vám nevzniká.
+                </li>
+            </ul>
+
+        </div>
+        <div class="col-md-6">
+
+
+
+
+            <h2 id="vraceni-zbozi">4. Vrácení zboží v 7-denní lhůtě u zboží, které BYLO upraveno na přání zákazníka</h2>
+
+            <p>
+                Jako spotřebitel nemáte ze zákona právo vrátit zakoupené zboží, které bylo upraveno na Vaše přání (odstoupit od kupní smlouvy).
+                My jsme ale zavedli lhůtu 7 dnů na vrázení, protože chceme jenom spokojené zákazníky.
+                Pokud zboží kupujete jako firma nebo živnostník (tzn. na daňovém dokladu je vaše IČ), právo na odstoupení vám nevzniká.
+            </p>
+
+            <h3>Lhůta pro vrácení zboží</h3>
+
+
+            <ul>
+                <li>Trvá 7 kalendářních dnů a začíná běžet následující kalendářní den po převzetí zboží.</li>
+                <li>Pro její dodržení je rozhodující, kdy je nám doručeno odstoupení od smlouvy.</li>
+                <li>Zboží nám musí být vráceno do 7 dnů od odeslání odstoupení od smlouvy.</li>
+            </ul>
+
+
+            <h3>Jak postupovat</h3>
+
+            <ul>
+                <li>
+                    Nejprve nám e-mailem pošlete informaci o odstoupení od smlouvy (můžete využít
+                    <a href="/assets/odstoupeni.doc">vzorový formulář</a>) a přiložte fakturu.
+                </li>
+                <li>
+                    Zboží uveďte do původního stavu, abyste předešli možnému přiměřenému snížení vracené částky o
+                    náklady vynaložené na uvedení zboží do původního stavu.
+                </li>
+                <li>
+                    Nejraději budeme, pokud zboží odešlete včetně původního obalu a výplně. Obal sice není předmětem
+                    koupě ani součástí koupené věci, přesto však máme právo na náhradu skutečně vynaložených nákladů
+                    spojených s vrácením zboží. Tyto náklady posuzujeme individuálně a jako takové vám potom mohou být
+                    naúčtovány a započteny s částkou za vrácené zboží.
+                </li>
+                <li>
+                    Zboží pak neodkladně pošlete na naši adresu: Petr Kožený (GOWOOD), Jižní 378, Třebestovice, 28912.
+                </li>
+            </ul>
+
+            <h3>Vrácení peněz</h3>
+
+            <ul>
+                <li>
+                    Proběhne nejdéle do 14 dnů od doručení vráceného zboží a to stejným způsobem, jakým jsme od vás platbu
+                    přijali, nebo na váš bankovní účet.
+                </li>
+                <li>
+                    Vrátíme vám peněžní prostředky včetně nákladů na dodání zboží odpovídající nejlevnějšímu nabízenému
+                    způsobu dodání zboží dopravcem (a to i v případě, že jste zvolili jiný než nejlevnější způsob).
+                    To platí pouze v případě, že jste dopravu hradili. Pokud jste od nás měli poštovné zdarma, nárok na
+                    vrácení nákladů na dodání zboží vám nevzniká.
+                </li>
+            </ul>
+
+
+            <h2 id="zaruka">5. Záruka</h2>
+
+            <p>
+                Jako spotřebitel máte ze zákona záruku 2 roky. Pokud zboží kupujete jako firma nebo živnostník (tzn. na daňovém
+                dokladu je vaše IČ), platí pro vás záruka pouze 1 rok.
+            </p>
+
+            <p>
+                Záruční doba běží ode dne převzetí zboží. Nepočítá se do ní případná reklamace zboží až do doby, kdy je
+                kupující povinnen po skončení záruční opravy zboží převzít.
+            </p>
+
+            <p>
+                Dojde-li při reklamaci k výměně zboží za nové nebo k výměně součástky, na kterou je poskytnuta záruka, začíná
+                běžet záruční doba znovu od začáku od dne převzetí.
+            </p>
+
+            <p>
+                Ná dárky zdarma nelze výše uvedené uplatnit.
+            </p>
+
+
+
+
+            <h2 id="reklamace">6. Reklamace</h2>
+
+            <ul>
+                <li>
+                    Informujte nás nejprve prosím e-mailem na <a href="mailto:info@gowood.cz">info@gowood.cz</a> nebo telefonicky na 728 870 246.
+                </li>
+                <li>Formulář ke stažení zde: <a href="/assets/reklamace.doc">Uplatnění reklamace (reklamační list)</a></li>
+                <li>
+                    Pokud to situace vyžaduje, vyzveme vás k odeslání reklamovaného zboží poštou na naši
+                    adresu: Petr Kožený (GOWOOD), Jižní 378, Třebestovice, 28912.
+                </li>
+                <li>
+                    Přiložte doklad o koupi (fakturu).
+                </li>
+            </ul>
+
+            <h3>Lhůta pro vyřízení vaší reklamace</h3>
+
+            <ul>
+                <li>Pokud jste spotřebitel, reklamace bude vyřízena ve 14 denní lhůtě.</li>
+                <li>Pokud jste firma nebo podnikatel (obchodujete s námi na základě obchodního zákoníku), neexistuje zákonné určení lhůty, avšak i v tomto případě se snažíme vyřídit reklamaci v co nejkratší době.</li>
+            </ul>
+
+
+            <h3>Pokud je zboží poškozené</h3>
+
+            <ul>
+                <li>Zkontrolujte si prosím zásilku pečlivě při přebírání od dopravce. Zásilku, která jeví známky poškození nebo otevření, nepřebírejte.</li>
+                <li>Je-li zboží poškozeno, ačkoliv byl obal neporušený, kontaktujte nás co nejdříve na telefonu 728 870 246.</li>
+            </ul>
+
+
+            <h3>Pokud bylo zboží dodáno nekompletní nebo neodpovídá objednanému typu</h3>
+
+            <ul>
+                <li>Obratem nám zavolejte na 728 870 246 nebo nám napište na <a href="mailto:info@gowood.cz">info@gowood.cz</a>.</li>
+            </ul>
+
+            <p>
+                Na dárky, které jsou poskytovány zdarma, nelze uplatňovat žádná práva spotřebitele. Takové zboží splňuje podmínky Darovací smlouvy a veškeré normy podle platné legislativy ČR.
+            </p>
+        </div>
+
+    </div>
+
+    </div>
+
+{% endblock %}

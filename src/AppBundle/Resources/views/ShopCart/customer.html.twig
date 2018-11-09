@@ -13,7 +13,7 @@
         <div class="login-box" align="center">
             <p>Máte u nás účet, <a class="show-form" href="{{ path('login') }}">přihlaste se</a>.</p>
             <div class="login-box-form box-shaddow" style="display: none;">
-                <form id="login" action="{{ path('login_ajax') }}">
+                <form id="login" action="{{ path('login') }}">
                     <div class="login-error row">
                         <div class="col-md-12">
                             Neplatné přihlášení. Pokud již neznáte přihlašovací jméno a heslo, můžete si ho nechat <a href="{{ path('reset_password_request') }}">zaslat na e-mail</a>.

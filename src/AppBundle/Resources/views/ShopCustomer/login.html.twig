@@ -1,25 +1,38 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block body %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <div class="page-detail">
 
-    <form action="{{ path('login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" />
+        <h1>Přihlášení</h1>
 
-        <label for="password">Heslo:</label>
-        <input type="password" id="password" name="_password" />
+        {% if error %}
+            <div class="alert alert-danger" align="center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4" align="center">
+                <form action="{{ path('login') }}" method="post">
+                    <div class="margin30">
+                        <label for="username">Email:</label>
+                        <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" />
+                    </div>
+                    <div class="margin30">
+                        <label for="password">Heslo:</label>
+                        <input class="form-control" type="password" id="password" name="_password" />
+                    </div>
+                    {#
+                        If you want to control the URL the user
+                        is redirected to on success (more details below)
+                        <input type="hidden" name="_target_path" value="/account" />
+                    #}
 
-        {#
-            If you want to control the URL the user
-            is redirected to on success (more details below)
-            <input type="hidden" name="_target_path" value="/account" />
-        #}
+                    <button class="btn btn-success" type="submit">Přihlásit</button>
+                </form>
+                <br />
+                <a href="{{ path('reset_password_request') }}">Zapomenuté heslo</a>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
 
-        <button type="submit">Přihlásit</button>
-    </form>
-
-    <a href="{{ path('reset_password_request') }}">Zapomenuté heslo</a>
+    </div>
 {% endblock %}

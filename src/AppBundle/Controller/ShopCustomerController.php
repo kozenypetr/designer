@@ -120,7 +120,6 @@ class ShopCustomerController extends Controller
                 if ($billingForm->get('is_create_account')->getViewData())
                 {
                     $passwordForm->handleRequest($request);
-                    dump($passwordForm->isValid());
                     if ($passwordForm->isValid())
                     {
                         $passwordData = $passwordForm->getData();
@@ -209,7 +208,11 @@ class ShopCustomerController extends Controller
     {
         $cm = $this->get('cart.manager');
 
-        $cm->finishOrder();
+        if ($cm->finishOrder())
+        {
+            // presmerovani na platbu
+            return $this->redirectToRoute('shop_gopay_payment');
+        }
 
         return $this->redirectToRoute('shop_order_finish_confirm');
     }
@@ -220,7 +223,18 @@ class ShopCustomerController extends Controller
      */
     public function orderFinishConfirmAction(Request $request)
     {
-        return $this->render('AppBundle:ShopCart:finishConfirm.html.twig');
+        $orderId = $this->get('session')->get('finished_order_id');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $order = $em->getRepository('AppBundle:Order')->find($orderId);
+
+        if (!$order)
+        {
+            return $this->createNotFoundException();
+        }
+
+        return $this->render('AppBundle:ShopCart:finishConfirm.html.twig', ['order' => $order]);
     }
 
 

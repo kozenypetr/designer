@@ -4,13 +4,54 @@
 <div class="summary row">
 
     <div class="col-md-12" align="center">
-        <h3>Děkujem. Objednávka byla přijata.</h3>
+        {% if not order.isGopay or order.gopayState == 'PAID' %}
+        <h3>Objednávka byla přijata. Děkujeme.</h3>
+        {% else  %}
+        <h3>Objednávka byla přijata a nyní čeká na zaplacení.</h3>
+        {% endif %}
 
+        {% if order.isGopay %}
+            {% if order.gopayState == 'PAID' %}<div class="alert alert-success">Objednávka byla úspěšně zaplacena v systému GoPay. Děkujeme.</div>{% endif %}
+            {% if order.gopayState == 'CREATED' %}<div class="alert alert-danger">Platba byla pouze vytvořena, k jejímu provedení zatím nedošlo. Platbu můžete provést <a href="{{ path('shop_gopay_repayment', { hash: order.hash }) }}"><strong>zde</strong></a> {{ order.getGopaySubstateText | raw }}</div>{% endif %}
+            {% if order.gopayState == 'ERROR' %}
+                <div class="alert alert-danger">
+                    Při vytvoření platby došlo k chybě, omlouváme se za komplikace, kontaktujte nás prosím na emailu info@gowood.cz nebo telefonu 728 870 246.{{ order.getGopaySubstateText | raw }}
+                    <br />Můžete znovu zkusit zaplatit <a href="{{ path('shop_gopay_repayment', { hash: order.hash }) }}"><strong>zde</strong></a>
+                </div>
+            {% endif %}
+            {% if order.gopayState == 'PAYMENT_METHOD_CHOSEN' %}<div class="alert alert-success">Byla vybrána platební metoda při platbě GoPay, prosím o dokončení platby. Děkujeme.{{ order.getGopaySubstateText | raw }}</div>{% endif %}
+            {% if order.gopayState == 'AUTHORIZED' %}<div class="alert alert-success">Platba byla předautorizována. Děkujeme.{{ order.getGopaySubstateText | raw }}</div>{% endif %}
+            {% if order.gopayState == 'CANCELED' %}
+                <div class="alert alert-danger">
+                    Platba nemohla být dokončena.{{ order.getGopaySubstateText | raw }}
+                    Můžete znovu zaplatit <a href="{{ path('shop_gopay_repayment', { hash: order.hash }) }}"><strong>zde</strong></a>
+                </div>
+            {% endif %}
+            {% if order.gopayState == 'TIMEOUTED' %}
+                <div class="alert alert-danger">
+                Vypršela platnost platby.{{ order.getGopaySubstateText | raw }}
+                Můžete znovu zaplatit <a href="{{ path('shop_gopay_repayment', { hash: order.hash }) }}"><strong>zde</strong></a>
+                </div>
+            {% endif %}
+            {% if order.gopayState == 'REFUNDED' %}<div class="alert alert-danger">Platba byla refundována.{{ order.getGopaySubstateText | raw }}</div>{% endif %}
+            {% if order.gopayState == 'PARTIALLY_REFUNDED' %}<div class="alert alert-danger">Platba byla částečně refundována.{{ order.getGopaySubstateText | raw }}</div>{% endif %}
+        {% endif %}
+
+        {% if order.paymentCode == 'transfer' %}
+        <div class="alert alert-success">Zvolili jste platbu bankovním převodem, platbu prosím pošlete na účet <strong>115-1652560227 / 0100</strong> (Komerční banka, a.s.)<br />
+            Variabilní symbol: <strong>{{ order.getPaymentReference }}</strong>
+        </div>
+        {% endif %}
+
+        <p>Číslo objednávky: <strong>{{ order.id }}</strong></p>
+
+        {% if not order.isGopay or order.gopayState == 'PAID' %}
         <p>Budeme Vás informovat o dokončení výroby a předání objednávky dopravci.</p>
+        {% endif %}
 
         <p>Přejeme hezký den :)</p>
-
-        <p>GOWOOD</p>
+        <br />
+        <p><img src="/images/logo_v2.png" width="150" /></p>
     </div>
 
 </div>

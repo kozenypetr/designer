@@ -108,7 +108,10 @@
 
             <div class="continue">
                 <a class="link" href="{{ path('shop_cart') }}"><i class="fas fa-chevron-left"></i> Chci změnit údaje</a>
-                <button class="btn btn-primary">Dokončit objednávku <i class="fas fa-chevron-right"></i></button>
+                <button class="btn btn-primary">
+                    Dokončit objednávku {{ cm.cart.payment.isGopay ? ' a zaplatit' }}
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
 
         </form>

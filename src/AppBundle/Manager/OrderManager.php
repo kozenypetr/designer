@@ -51,14 +51,19 @@ class OrderManager {
      * @param $status OrderStatus
      * @param $message string
      */
-    public function sendUpdateStatusMail($order, $status, $message)
+    public function sendUpdateStatusMail($order, $status, $message = null, $forceSubject = null)
     {
         // jestli je definovana sablona u stavu objednavky, tak odesleme mail
         if ($status->getEmail())
         {
             $data = ['order' => $order, 'message' => $message];
 
-            $subject = 'Změna stavu objednávky ' . $order->getId();
+            $subject = 'Změna stavu objednávky č. ' . $order->getId();
+
+            if ($forceSubject)
+            {
+                $subject = $forceSubject;
+            }
 
             $template = 'AppBundle:Email/order/status:' . $status->getEmail();
 

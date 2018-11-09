@@ -68,16 +68,16 @@ var customer = {
         var url = $(this).attr('action');
 
         var data = {
-            username: $("#username").val(),
-            password: $("#password").val()
+            _username: $("#username").val(),
+            _password: $("#password").val()
         }
 
         $.ajax({
             type: 'POST',
-            dataType: 'json',
-            contentType: "application/json",
+            // dataType: 'json',
+            // contentType: "application/json",
             url: url,
-            data: JSON.stringify(data),
+            data: data,// JSON.stringify(data),
             async: false,
             success: function (data) {
                 if (data.redirect)

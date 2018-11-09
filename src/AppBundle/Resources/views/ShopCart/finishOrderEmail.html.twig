@@ -113,9 +113,14 @@
                                     <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Způsob platby: <b>{{ order.paymentName }}</b></p>
 
                                     {% if order.paymentCode == 'transfer' %}
-                                        <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Platbu prosím pošlete na účet <strong></strong>115-1652560227 / 0100</strong> (Komerční banka, a.s.)</p><br />
-                                    Variabilní symbol: <strong>{{ order.getPaymentReference }}</strong>
+                                        <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Platbu prosím pošlete na účet <strong>115-1652560227 / 0100</strong> (Komerční banka, a.s.)</p><br />
+                                        <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Variabilní symbol: <strong>{{ order.getPaymentReference }}</strong></p>
+                                    {% endif %}
 
+                                    {% if order.isGopay %}
+                                    <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">
+                                        <i>Na platbu budete přesměrováni ihned po dokončení objednávky, pokud jste platbu nedokončili, můžete ji to provést <a href="{{ app.request.getSchemeAndHttpHost }}{{ path('shop_gopay_repayment', { hash: order.hash }) }}">ZDE</a></i>
+                                    </p>
                                     {% endif %}
 
                                     <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">
@@ -152,32 +157,25 @@
                                         {{ order.email }}
                                     </p>
 
+                                    <center>
+                                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                            <tbody><tr>
+                                                <td>
+                                                    <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Přikládáme plné znění našich obchodních podmínek.<p>
+                                                    <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Máte jakoukoli otázku? Něco nesedí? Pište na info@gowood.cz nebo volejte na 728 870 246.
+                                                </td>
+                                            </tr>
+                                            <tr style="height:10px;line-height:10px">
+                                                <td>
+                                                    &nbsp;
+                                                </td>
+                                            </tr>
+                                            </tbody></table>
+                                    </center>
+
                                 </td></tr></tbody></table>
 
-                    </td></tr><tr bgcolor="white">
-                    <td>
-                        <center>
-                            <center>
-
-
-
-                            </center>
-                            <table width="100%" cellspacing="0" cellpadding="0" border="0">
-                                <tbody><tr>
-                                    <td>
-                                        <p>Přikládáme plné znění našich <a href="{{ app.request.getSchemeAndHttpHost }}{{ path('page_terms') }}">obchodních podmínek</a>.<p>
-                                        <p>Máte jakoukoli otázku? Něco nesedí? Pište na info@gowood.cz nebo volejte na 728 870 246.
-                                    </td>
-                                </tr>
-                                <tr style="height:10px;line-height:10px">
-                                    <td>
-                                        &nbsp;
-                                    </td>
-                                </tr>
-                                </tbody></table>
-                            </center>
                     </td>
-                </tr>
 
 
 

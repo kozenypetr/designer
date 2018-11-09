@@ -81,7 +81,7 @@
                 <ul>
                     <li><a href="/">E-shop</a></li>
                     <li><a href="{{ path('page_about_us') }}">O nás</a></li>
-                    <li><a href="/">Vše o nákupu</a></li>
+                    <li><a href="{{ path('page_about_buying') }}">Vše o nákupu</a></li>
                     <li><a href="/">Blog</a></li>
                     <li><a href="{{ path('page_for_companies') }}">Pro firmy</a></li>
                     <li><a href="{{ path('page_terms') }}">Obchodní podmínky</a></li>
@@ -123,12 +123,15 @@
                         <p>Radost ze dřeva</p>
                     </div>
                     <div class="col-md-3 links">
-                        <a href="/">O nás</a><br />
-                        <a href="/">Vše o nákupu</a><br />
+                        <a href="{{ path('page_about_us') }}">O nás</a><br />
+                        <a href="{{ path('page_about_buying') }}">Vše o nákupu</a><br />
                         <a href="/">Blog</a><br />
-                        <a href="/">Pro firmy</a><br />
-                        <a href="/">Obchodní podmínky</a><br />
-                        <a href="/">Kontakt</a><br />
+                        <a href="{{ path('page_for_companies') }}">Pro firmy</a><br />
+                        <a href="{{ path('page_terms') }}">Obchodní podmínky</a><br />
+                        <a href="{{ path('page_gdpr') }}">Ochrana osobních údajů</a><br />
+                        <a href="{{ path('page_cookies') }}">Pravidla používání cookies</a><br />
+                        <a href="/vse-o-nakupu#reklamace">Reklamační řád</a><br />
+                        <a href="{{ path('page_contact') }}">Kontakt</a><br />
                     </div>
                     <div class="col-md-3 foot-shipping-payment">
                         <div class="title">Dopravci</div>
@@ -166,10 +169,19 @@
         </footer>
 
 
+        <!-- Modal structure -->
+        {#<div id="modal" data-iziModal-fullscreen="false"  data-iziModal-title="GOWOOD hlášení"  data-iziModal-subtitle="Produkt vložen do košíku"  data-iziModal-icon="fas fa-cart-plus">
+            <div id="modal-content">
+                AAAMMM
+            </div>
+        </div>#}
+
+
         {% block javascripts %}
             <script src="{{ asset('js/jquery.min.js') }}"></script>
             <script src="{{ asset('js/main.js') }}"></script>
             <script src="{{ asset('js/editor.js') }}"></script>
+            <script src="{{ asset('js/iziModal.min.js') }}"></script>
         {% endblock %}
     </body>
 </html>

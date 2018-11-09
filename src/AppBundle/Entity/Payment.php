@@ -121,6 +121,12 @@ class Payment
     }
 
 
+    public function isGopay()
+    {
+        return preg_match('|gopay|', $this->getCode());
+    }
+
+
     public function __toString() {
         return $this->getName()?$this->getName():'Platba';
     }

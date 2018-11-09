@@ -61,7 +61,7 @@ class CustomerAuthenticator implements SimpleFormAuthenticatorInterface
 
         // zkusime najit kosik pro zakaznika a vlozit do session
         // aktualizace kosiku
-        $this->cm->updateCart($user);
+        // $this->cm->updateCart($user);
 
 
         return new UsernamePasswordToken(

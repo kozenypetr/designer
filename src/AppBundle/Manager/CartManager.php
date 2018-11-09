@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+use AppBundle\Service\Gopay;
 
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
@@ -37,6 +38,7 @@ class CartManager {
     protected $mailer     = null;
     protected $twig  = null;
     protected $kernel;
+    protected $gopay = null;
 
     /**
      * @var Cart
@@ -49,7 +51,7 @@ class CartManager {
      * @param EntityManager $em
      * @param TokenStorage $tokenStorage
      */
-    public function __construct(Session $session, EntityManagerInterface $em, TokenStorage $tokenStorage, \Swift_Mailer $mailer,  EngineInterface $twig, KernelInterface $kernel)
+    public function __construct(Session $session, EntityManagerInterface $em, TokenStorage $tokenStorage, \Swift_Mailer $mailer,  EngineInterface $twig, KernelInterface $kernel, Gopay $gopay)
     {
         $this->session = $session;
         $this->em = $em;
@@ -57,6 +59,8 @@ class CartManager {
         $this->mailer = $mailer;
         $this->twig = $twig;
         $this->kernel = $kernel;
+        $this->gopay = $gopay;
+
         $this->cart = $this->getCart();
     }
 
@@ -195,6 +199,14 @@ class CartManager {
 
         $this->em->flush();
 
+        $redirectToPayment = false;
+
+        if ($this->cart->getPayment()->isGopay())
+        {
+            $this->gopay->createPayment($order);
+            $redirectToPayment = true;
+        }
+
         $message = (new \Swift_Message('Přijali jsme vaši objednávku č. ' . $order->getId()))
             ->setFrom('info@kozenypetr.cz', 'GOWOOD.CZ')
             ->setTo($order->getEmail())
@@ -207,6 +219,7 @@ class CartManager {
                 ),
                 'text/html'
             )
+            ->attach(\Swift_Attachment::fromPath(realpath($this->kernel->getRootDir() . '/../web/assets/') . '/obchodni-podminky.pdf'))
             /*
              * If you also want to include a plaintext version of the message
             ->addPart(
@@ -223,10 +236,11 @@ class CartManager {
 
         $this->em->remove($this->cart);
         $this->session->set('cart', null);
+        $this->session->set('finished_order_id', $order->getId());
 
         $this->em->flush();
 
-
+        return $redirectToPayment;
     }
 
     public function getCart()
@@ -248,6 +262,13 @@ class CartManager {
         }
 
         $cart = new Cart();
+        if ($this->tokenStorage->getToken())
+        {
+            if ($this->tokenStorage->getToken()->getUser() instanceof Customer) {
+                $cart->setCustomer($this->tokenStorage->getToken()->getUser());
+                $cart->setFromObject($this->tokenStorage->getToken()->getUser());
+            }
+        }
         /*if ($this->securityContext->isGranted('IS_AUTHENTICATED_FULLY'))
             $cart->setUser($this->securityContext->getToken()->getUser());*/
         return $cart;
@@ -274,7 +295,7 @@ class CartManager {
     {
         $summary = [];
         $summary['count'] = $this->cart->getItems()->count();
-        $summary['total'] = $this->cart->getTotal();
+        $summary['total'] = $this->cart->getTotalProducts();
 
         return $summary;
     }
@@ -421,7 +442,9 @@ class CartManager {
         $cart = new Cart();
         if ($this->tokenStorage->getToken()->getUser() instanceof Customer) {
             $cart->setCustomer($this->tokenStorage->getToken()->getUser());
+            $cart->setFromObject($this->tokenStorage->getToken()->getUser());
         }
+
         $this->em->persist($cart);
         $this->em->flush();
         $this->session->set('cart', $cart->getId());

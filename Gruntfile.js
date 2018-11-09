@@ -47,6 +47,18 @@ module.exports = function(grunt) {
             src: '**',
             dest: 'web/js/jqueryvalidation'
       },
+      izimodal_css: {
+            expand: true,
+            cwd: 'web/vendor/iziModal/css',
+            src: 'iziModal.min.css',
+            dest: 'web/css'
+      },
+      izimodal_js: {
+            expand: true,
+            cwd: 'web/vendor/iziModal/js',
+            src: 'iziModal.min.js',
+            dest: 'web/js'
+      },
     },
     watch: {
         less: {
@@ -97,7 +109,7 @@ module.exports = function(grunt) {
                 'web/css/fontawesome.css',
                 'web/css/gowood.min.css',
                 'web/css/jquery.fancybox.min.css',
-
+                'web/css/iziModal.min.css',
             ],
          },
       }
