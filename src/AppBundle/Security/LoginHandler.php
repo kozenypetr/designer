@@ -104,7 +104,7 @@ class LoginHandler implements AuthenticationSuccessHandlerInterface, Authenticat
         // if AJAX login
         if ( $request->isXmlHttpRequest() ) {
 
-            $array = array( 'success' => false, 'message' => $exception->getMessage() ); // data to return via JSON
+            $array = array( 'error' => true, 'message' => $exception->getMessage() ); // data to return via JSON
             $response = new Response( json_encode( $array ) );
             $response->headers->set( 'Content-Type', 'application/json' );
 

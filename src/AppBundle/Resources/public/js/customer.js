@@ -63,6 +63,8 @@ var customer = {
             return false;
         }
 
+        $('.login-error').hide();
+
         event.preventDefault();
 
         var url = $(this).attr('action');
@@ -80,6 +82,13 @@ var customer = {
             data: data,// JSON.stringify(data),
             async: false,
             success: function (data) {
+
+                if (data.error)
+                {
+                    $('.login-error').show();
+                    return false;
+                }
+
                 if (data.redirect)
                 {
                     window.location.href = data.redirect;
