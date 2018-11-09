@@ -119,7 +119,7 @@
 
                                     {% if order.isGopay %}
                                     <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">
-                                        <i>Na platbu budete přesměrováni ihned po dokončení objednávky, pokud jste platbu nedokončili, můžete ji to provést <a href="{{ app.request.getSchemeAndHttpHost }}{{ path('shop_gopay_repayment', { hash: order.hash }) }}">ZDE</a></i>
+                                        <i>Na platbu budete přesměrováni ihned po dokončení objednávky, pokud jste platbu nedokončili, můžete ji provést <a href="{{ app.request.getSchemeAndHttpHost }}{{ path('shop_gopay_repayment', { hash: order.hash }) }}">ZDE</a></i>
                                     </p>
                                     {% endif %}
 
