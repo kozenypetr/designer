@@ -19,7 +19,7 @@
                     <br />Můžete znovu zkusit zaplatit <a href="{{ path('shop_gopay_repayment', { hash: order.hash }) }}"><strong>zde</strong></a>
                 </div>
             {% endif %}
-            {% if order.gopayState == 'PAYMENT_METHOD_CHOSEN' %}<div class="alert alert-success">Byla vybrána platební metoda při platbě GoPay, prosím o dokončení platby. Děkujeme.{{ order.getGopaySubstateText | raw }}</div>{% endif %}
+            {% if order.gopayState == 'PAYMENT_METHOD_CHOSEN' %}<div class="alert alert-success">Byla vybrána platební metoda při platbě GoPay, prosím o dokončení platby. Dokončit ji můžete zkusit <a href="{{ path('shop_gopay_payment') }}"><strong>zde</strong></a>{{ order.getGopaySubstateText | raw }}</div>{% endif %}
             {% if order.gopayState == 'AUTHORIZED' %}<div class="alert alert-success">Platba byla předautorizována. Děkujeme.{{ order.getGopaySubstateText | raw }}</div>{% endif %}
             {% if order.gopayState == 'CANCELED' %}
                 <div class="alert alert-danger">
