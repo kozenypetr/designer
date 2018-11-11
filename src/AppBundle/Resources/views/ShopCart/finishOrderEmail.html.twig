@@ -88,6 +88,22 @@
                                                 </font></td>
                                         </tr>
 
+                                        {% if order.paymentPrice %}
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td valign="top"></td>
+                                            <td style="padding:5px 10px" valign="center">
+                                                <b>Dobírka:</b>
+                                            </td>
+                                            <td style="padding:5px 10px 5px 0px" valign="center" nowrap="">1 ks</td>
+                                            <td style="padding:5px 10px 0px 0px" valign="center" align="right">
+                                                <font color="#0b3166">
+                                                    <b>
+                                                        {{ order.paymentPrice | price }}
+                                                    </b>
+                                                </font></td>
+                                        </tr>
+                                        {% endif %}
 
                                         <tr>
                                             <td style="border-bottom:1px#e0e0e0 solid">&nbsp;</td>
