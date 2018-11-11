@@ -108,13 +108,24 @@
 
                                     <br>
 
+                                    {% if order.orderNote %}
+                                        <h2 style="font-family:Arial;color:#0b3166;font-size:23px;padding:10px;margin-top: 10px; margin-bottom: 10px;">Poznámka k objednávce</h2>
+
+                                        <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">
+                                        <i>{{ order.orderNote }}</i>
+                                        </p>
+                                    {% endif %}
+                                    <br>
+
                                     <h2 style="font-family:Arial;color:#0b3166;font-size:23px;padding:10px;margin-top: 10px; margin-bottom: 10px;">Platba</h2>
 
                                     <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Způsob platby: <b>{{ order.paymentName }}</b></p>
 
                                     {% if order.paymentCode == 'transfer' %}
-                                        <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Platbu prosím pošlete na účet <strong>115-1652560227 / 0100</strong> (Komerční banka, a.s.)</p><br />
-                                        <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Variabilní symbol: <strong>{{ order.getPaymentReference }}</strong></p>
+                                        <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">
+                                        Platbu prosím pošlete na účet <strong>115-1652560227 / 0100</strong> (Komerční banka, a.s.)<br />
+                                        Variabilní symbol: <strong>{{ order.getPaymentReference }}</strong></p>
+                                        <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px; font-style:italic;"><strong>Objednávka půjde do výroby až po připsání celkové částky na náš bankovní účet.</strong></p>
                                     {% endif %}
 
                                     {% if order.isGopay %}
@@ -144,6 +155,16 @@
                                     <h2 style="font-family:Arial;color:#0b3166;font-size:23px;padding:10px;margin-top: 10px; margin-bottom: 10px;">Doprava</h2>
 
                                     <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">Dopravní metoda: <b>{{ order.shippingName }}</b></p>
+
+                                    {% if order.shippingCode == 'zasilkovna' %}
+                                        <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px; font-style: italic;">
+                                            Vybraná pobočka:
+                                            <strong>{{ order.shippingParameters.place }}</strong>,
+                                            {{ order.shippingParameters.street }},
+                                            {{ order.shippingParameters.zip }} {{ order.shippingParameters.city }}<br /><br />
+                                        </p>
+                                    {% endif %}
+
                                     <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px;">
                                         <b style="color:#0b3166;">Dodací adresa</b><br><br>
                                         <strong>{{ order.deliveryName }}</strong><br />
@@ -156,6 +177,16 @@
                                         {{ order.deliveryPhone }}<br />
                                         {{ order.email }}
                                     </p>
+
+                                    <br />
+                                    <p style="padding: 10px;">
+                                        <strong>GOWOOD.CZ</strong><br />
+                                        Petr Kožený<br />
+                                        T: +420 728 870 246<br />
+                                        E: info@gowood.cz<br />
+                                    </p>
+                                    <br />
+                                    <br />
 
                                     <center>
                                         <table width="100%" cellspacing="0" cellpadding="0" border="0">

@@ -40,6 +40,7 @@ class ProductAdmin extends AbstractAdmin
         ->add('is_active', 'checkbox', array('label' => 'Aktivní', 'required' => false))
         ->add('availability', null, array('label' => 'Doručení (ve dnech)', 'required' => false))
         ->add('module', 'text', array('label' => 'Modul editace', 'required' => false))
+        ->add('sort', 'text', array('label' => 'Řazení', 'required' => true))
       ->end()
       ->with('Kategorie', array('class' => 'col-md-3'))
         ->add('mainCategory', 'sonata_type_model', array('class' => 'AppBundle\Entity\Category', 'label' => 'Hlavní kategorie', 'expanded' => false, 'multiple' => false))
@@ -101,6 +102,7 @@ class ProductAdmin extends AbstractAdmin
       ->add('is_active', 'boolean', array('label' => 'Aktivní', 'editable' => true))
       ->add('locale', null, array('label' => 'Jazyk', 'editable' => true))
       ->add('price', null, array('label' => 'Cena', 'editable' => false))
+      ->add('sort', null, array('label' => 'Řazení', 'editable' => true))
       ->add('mainCategory', null, array('label' => 'Hlavní kategorie', 'editable' => false))
       ->add('categories', null, array('label' => 'Kategorie', 'editable' => true))
       // add custom action links
@@ -128,7 +130,7 @@ class ProductAdmin extends AbstractAdmin
   {
     $errorElement
       ->with('name')
-      ->assertLength(array('max' => 32))
+      ->assertLength(array('max' => 64))
       ->end()
     ;
   }

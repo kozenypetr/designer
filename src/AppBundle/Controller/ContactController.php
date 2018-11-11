@@ -31,7 +31,7 @@ class ContactController extends Controller
         $form->handleRequest($request);
         $json = array('status' => 'ERROR');
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (empty($contact->getSubject()) && $form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($contact);
             $em->flush();

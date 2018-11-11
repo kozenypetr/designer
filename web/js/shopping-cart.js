@@ -11,16 +11,7 @@ var cart = {
         $(cart.eventSelector + '.keyup').keyup(cart.processEvent);
         $(cart.eventSelector + '.click').click(cart.processEvent);
         $(cart.eventSelector + '.change').click(cart.processEvent);
-
-        $('.cart-item-image').fancybox(
-            {
-                buttons: [
-                    "thumbs",
-                    "close"
-                ],
-                defaultType: "image"
-            }
-        );
+        $(cart.eventSelector + '.update').change(cart.processEvent);
         // $('.shipping input, .payment input').click(cart.changeShippingPayment);
     },
 

@@ -164,10 +164,13 @@ class CartManager {
         $order->setShippingName($this->cart->getShipping()->getName());
         $order->setShippingCode($this->cart->getShipping()->getCode());
         $order->setShippingPrice($this->cart->getShippingPrice());
+        $order->setShippingParameters($this->cart->getShippingParameters());
 
         $order->setPayment($this->cart->getPayment());
         $order->setPaymentName($this->cart->getPayment()->getName());
         $order->setPaymentCode($this->cart->getPayment()->getCode());
+        $order->setPaymentPrice($this->cart->getPaymentPrice());
+        $order->setPaymentParameters($this->cart->getPaymentParameters());
 
         // stav objednavky
         $status = $this->em->getRepository('AppBundle:OrderStatus')->find(1);
@@ -208,7 +211,7 @@ class CartManager {
         }
 
         $message = (new \Swift_Message('Přijali jsme vaši objednávku č. ' . $order->getId()))
-            ->setFrom('info@kozenypetr.cz', 'GOWOOD.CZ')
+            ->setFrom('info@gowood.cz', 'GOWOOD.CZ')
             ->setTo($order->getEmail())
             ->addBcc('info@gowood.cz')
             ->setBody(

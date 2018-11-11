@@ -1,5 +1,9 @@
 .cart, .customer, .summary {
 
+
+
+
+
   h3 {
     text-align: center;
     margin: 20px 0;
@@ -110,14 +114,31 @@
     margin-bottom: 10px;
     padding: 10px;
 
+
+
     & > div {
       float: left;
       width: 80px;
       min-height: 100px;
+
+      @media (max-width: @sm-max) {
+        min-height: 10px;
+        width: 100%;
+        text-align: center;
+      }
     }
 
     .image {
       width: 100px;
+
+      @media (max-width: @sm-max) {
+        width: 100%;
+        text-align: center;
+
+        img { width: 100px; }
+      }
+
+
       margin-right: 20px;
 
       img {
@@ -130,7 +151,14 @@
     }
 
     .name {
+
       width: 300px;
+
+      @media (max-width: @sm-max) {
+        width: 100%;
+        text-align: center;
+      }
+
       a {
         color: @link-color;
       }
@@ -151,6 +179,17 @@
       width: 50px;
       padding-top: 30px;
       vertical-align: middle;
+
+      @media (max-width: @sm-max) {
+        width: 100%;
+        padding-top: 10px;
+        text-align: center;
+        input {
+          width: 50px !important;
+          display: inline;
+        }
+      }
+
       input
       {
         text-align: center;
@@ -170,10 +209,19 @@
       line-height: 100px;
       width: 150px;
       text-align: center;
+
+      @media (max-width: @sm-max) {
+        width: 100%;
+        line-height: 30px;
+        margin-top: 10px;
+      }
     }
 
     .delete a {
       line-height: 100px;
+      @media (max-width: @sm-max) {
+        line-height: 30px;
+      }
     }
 
     .availability {
@@ -193,6 +241,10 @@
     border-radius: @border-radius-cart;
     font-size: 20px;
     margin-top: 15px;
+
+    @media (max-width: @sm-max) {
+      font-size: 17px;
+    }
 
     span.title {
       display: inline-block;
@@ -228,6 +280,10 @@
       font-weight: bold;
       display: inline-block;
       float: right;
+
+      @media (max-width: @sm-max) {
+        font-size: 17px;
+      }
 
       i {
         width: 30px;
@@ -376,4 +432,7 @@
       min-height: 220px;
     }
   }
+
+
+
 }

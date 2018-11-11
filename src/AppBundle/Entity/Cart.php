@@ -146,7 +146,7 @@ class Cart extends BaseCustomer
 
     public function getTotal()
     {
-        $total = $this->getTotalProducts() + $this->getShippingPrice();
+        $total = $this->getTotalProducts() + $this->getShippingPrice() + $this->getPaymentPrice();
 
 
 
@@ -162,6 +162,18 @@ class Cart extends BaseCustomer
         }
         return $price;
     }
+
+
+    public function getPaymentPrice()
+    {
+        $price = 0;
+        if ($this->getPayment())
+        {
+            $price = $this->getPayment()->getPrice($this);
+        }
+        return $price;
+    }
+
 
     public function clearDeliveryData()
     {

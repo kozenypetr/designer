@@ -39,13 +39,18 @@
                         </div>
                         <div class="search row">
                             <div class="col-md-12">
+                                <form method="GET" action="{{ path('shop_search') }}">
                                 <div class="search-input">
                                     <i class="fas fa-search"></i>
-                                    <input type="text" placeholder="" />
-                                    <div class="submit">
-                                        <input type="submit" value="HLEDAT" />
-                                    </div>
+
+
+                                        <input name="query" type="text" placeholder="" />
+                                        <div class="submit">
+                                            <input type="submit" value="HLEDAT" />
+                                        </div>
+
                                 </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -63,10 +68,19 @@
                             info@gowood.cz</span></a></div>
                         </div>
                         <div class="row search-button">
-                            <div class="col-6"><input class="search" type="text" /></div>
-                            <div class="col-3">&nbsp;</div>
-                            <div class="col-3" align="center">
-                                <button class="btn btn-link btn-menu-toggle d-md-none p-0 ml-3" type="button" data-toggle="collapse" data-target="#bd-docs-nav" aria-controls="bd-docs-nav" aria-expanded="false" aria-label="Toggle docs navigation"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"></path></svg>
+                            <div class="col-8">
+                                <form method="GET" action="{{ path('shop_search') }}">
+                                    <input class="search" name="query" type="text" />
+                                    <input style="display: none;" type="submit" value="Hledat" />
+                                </form>
+                            </div>
+                            <div class="col-2 align-center">
+                                <button class="btn btn-link btn-user-toggle d-md-none p-0" type="button" data-toggle="collapse" data-target="#user" aria-controls="bd-docs-nav" aria-expanded="false" aria-label="Zobrazení uživatele">
+                                    <i class="fas fa-user fa-lg"></i>
+                                </button>
+                            </div>
+                            <div class="col-2" align="center">
+                                <button class="btn btn-link btn-menu-toggle d-md-none p-0" type="button" data-toggle="collapse" data-target="#bd-docs-nav" aria-controls="bd-docs-nav" aria-expanded="false" aria-label="Toggle docs navigation"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"></path></svg>
                                 </button>
                             </div>
                         </div>
@@ -76,16 +90,29 @@
 
             <div class="separator"></div>
 
-            <div class="menu">
+            <div id="user-menu-mobile" class="menu">
+                <div class="container">
+                    <ul>
+                        {% if app.user %}
+                            <li><a href="#">{{ app.user.email }}</a></li>
+                            <li><a href="{{ path('logout') }}">Odhlásit</a></li>
+                        {% else %}
+                            <li><a href="{{ path('login') }}">Přihlášení</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <div id="main-menu" class="menu">
                 <div class="container">
                 <ul>
                     <li><a href="/">E-shop</a></li>
                     <li><a href="{{ path('page_about_us') }}">O nás</a></li>
                     <li><a href="{{ path('page_about_buying') }}">Vše o nákupu</a></li>
-                    <li><a href="/">Blog</a></li>
+                    {#<li><a href="/">Blog</a></li>#}
                     <li><a href="{{ path('page_for_companies') }}">Pro firmy</a></li>
                     <li><a href="{{ path('page_terms') }}">Obchodní podmínky</a></li>
-                    <li><a href="{{ path('page_contact') }}">Kontakt</a></li>
+                    <li><a href="{{ path('page_contact') }}">Kontaktní informace</a></li>
                 </ul>
                 </div>
             </div>
@@ -125,7 +152,7 @@
                     <div class="col-md-3 links">
                         <a href="{{ path('page_about_us') }}">O nás</a><br />
                         <a href="{{ path('page_about_buying') }}">Vše o nákupu</a><br />
-                        <a href="/">Blog</a><br />
+                        {#<a href="/">Blog</a><br />#}
                         <a href="{{ path('page_for_companies') }}">Pro firmy</a><br />
                         <a href="{{ path('page_terms') }}">Obchodní podmínky</a><br />
                         <a href="{{ path('page_gdpr') }}">Ochrana osobních údajů</a><br />
@@ -182,6 +209,9 @@
             <script src="{{ asset('js/main.js') }}"></script>
             <script src="{{ asset('js/editor.js') }}"></script>
             <script src="{{ asset('js/iziModal.min.js') }}"></script>
+            <script src="{{ asset('js/jqueryvalidation/jquery.validate.min.js') }}"></script>
+            <script src="{{ asset('js/jqueryvalidation/localization/messages_cs.js') }}"></script>
+            <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
         {% endblock %}
     </body>
 </html>

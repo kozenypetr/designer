@@ -21,6 +21,11 @@ class ContactType extends AbstractType
                     new NotBlank(array("message" => "Vyplňte prosím jméno")),
                 )
             ))
+            ->add('subject', TextType::class, array('required' => false, 'label' => 'Předmět', 'attr' => array('placeholder' => ''),
+                'constraints' => array(
+
+                )
+            ))
             ->add('email', EmailType::class, array('label' => 'Email', 'attr' => array('placeholder' => ''),
                 'constraints' => array(
                     new NotBlank(array("message" => "Vyplňte prosím emailovou adresu")),

@@ -20,6 +20,14 @@ body {
     .left-panel-facebook {
       display: none;
     }
+
+    #categories-boxes {
+      display: none;
+    }
+  }
+
+  #categories-mobile-toggle {
+    cursor: pointer;
   }
 
 header {
@@ -76,12 +84,16 @@ header {
 
         .search {
           border: solid #555 1px;
-        }
-
-        .btn-menu-toggle {
-          cursor: pointer;
+          height: 35px;
         }
       }
+    }
+
+    .btn-link {
+      display: block;
+      width: 100%;
+      height: 35px;
+      cursor: pointer;
     }
   }
 
@@ -166,6 +178,13 @@ header {
     }
   }
 
+
+  #user-menu-mobile {
+    display: none;
+  }
+
+
+
   .menu {
 
     @media (min-width: @md-min) {
@@ -217,6 +236,14 @@ header {
           height: 40px;
           line-height: 40px;
           border-bottom: solid #555 1px;
+
+          a {
+            display: block;
+          }
+        }
+
+        li:last-child {
+          border-bottom: 0px;
         }
       }
     }
@@ -324,13 +351,18 @@ section#content {
 
     h3 {
       margin: 10px 0 10px 0;
-      height: 50px;
+      height: 60px;
       a {
         color: #383737;
         font-size: 0.7em;
         line-height: 0.8em;
         text-align: center;
       }
+    }
+
+    .subname {
+      font-size: 0.9em;
+      padding: 0px 10px;
     }
 
     img {
@@ -406,6 +438,18 @@ section#content {
       }
     }
   }
+
+
+#contact {
+  div:nth-child(2) {
+    display: none;
+  }
+
+  .error {
+    color: red;
+    font-size: 0.9em;
+  }
+}
 
 
 @import "product_detail.less";

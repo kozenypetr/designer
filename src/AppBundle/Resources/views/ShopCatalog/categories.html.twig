@@ -1,42 +1,51 @@
 <div class="box-category">
-    <ul>
-    {% for category in categories %}
-        <li>
+    <div id="categories-mobile-toggle" class="d-block d-sm-block d-md-none" style="height: 35px; line-height: 30px;border: solid #716960 1px; margin-bottom: 10px;">
+        <div style="width: 30px; height: 30px; float: left; margin: 2px 10px 0 0;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"></path></svg></div>
+        <span style="vertical-align: middle; font-weight: bold;">Kategorie</span>
+    </div>
 
-            <a href="{{ path('shop_catalog_list', { slug: category.slug }) }}">
-                <i class="fas {{ category.icon ? category.icon : 'fa-angle-right' }}"></i>
-                <span>{{ category.name }}</span>
-            </a>
-        </li>
-    {% endfor %}
-    </ul>
+    <div id="categories-boxes">
 
-    <div class="title">Podle události</div>
-
-    <ul>
-        {% for event in events %}
+        <ul>
+        {% for category in categories %}
             <li>
 
-                <a href="{{ path('shop_catalog_event', { slug: event.slug }) }}">
-                    <i class="fas {{ event.icon ? event.icon : 'fa-angle-right' }}"></i>
-                    <span>{{ event.name }}</span>
+                <a href="{{ path('shop_catalog_list', { slug: category.slug }) }}">
+                    <i class="fas {{ category.icon ? category.icon : 'fa-angle-right' }}"></i>
+                    <span>{{ category.name }}</span>
                 </a>
             </li>
         {% endfor %}
-    </ul>
+        </ul>
 
-    <div class="title">Podle materiálu</div>
+        <div class="title">Podle události</div>
 
-    <ul>
-        {% for material in materials %}
-            <li>
+        <ul>
+            {% for event in events %}
+                <li>
 
-                <a href="{{ path('shop_catalog_material', { slug: material.slug }) }}">
-                    <i class="fas {{ material.icon ? material.icon : 'fa-angle-right' }}"></i>
-                    <span>{{ material.listName }}</span>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+                    <a href="{{ path('shop_catalog_event', { slug: event.slug }) }}">
+                        <i class="fas {{ event.icon ? event.icon : 'fa-angle-right' }}"></i>
+                        <span>{{ event.name }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="title">Podle materiálu</div>
+
+        <ul>
+            {% for material in materials %}
+                <li>
+
+                    <a href="{{ path('shop_catalog_material', { slug: material.slug }) }}">
+                        <i class="fas {{ material.icon ? material.icon : 'fa-angle-right' }}"></i>
+                        <span>{{ material.listName }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+    </div>
 
 </div>

@@ -19,8 +19,8 @@
                  <p>{{ category.description }}</p>
                  {% endif %}
              </div>
-             {%  for product in category.products %}
-               <div class="col-md-4">
+             {%  for product in products %}
+               <div class="col-md-6">
                    {% include 'AppBundle::ShopCatalog/listItem.html.twig' with {'product': product} %}
                </div>
              {%  endfor %}

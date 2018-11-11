@@ -51,7 +51,9 @@ class ShopCatalogController extends Controller
             throw $this->createNotFoundException('Kategorie neexistuje');
         }
 
-        return $this->render('AppBundle:ShopCatalog:list.html.twig', array('category' => $category));
+        $products = $this->em->getRepository('AppBundle:Product')->findActiveForCategory($category);
+
+        return $this->render('AppBundle:ShopCatalog:list.html.twig', array('category' => $category, 'products' => $products));
     }
 
     /**
@@ -68,7 +70,9 @@ class ShopCatalogController extends Controller
             throw $this->createNotFoundException('Material neexistuje');
         }
 
-        return $this->render('AppBundle:ShopCatalog:list.html.twig', array('category' => $material));
+        $products = $this->em->getRepository('AppBundle:Product')->findActiveForMaterial($material);
+
+        return $this->render('AppBundle:ShopCatalog:list.html.twig', array('category' => $material, 'products' => $products));
     }
 
     /**
@@ -85,7 +89,9 @@ class ShopCatalogController extends Controller
             throw $this->createNotFoundException('Událost neexistuje');
         }
 
-        return $this->render('AppBundle:ShopCatalog:list.html.twig', array('category' => $event));
+        $products = $this->em->getRepository('AppBundle:Product')->findActiveForEvent($event);
+
+        return $this->render('AppBundle:ShopCatalog:list.html.twig', array('category' => $event, 'products' => $products));
     }
 
 
@@ -131,7 +137,7 @@ class ShopCatalogController extends Controller
                 }
 
                 $options['label'] = $attribute->getName();
-                // $options['required'] = $attribute->getIsRequired();
+                $options['required'] = $attribute->getIsRequired();
                 $options['attr']['title'] = $attribute->getHelp();
                 $options['attr']['class'] = $attribute->getClass();
                 $formBuilder->add($attribute->getId(), $attribute->getType(), $options);

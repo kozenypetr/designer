@@ -46,7 +46,11 @@
         <p>Číslo objednávky: <strong>{{ order.id }}</strong></p>
 
         {% if not order.isGopay or order.gopayState == 'PAID' %}
-        <p>Budeme Vás informovat o dokončení výroby a předání objednávky dopravci.</p>
+            {% if order.paymentCode != 'transfer' %}
+              <p>Budeme Vás informovat o dokončení výroby a předání objednávky dopravci.</p>
+            {% else %}
+              <p><strong>Objednávka půjde do výroby až po připsání celkové částky na náš bankovní účet.</strong></p>
+            {% endif %}
         {% endif %}
 
         <p>Přejeme hezký den :)</p>

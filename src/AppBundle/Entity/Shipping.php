@@ -137,7 +137,7 @@ class Shipping
         $price = 0;
         if ($table)
         {
-            $borders = explode(',', $table);
+            $borders = array_reverse(explode(',', $table));
 
             foreach ($borders as $border) {
                 list($borderLimit, $borderPrice) = explode(':', $border);

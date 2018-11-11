@@ -33,6 +33,14 @@ class Contact
     /**
      * @var string
      *
+     * @ORM\Column(name="subject", type="string", length=255, nullable=true)
+     */
+
+    private $subject;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="email", type="string", length=255)
      */
 
@@ -224,5 +232,29 @@ class Contact
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set subject.
+     *
+     * @param string|null $subject
+     *
+     * @return Contact
+     */
+    public function setSubject($subject = null)
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    /**
+     * Get subject.
+     *
+     * @return string|null
+     */
+    public function getSubject()
+    {
+        return $this->subject;
     }
 }

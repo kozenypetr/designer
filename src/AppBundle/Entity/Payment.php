@@ -131,6 +131,29 @@ class Payment
         return $this->getName()?$this->getName():'Platba';
     }
 
+    public function getPrice($cart)
+    {
+        $table = $this->getPriceTable();
+
+        $price = 0;
+        if ($table)
+        {
+            $borders = array_reverse(explode(',', $table));
+
+            foreach ($borders as $border) {
+                list($borderLimit, $borderPrice) = explode(':', $border);
+
+
+                if ($cart->getTotalProducts() >= $borderLimit) {
+                    $price = $borderPrice;
+                    break;
+                }
+            }
+        }
+
+        return $price;
+    }
+
 
     /**
      * Get id.

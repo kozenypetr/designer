@@ -16,8 +16,14 @@
             {% if shipping.description %}
               <div class="description{{ (cart.shipping and cart.shipping.id == shipping.id)?' show':'' }}">
                 <p>{{ shipping.description }}</p>
+
+                {% if shipping.code == 'zasilkovna' %}
+                  {{ render(controller('AppBundle:Shipping:zasilkovna', { 'cart': cart })) }}
+                {% endif %}
               </div>
             {% endif %}
+
+
         </div>
     {% endfor %}
 
@@ -32,6 +38,10 @@
               <img src="/images/payment/{{ payment.icon }}" />
             </span>
             {% endif %}
+
+            <span class="price">
+                            {{ payment.getPrice(cart) ? (payment.getPrice(cart) | price) : 'zdarma' }}
+            </span>
 
             {% if payment.description %}
                 <div class="description{{ (cart.payment and cart.payment.id == payment.id)?' show':'' }}">

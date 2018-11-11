@@ -15,6 +15,10 @@ services:
     class:    AppBundle\Service\Gopay
     autowire: true
 
+  shop.zasilkovna:
+      class:    AppBundle\Service\Zasilkovna
+      autowire: true
+
   customer_authenticator:
     class:    AppBundle\Security\CustomerAuthenticator
     autowire: true

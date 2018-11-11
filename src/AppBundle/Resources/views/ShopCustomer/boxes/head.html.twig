@@ -1,4 +1,4 @@
-<div class="header-customer">
+<div class="header-customer d-sm-none d-none ml-auto d-md-block">
     {% if app.user %}
         <i class="fas fa-user"></i> {{ app.user.email }} | <a href="{{ path('logout') }}">Odhlásit</a>
     {% else %}

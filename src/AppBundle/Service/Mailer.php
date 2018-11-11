@@ -47,7 +47,7 @@ class Mailer {
     {
 
         $message = (new \Swift_Message($subject))
-            ->setFrom('info@kozenypetr.cz', 'GOWOOD.CZ')
+            ->setFrom('info@gowood.cz', 'GOWOOD.CZ')
             ->setTo($to)
             ->addBcc('info@gowood.cz')
             ->setBody(

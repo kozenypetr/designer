@@ -29,6 +29,16 @@
                     </div>
                     {% endif %}
                     <p>{{ cm.cart.shipping.description }}</p>
+
+                    {% if cm.cart.shipping.code == 'zasilkovna' %}
+                        <div>
+                            Vybraná pobočka:
+                            <strong>{{ cm.cart.shippingParameters.place }}</strong>,
+                            {{ cm.cart.shippingParameters.street }},
+                            {{ cm.cart.shippingParameters.zip }} {{ cm.cart.shippingParameters.city }}<br /><br />
+                        </div>
+                    {% endif %}
+
                 </div>
                 <div class="col-md-2 price">
                     {{ cm.cart.getShippingPrice ? ( cm.cart.getShippingPrice | price) : 'zdarma' }}

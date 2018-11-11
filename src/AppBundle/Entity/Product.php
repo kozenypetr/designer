@@ -224,9 +224,9 @@ class Product
     /**
      * @var integer
      *
-     * @ORM\Column(name="sort", type="integer", nullable=true)
+     * @ORM\Column(name="sort", type="integer", nullable=true, options={"default": 1000})
      */
-    private $sort;
+    private $sort = 1000;
 
     /**
      * @var integer

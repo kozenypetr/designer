@@ -17,23 +17,26 @@
 
             <div class="col-md-12">
                 <h2>{{ product.name }}</h2>
+                {% if product.annotation %}
+                    <h6>{{ product.annotation }}</h6>
+                {% endif %}
             </div>
 
             <div class="col-lg-6 col-md-12 left">
                 <div class="image">
 
-                    <a class="gallery" data-fancybox="images" data-type="image" href="{{ path('image_cache', { id: product.images[0].id, setting: '1200x1200x0'}) }}">
-                      <img width="100%" src="{{ path('image_cache', { id: product.images[0].id, setting: '800x800x0'}) }}" />
+                    <a class="gallery" data-fancybox="images" data-type="image" href="{{ product.images[0].path | imagine_filter('product_detail_large') }}">
+                      <img width="100%" src="{{ product.images[0].path | imagine_filter('product_detail_main') }}" />
                     </a>
                 </div>
 
-                <div class="row" style="margin-top: 10px;">
+                <div class="row image-thumbnails">
                     {% for key, image in product.images %}
                         {% if key > 0 %}
-                        <div class="col-md-4 col-4">
+                        <div class="col-md-4 col-4 thumbnail">
                             <div>
-                                <a class="gallery" data-fancybox="images" data-type="image" href="{{ path('image_cache', { id: image.id, setting: '1200x1200x0'}) }}">
-                                    <img width="100%" src="{{ path('image_cache', { id: image.id, setting: '400x300x1'}) }}" />
+                                <a class="gallery" data-fancybox="images" data-type="image" href="{{ image.path | imagine_filter('product_detail_large') }}">
+                                    <img width="100%" src="{{ image.path | imagine_filter('product_detail_thumb') }}" />
                                 </a>
                             </div>
                         </div>
@@ -44,11 +47,9 @@
 
             <div class="col-lg-6 col-md-12 right">
 
-                {% if product.subname %}
-                <h3>{{ product.subname }}</h3>
-                {% endif %}
 
-                <p class="short-description">{{ product.annotation }}</p>
+
+                {#<p class="short-description">{{ product.annotation }}</p>#}
 
                 <div class="availability">U vás do {{ product.availability }} dní</div>
 
@@ -130,6 +131,13 @@
                 {{ product.description | raw }}
             </div>
             {% endif %}
+
+
+            <div class="col-md-8">
+                <h3 class="description-title">Chcete se nás na něco zeptat? Pište zde:</h3>
+                 {{ render(controller('AppBundle:Contact:form')) }}
+            </div>
+            <div class="col-md-4"></div>
          </div>
     </div>
 </div>
@@ -139,6 +147,4 @@
     {{ parent() }}
     <script src="{{ asset('js/detail.js') }}"></script>
     <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
-    <script src="{{ asset('js/jqueryvalidation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('js/jqueryvalidation/localization/messages_cs.js') }}"></script>
 {% endblock %}

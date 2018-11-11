@@ -119,10 +119,18 @@
             </div>
         </div>
 
-            <h3><i class="fas fa-box-open"></i> Dodací údaje</h3>
+        <h3><i class="fas fa-box-open"></i> Dodací údaje</h3>
 
         <div class="delivery-address">
             <div class="row">
+                {% if cm.cart.shipping.code == 'zasilkovna' %}
+                <div class="col-md-12 align-center">
+                    <img src="/images/shipping/zasilkovna.png"><br />
+                    <strong>{{ cm.cart.shippingParameters.place }}</strong>,
+                    {{ cm.cart.shippingParameters.street }},
+                    {{ cm.cart.shippingParameters.zip }} {{ cm.cart.shippingParameters.city }}<br /><br />
+                </div>
+                {% endif %}
                 <div class="col-md-12">
                     {{ form_widget(billingForm.is_delivery) }}
                 </div>

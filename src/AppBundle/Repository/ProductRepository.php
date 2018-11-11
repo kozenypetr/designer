@@ -10,4 +10,58 @@ namespace AppBundle\Repository;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function search($query)
+    {
+        $query = $this->createDefaultProductListQueryBuilder()
+            ->andWhere('p.name LIKE :query OR p.subname LIKE :query OR p.customMetadescription LIKE :query OR p.customMetakeywords LIKE :query OR p.customMetatitle LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function findActiveForCategory($category)
+    {
+        $query = $this->createDefaultProductListQueryBuilder()
+                      ->innerJoin('p.categories', 'c')
+                      ->andWhere('c.id = :category_id')
+                      ->setParameter('category_id', $category->getId())
+                      ->getQuery();
+
+        return $query->getResult();
+    }
+
+
+    public function findActiveForMaterial($material)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->innerJoin('p.material', 'm')
+            ->where('m.id = :material_id')
+            ->andWhere('p.isActive = 1')
+            ->setParameter('material_id', $material->getId())
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function findActiveForEvent($event)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->innerJoin('p.events', 'e')
+            ->where('e.id = :event_id')
+            ->andWhere('p.isActive = 1')
+            ->setParameter('event_id', $event->getId())
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function createDefaultProductListQueryBuilder()
+    {
+        return  $this->createQueryBuilder('p')
+                ->where('p.isActive = 1')
+                ->orderBy('p.sort', 'ASC');
+    }
+
 }

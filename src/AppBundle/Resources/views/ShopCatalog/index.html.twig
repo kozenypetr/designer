@@ -2,18 +2,10 @@
 
 {% block body %}
 
-  <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-          <p style="text-align: center; font-size: 1.1em;">Vyrábíme originální dřevené dekorace a doplňky, u kterých si sami můžete říct, jak mají vypadat. Můžete udělat radost sobě nebo dárkem někomu, kdo si to zaslouží :)</p>
-          <p style="text-align: center;">Nejsme plátci DPH a uvedené ceny jsou konečné.</p>
-      </div>
-      <div class="col-md-2"></div>
-  </div>
-
   <div class="categories-list row">
+      <div class="col-md-12 align-center"><h5>Vyberte si z našich kategorií</h5></div>
     {% for category in categories %}
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="item">
                 <a href="{{ path('shop_catalog_list', { slug: category.slug }) }}">
                   <img width="100%" src="{{ category.filename | imagine_filter('categories_list') }}" alt="{{ category.name }}" />
@@ -23,6 +15,7 @@
         </div>
     {% endfor %}
   </div>
+  {#
   <div class="row">
       <div class="col-md-12">
           <br />
@@ -65,7 +58,7 @@
       </div>
       </div>
   </div>
-
+#}
 {#
  <div class="product-item-list row">
  {%  for product in products %}

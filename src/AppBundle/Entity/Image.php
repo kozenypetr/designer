@@ -95,6 +95,12 @@ class Image
     private $product;
 
 
+    public function getPath()
+    {
+        return '/data/shop/product/' . $this->getFilename();
+    }
+
+
     /**
      * Get id.
      *

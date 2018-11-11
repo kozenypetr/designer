@@ -130,4 +130,13 @@ class ShopCartController extends Controller
         $this->cm->setShipping($shippingId);
         $this->cm->flush();
     }
+
+    protected function setZasilkovna(Request $request)
+    {
+        $id = $request->get('v');
+
+        $this->cm->cart->setShippingParameters($this->get('shop.zasilkovna')->getDetail($id));
+
+        $this->cm->flush();
+    }
 }

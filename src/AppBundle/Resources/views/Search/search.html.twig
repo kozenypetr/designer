@@ -1,0 +1,29 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+
+ <div class="product-item-list row">
+     <div class="col-md-3">
+
+         {% include '@App/ShopCatalog/leftPanel.html.twig' %}
+
+     </div>
+     <div class="col-md-9">
+         <div class="row">
+             <div class="col-md-12">
+                 <div class="bread">
+                    <a href="/">Úvod</a> / <span>Výsledek hledání</span>
+                 </div>
+                 <h3>Výsledek hledání: {{ query }}</h3>
+             </div>
+             {%  for product in products %}
+               <div class="col-md-4">
+                   {% include 'AppBundle::ShopCatalog/listItem.html.twig' with {'product': product} %}
+               </div>
+             {% else %}
+                <div class="col-md-12">Nebyly nalezeny žádné produkty</div>
+             {%  endfor %}
+         </div>
+   </div>
+ </div>
+{% endblock %}

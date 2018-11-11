@@ -2,13 +2,14 @@
     <div class="image">
         <a href="{{ path('shop_catalog_detail', { slug: product.slug }) }}">
             {% if product.images %}
-            <img width="100%" src="{{ path('image_cache', { id: product.images[0].id, setting: '800x600x1'}) }}" />
+            <img width="100%" src="{{ product.images[0].path | imagine_filter('product_list') }}" />
             {% endif %}
         </a>
     </div>
     <h3><a href="{{ path('shop_catalog_detail', { slug: product.slug }) }}">{{ product.name }}</a></h3>
+    <p class="subname">{{ product.subname }}</p>
     <div class="price">{{ product.price | round }} Kč</div>
     <a href="{{ path('shop_catalog_detail', { slug: product.slug }) }}" class="btn btn-success active">
         <i class="fas fa-arrow-alt-circle-right"></i>
-        Zadat vlastní text</a>
+        Detail produktu</a>
 </div>
