@@ -52,7 +52,7 @@
                                                         {% for attribute in item.attributes %}
                                                             <br />
                                                             {% if attribute.type == 'FileType' %}
-                                                            {{ attribute.name }}: <span class="value"><a class="cart-item-image" href="{{ attribute.file }}">{{ attribute.value }}</a></span>
+                                                            {{ attribute.name }}: <span class="value"><a class="cart-item-image" href="{{ app.request.getSchemeAndHttpHost }}{{ attribute.file }}">{{ attribute.value }}</a></span>
                                                             {% else %}
                                                             {{ attribute.name }}: <span class="value">{{ attribute.value }}</span>
                                                         {% endif %}
