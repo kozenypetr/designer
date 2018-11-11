@@ -1,4 +1,9 @@
+
+
 $(function() {
+
+   $.fancybox.defaults.hash = false;
+
    $('.btn-menu-toggle').click(function(){
        $('#main-menu').toggle();
    });
@@ -19,7 +24,8 @@ $(function() {
                    "thumbs",
                    "close"
                ],
-               defaultType: "image"
+               defaultType: "image",
+               hash: false
            }
        );
    }
@@ -35,7 +41,8 @@ $(function() {
                 "thumbs",
                 "close"
             ],
-            defaultType: "image"
+            defaultType: "image",
+            hash: false
         }
     );
 

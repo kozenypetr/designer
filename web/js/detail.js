@@ -16,7 +16,8 @@ var detail = {
                     "thumbs",
                     "close"
                 ],
-                defaultType: "image"
+                defaultType: "image",
+                hash: false
             }
         );
 
