@@ -17,7 +17,7 @@
               <div class="description{{ (cart.shipping and cart.shipping.id == shipping.id)?' show':'' }}">
                 <p>{{ shipping.description }}</p>
 
-                {% if shipping.code == 'zasilkovna' %}
+                {% if cart.shipping.code == 'zasilkovna' and shipping.code == 'zasilkovna' %}
                   {{ render(controller('AppBundle:Shipping:zasilkovna', { 'cart': cart })) }}
                 {% endif %}
               </div>

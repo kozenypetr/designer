@@ -135,7 +135,14 @@ class ShopCartController extends Controller
     {
         $id = $request->get('v');
 
-        $this->cm->cart->setShippingParameters($this->get('shop.zasilkovna')->getDetail($id));
+        if ($id) {
+            $this->cm->cart->setShippingParameters($this->get('shop.zasilkovna')
+                ->getDetail($id));
+        }
+        else
+        {
+            $this->cm->cart->setShippingParameters(null);
+        }
 
         $this->cm->flush();
     }

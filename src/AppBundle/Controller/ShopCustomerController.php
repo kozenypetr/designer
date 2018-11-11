@@ -69,6 +69,21 @@ class ShopCustomerController extends Controller
             );
         }
 
+        // kontrola zasilkovna
+        if ($cm->getCart()->getShipping()->getCode() == 'zasilkovna')
+        {
+            $shippingParameters = $cm->getCart()->getShippingParameters();
+            if (!isset($shippingParameters['place']))
+            {
+                $valid = false;
+                $this->addFlash(
+                    'danger',
+                    'Potřebovali bychom vědět, na jakou pobočku ZÁSILKOVNY máme balíček poslat :) Vyberte prosím níže u dopravy.'
+                );
+            }
+        }
+
+
         if (!$valid)
         {
             return $this->redirectToRoute('shop_cart');
