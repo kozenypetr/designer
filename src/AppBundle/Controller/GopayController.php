@@ -35,12 +35,12 @@ class GopayController extends Controller
 
         if (in_array($order->getGopayState(), array('PAID', 'REFUNDED', 'PARTIALLY_REFUNDED', 'PAYMENT_METHOD_CHOSEN')))
         {
-            $this->redirectToRoute('shop_order_finish_confirm');
+            return $this->redirectToRoute('shop_order_finish_confirm');
         }
 
         if ($order->getGopayState() == 'CREATED')
         {
-            $this->redirectToRoute('shop_gopay_payment');
+            return $this->redirectToRoute('shop_gopay_payment');
         }
 
         $this->get('shop.gopay')->createPayment($order);
