@@ -80,7 +80,7 @@ class PaymentAdmin extends AbstractAdmin
   {
     $errorElement
       ->with('name')
-      ->assertLength(array('max' => 32))
+      ->assertLength(array('max' => 128))
       ->end()
     ;
   }
