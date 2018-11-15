@@ -70,7 +70,7 @@ class ShopCustomerController extends Controller
         }
 
         // kontrola zasilkovna
-        if ($cm->getCart()->getShipping()->getCode() == 'zasilkovna')
+        if ($cm->getCart()->getShipping() && $cm->getCart()->getShipping()->getCode() == 'zasilkovna')
         {
             $shippingParameters = $cm->getCart()->getShippingParameters();
             if (!isset($shippingParameters['place']))
