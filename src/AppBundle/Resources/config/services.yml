@@ -16,8 +16,8 @@ services:
     autowire: true
 
   shop.zasilkovna:
-      class:    AppBundle\Service\Zasilkovna
-      autowire: true
+    class:    AppBundle\Service\Zasilkovna
+    autowire: true
 
   customer_authenticator:
     class:    AppBundle\Security\CustomerAuthenticator

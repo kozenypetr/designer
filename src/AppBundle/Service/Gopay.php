@@ -15,7 +15,8 @@ use GoPay\Definition\TokenScope as GopayTokenScope;
 use GoPay\Definition\Language as GopayLanguage;
 use GoPay\Definition\Payment\{Currency, BankSwiftCode, PaymentInstrument, PaymentItemType, Recurrence, VatRate};
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
 
@@ -29,26 +30,35 @@ class Gopay {
     protected $session = NULL;
     protected $em = NULL;
     protected $requestStack = null;
-    protected $router;
     protected $om;
 
-    protected $goid = '8236164431';
-    protected $sercureKey = 'S3BDv9PXb4zBb3ZayRDKnVtC';
-    protected $clientId = '1480292616';
-    protected $clientSecret = 'b85R2VFy';
+    protected $goid = null;
+    protected $secureKey = null;
+    protected $clientId = null;
+    protected $clientSecret = null;
     protected $production = false;
+    protected $container;
 
     /**
      * @param Session $session
      * @param EntityManager $em
      *
      */
-    public function __construct(Session $session, EntityManagerInterface $em, RequestStack $requestStack, Router $router, OrderManager $om) {
+    public function __construct(Session $session, EntityManagerInterface $em, RequestStack $requestStack, OrderManager $om, ContainerInterface $container) {
         $this->session = $session;
         $this->em = $em;
         $this->requestStack = $requestStack;
-        $this->router = $router;
         $this->om = $om;
+
+        $this->container = $container;
+
+        $gopayConfig = $container->getParameter('gopay.config');
+
+        $this->production   = $gopayConfig['production'];
+        $this->goid         = $gopayConfig['goid'];
+        $this->secureKey    = $gopayConfig['secure_key'];
+        $this->clientId     = $gopayConfig['client_id'];
+        $this->clientSecret = $gopayConfig['client_secret'];
     }
 
 
