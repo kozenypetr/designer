@@ -59,6 +59,18 @@ module.exports = function(grunt) {
             src: 'iziModal.min.js',
             dest: 'web/js'
       },
+      cookies_css: {
+          expand: true,
+          cwd: 'web/vendor/cookies',
+          src: 'cookies-message.min.css',
+          dest: 'web/css'
+      },
+      cookies_js: {
+          expand: true,
+          cwd: 'web/vendor/cookies',
+          src: 'cookies-message.min.js',
+          dest: 'web/js'
+      },
     },
     watch: {
         less: {
@@ -110,6 +122,7 @@ module.exports = function(grunt) {
                 'web/css/gowood.min.css',
                 'web/css/jquery.fancybox.min.css',
                 'web/css/iziModal.min.css',
+                'web/css/cookies-message.min.css',
             ],
          },
       }

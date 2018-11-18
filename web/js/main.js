@@ -2,6 +2,13 @@
 
 $(function() {
 
+   $.CookiesMessage({
+       messageText: "Internetový obchod gowood.cz ukládá soubory cookies, které pomáhají k jeho správnému fungování. Využíváním našich služeb s jejich používáním souhlasíte.",
+       acceptText: "Rozumím",
+       infoText: "Více informací",
+       infoUrl: "/pravidla-pouzivani-cookies",
+   });
+
    $.fancybox.defaults.hash = false;
 
    $('.btn-menu-toggle').click(function(){
