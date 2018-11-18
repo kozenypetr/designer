@@ -57,6 +57,17 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    /**
+     * @return mixed
+     */
+    public function findAllActive()
+    {
+        $query = $this->createDefaultProductListQueryBuilder()
+                      ->getQuery();
+
+        return $query->getResult();
+    }
+
     public function createDefaultProductListQueryBuilder()
     {
         return  $this->createQueryBuilder('p')

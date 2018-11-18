@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SHOP>
+    {% for product in products %}
+    <SHOPITEM>
+        <ITEM_ID>{{ product.id }}</ITEM_ID>
+        <PRODUCTNAME>{{ product.getFinalFeedName }}</PRODUCTNAME>
+        <PRODUCT>{{ product.name }}</PRODUCT>
+        <DESCRIPTION>{{ product.feedDescription?product.feedDescription:product.annotation }}</DESCRIPTION>
+        <CATEGORYTEXT>{{ product.getMainCategory.name }}</CATEGORYTEXT>
+        <PRODUCTNO>{{ product.model }}</PRODUCTNO>
+        <MANUFACTURER>GOWOOD</MANUFACTURER>
+        <URL>{{ app.request.getSchemeAndHttpHost }}{{ path('shop_catalog_detail', { slug: product.slug }) }}</URL>
+        <DELIVERY_DATE>14</DELIVERY_DATE>
+        <DELIVERY>
+            <DELIVERY_ID>DPD</DELIVERY_ID>
+            <DELIVERY_PRICE>99</DELIVERY_PRICE>
+            <DELIVERY_PRICE_COD>128</DELIVERY_PRICE_COD>
+        </DELIVERY>
+        <IMGURL>{{ product.images[0].path | imagine_filter('product_list') }}</IMGURL>
+        <PRICE_VAT>{{ product.price }}</PRICE_VAT>
+        {#<MAX_CPC>6,50</MAX_CPC>#}
+        {#<MAX_CPC_SEARCH>5,80</MAX_CPC_SEARCH>#}
+    </SHOPITEM>
+    {% endfor %}
+</SHOP>

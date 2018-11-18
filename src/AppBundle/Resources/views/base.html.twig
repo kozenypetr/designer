@@ -1,9 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="cs">
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}GOWOOD - dřevěné doplňky{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>{% block title %}Dřevěné doplňky{% endblock %} | GOWOOD</title>
+
+        <meta name="keywords" content="{% block keywords %}gowood, eshop s dřevěnými doplňky, dárek, dárek k vánocům, svatební dar, dárek k narození dítěte, dřevěné doplňky, dřevěné hodiny, dřevěné ráměčky, dětský metr{% endblock %}">
+        <meta name="description" content="{% block description %}Dřevené výrobky, především dekorace, vhodné jako dárek.{% endblock %}">
+        <meta name="robots" content="index,follow">
+
+        <!-- Open Graph -->
+        <meta property="og:site_name" content="GOWOOD">
+        <meta property="og:type" content="website">
+        <meta property="og:locale" content="cs_CZ">
+
+        <meta property="og:title" content="{% block og_title %}GOWOOD - dřevěné doplňky a dekorace{% endblock %}">
+        <meta property="og:image" content="{% block og_image %}https://www.gowood.cz/images/logo_v2.png{% endblock %}">
+        <meta property="og:description" content="{% block og_description %}Dřevené výrobky, především dekorace, vhodné jako dárek.{% endblock %}">
+
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/styles.css') }}" />
         {% endblock %}

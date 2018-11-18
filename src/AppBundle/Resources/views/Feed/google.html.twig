@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
+    <channel>
+        <title>GOWOOD - dřevěné doplňky</title>
+        <link>https://www.gowood.com</link>
+        <description>Dřevené výrobky, především dekorace, vhodné jako dárek.</description>
+
+        <!-- First example shows what attributes are required and recommended for items that are not in the apparel category -->
+        {% for product in products %}
+        <item>
+            <!-- The following attributes are always required -->
+            <g:id>{{ product.id }}</g:id>
+            <g:title>{{ product.getFinalFeedName }}</g:title>
+            <g:description>{{ product.feedDescription?product.feedDescription:product.annotation }}</g:description>
+            <g:link>{{ app.request.getSchemeAndHttpHost }}{{ path('shop_catalog_detail', { slug: product.slug }) }}</g:link>
+            <g:image_link>{{ product.images[0].path | imagine_filter('product_list') }}</g:image_link>
+            <g:condition>new</g:condition>
+            <g:availability>in stock</g:availability>
+            <g:price>{{ product.price }} CZK</g:price>
+            <g:shipping>
+                <g:country>CZ</g:country>
+                <g:service>DPD</g:service>
+                <g:price>99 CZK</g:price>
+            </g:shipping>
+
+            <!-- 2 of the following 3 attributes are required fot this item according to the Unique Product Identifier Rules -->
+            <g:brand>GOWOOD</g:brand>
+            <g:mpn>{{ product.model }}</g:mpn>
+
+            <!-- The following attributes are not required for this item, but supplying them is recommended -->
+            <g:google_product_category>2559</g:google_product_category>
+            <g:product_type>{{ product.getMainCategory.name }}</g:product_type>
+        </item>
+        {% endfor %}
+    </channel>
+</rss>

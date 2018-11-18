@@ -51,6 +51,13 @@ class Category
     /**
      * @var string
      *
+     * @ORM\Column(name="feed_name", type="string", length=255, nullable=true)
+     */
+    private $feedName;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="filename", type="string", length=255)
      */
     private $filename;
@@ -100,6 +107,31 @@ class Category
      * @ORM\OneToMany(targetEntity="Product", mappedBy="mainCategory")
      */
     private $mainProducts;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="custom_metatitle", type="string", length=255, nullable=true)
+     */
+    private $customMetatitle;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="custom_metadescription", type="text", nullable=true, nullable=true)
+     */
+    private $customMetadescription;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="custom_metakeywords", type="string", length=255, nullable=true)
+     */
+    private $customMetakeywords;
+
 
     /**
      * @var \DateTime $created
@@ -540,5 +572,101 @@ class Category
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set customMetatitle.
+     *
+     * @param string|null $customMetatitle
+     *
+     * @return Category
+     */
+    public function setCustomMetatitle($customMetatitle = null)
+    {
+        $this->customMetatitle = $customMetatitle;
+
+        return $this;
+    }
+
+    /**
+     * Get customMetatitle.
+     *
+     * @return string|null
+     */
+    public function getCustomMetatitle()
+    {
+        return $this->customMetatitle;
+    }
+
+    /**
+     * Set customMetadescription.
+     *
+     * @param string|null $customMetadescription
+     *
+     * @return Category
+     */
+    public function setCustomMetadescription($customMetadescription = null)
+    {
+        $this->customMetadescription = $customMetadescription;
+
+        return $this;
+    }
+
+    /**
+     * Get customMetadescription.
+     *
+     * @return string|null
+     */
+    public function getCustomMetadescription()
+    {
+        return $this->customMetadescription;
+    }
+
+    /**
+     * Set customMetakeywords.
+     *
+     * @param string|null $customMetakeywords
+     *
+     * @return Category
+     */
+    public function setCustomMetakeywords($customMetakeywords = null)
+    {
+        $this->customMetakeywords = $customMetakeywords;
+
+        return $this;
+    }
+
+    /**
+     * Get customMetakeywords.
+     *
+     * @return string|null
+     */
+    public function getCustomMetakeywords()
+    {
+        return $this->customMetakeywords;
+    }
+
+    /**
+     * Set feedName.
+     *
+     * @param string|null $feedName
+     *
+     * @return Category
+     */
+    public function setFeedName($feedName = null)
+    {
+        $this->feedName = $feedName;
+
+        return $this;
+    }
+
+    /**
+     * Get feedName.
+     *
+     * @return string|null
+     */
+    public function getFeedName()
+    {
+        return $this->feedName;
     }
 }

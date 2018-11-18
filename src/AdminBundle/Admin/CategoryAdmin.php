@@ -16,23 +16,32 @@ class CategoryAdmin extends AbstractAdmin
   protected function configureFormFields(FormMapper $formMapper)
   {
     $formMapper
-      ->add('locale', 'choice',
-            ['label' => 'Jazyk', 'required' => false,
-                'choices' => [
-                    'Čeština' => 'cs',
-                    'Angličtina' => 'en',
-                ]
-      ])
-      ->add('name', 'text')
-      ->add('description', 'textarea', ['label' => 'Popis', 'required' => false, 'attr' => ['class' => 'tiny']])
-      ->add('is_active', 'checkbox', array('label' => 'Aktivní', 'required' => false))
-      ->add('icon', null, array('label' => 'Ikona', 'required' => false))
-      ->add('filename', 'text', array('label' => 'Fotka', 'required' => false))
-      ->add('file', FileType::class, [
-            'required' => false,
-            'label' => 'Nahrání fotky'
-      ])
-      ->add('sort', 'text', array('label' => 'Řazení', 'required' => false))
+        ->with('Základní informace')
+          ->add('locale', 'choice',
+                ['label' => 'Jazyk', 'required' => false,
+                    'choices' => [
+                        'Čeština' => 'cs',
+                        'Angličtina' => 'en',
+                    ]
+          ])
+          ->add('name', 'text', array('label' => 'Název'))
+           ->add('name', 'text', array('label' => 'Název katalogy', 'required' => false))
+          ->add('description', 'textarea', ['label' => 'Popis', 'required' => false, 'attr' => ['class' => 'tiny']])
+          ->add('is_active', 'checkbox', array('label' => 'Aktivní', 'required' => false))
+          ->add('icon', null, array('label' => 'Ikona', 'required' => false))
+          ->add('filename', 'text', array('label' => 'Fotka', 'required' => false))
+          ->add('file', FileType::class, [
+                'required' => false,
+                'label' => 'Nahrání fotky'
+          ])
+          ->add('sort', 'text', array('label' => 'Řazení', 'required' => false))
+        ->end()
+        ->with('Metadata')
+            ->add('customMetatitle', 'text', array('label' => 'Metatitle', 'required' => false))
+            ->add('customMetadescription', 'text', array('label' => 'Metadescription', 'required' => false))
+            ->add('customMetakeywords', 'text', array('label' => 'Metakeywords', 'required' => false))
+        ->end()
+
     ;
   }
 

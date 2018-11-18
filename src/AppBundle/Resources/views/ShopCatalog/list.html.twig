@@ -28,3 +28,16 @@
    </div>
  </div>
 {% endblock %}
+
+{# metatagy a opengraph #}
+{% block title %}{{ (category.customMetatitle is not empty)?category.customMetatitle:parent() }}{% endblock %}
+
+{% block keywords %}{{ (category.customMetakeywords is not empty)?category.customMetakeywords:parent() }}{% endblock %}
+
+{% block description %}{{ (category.customMetadescription is not empty)?category.customMetadescription:parent() }}{% endblock %}
+
+{% block og_title %}{{ (category.customMetatitle is not empty)?category.customMetatitle:parent() }}{% endblock %}
+
+{% block og_image %}{{ (category.filename is not empty)?(category.filename | imagine_filter('categories_list')):parent() }}{% endblock %}
+
+{% block og_description %}{{ (category.customMetadescription is not empty)?category.customMetadescription:parent() }}{% endblock %}

@@ -122,6 +122,13 @@ class Product
     /**
      * @var string
      *
+     * @ORM\Column(name="feed_description", type="string", length=255, nullable=true)
+     */
+    private $feedDescription;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="model", type="string", length=255, nullable=true)
      */
     private $model;
@@ -183,6 +190,13 @@ class Product
      * @ORM\Column(name="price", type="decimal", precision=15, scale=4)
      */
     private $price;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="old_price", type="decimal", precision=15, scale=4, nullable=true)
+     */
+    private $oldPrice;
 
     /**
      * @var decimal
@@ -256,6 +270,11 @@ class Product
       $this->categories = new ArrayCollection();
       $this->images     = new ArrayCollection();
       $this->attributes = new ArrayCollection();
+    }
+
+    public function getFinalFeedName()
+    {
+        return $this->getFeedName()?$this->getFeedName():$this->getName();
     }
 
     public function __clone() {
@@ -1060,5 +1079,53 @@ class Product
     public function getEvents()
     {
         return $this->events;
+    }
+
+    /**
+     * Set oldPrice.
+     *
+     * @param string|null $oldPrice
+     *
+     * @return Product
+     */
+    public function setOldPrice($oldPrice = null)
+    {
+        $this->oldPrice = $oldPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get oldPrice.
+     *
+     * @return string|null
+     */
+    public function getOldPrice()
+    {
+        return $this->oldPrice;
+    }
+
+    /**
+     * Set feedDescription.
+     *
+     * @param string|null $feedDescription
+     *
+     * @return Product
+     */
+    public function setFeedDescription($feedDescription = null)
+    {
+        $this->feedDescription = $feedDescription;
+
+        return $this;
+    }
+
+    /**
+     * Get feedDescription.
+     *
+     * @return string|null
+     */
+    public function getFeedDescription()
+    {
+        return $this->feedDescription;
     }
 }

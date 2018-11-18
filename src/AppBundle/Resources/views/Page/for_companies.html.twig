@@ -8,11 +8,25 @@
     <div class="article row">
         <div class="col-md-2"></div>
         <div class="col-md-8 align-center">
-        Stránka se připravuje
+        Chce vaše firma vyrobit produkt na míru, případně ve větších sériích? Přemýšlíte o výrobě dárkových nebo památečních předmětů? Napište nám Vaši představu a my pro vás připravíme nabídku.
         </div>
         <div class="col-md-2"></div>
+    </div>
+
+
+    <br />
+    <h3>Kontakt</h3>
+
+    <div class="article row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            {{ render(controller('AppBundle:Contact:form')) }}
+        </div>
+        <div class="col-md-3"></div>
     </div>
 
     </div>
 
 {% endblock %}
+
+{% block title %}Pro firmy{% endblock %}

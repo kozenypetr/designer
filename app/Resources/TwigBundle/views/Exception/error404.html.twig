@@ -1,0 +1,20 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <div class="page-detail">
+        <h1>Stránka neexistuje</h1>
+
+
+        <div class="article row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 align-center">
+                Stránka kterou hledáte bohužel nebyla nalezena. Možná už neexistuje nebo jste se omylem přeťukli v adrese.<br /><br />
+                <div>
+                    <a href="{{ path('homepage') }}" class="btn btn-success">Pokračujte na domovskou stránku</a>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -63,6 +63,18 @@ class Material
     private $icon;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="filename", type="string", length=255, nullable=true)
+     */
+    private $filename;
+
+    /**
+     * Unmapped property to handle file uploads
+     */
+    private $file;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="sort", type="integer", nullable=true)
@@ -84,6 +96,30 @@ class Material
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="custom_metatitle", type="string", length=255, nullable=true)
+     */
+    private $customMetatitle;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="custom_metadescription", type="text", nullable=true, nullable=true)
+     */
+    private $customMetadescription;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="custom_metakeywords", type="string", length=255, nullable=true)
+     */
+    private $customMetakeywords;
 
 
     /**
@@ -406,5 +442,101 @@ class Material
     public function getListName()
     {
         return $this->listName;
+    }
+
+    /**
+     * Set customMetatitle.
+     *
+     * @param string|null $customMetatitle
+     *
+     * @return Material
+     */
+    public function setCustomMetatitle($customMetatitle = null)
+    {
+        $this->customMetatitle = $customMetatitle;
+
+        return $this;
+    }
+
+    /**
+     * Get customMetatitle.
+     *
+     * @return string|null
+     */
+    public function getCustomMetatitle()
+    {
+        return $this->customMetatitle;
+    }
+
+    /**
+     * Set customMetadescription.
+     *
+     * @param string|null $customMetadescription
+     *
+     * @return Material
+     */
+    public function setCustomMetadescription($customMetadescription = null)
+    {
+        $this->customMetadescription = $customMetadescription;
+
+        return $this;
+    }
+
+    /**
+     * Get customMetadescription.
+     *
+     * @return string|null
+     */
+    public function getCustomMetadescription()
+    {
+        return $this->customMetadescription;
+    }
+
+    /**
+     * Set customMetakeywords.
+     *
+     * @param string|null $customMetakeywords
+     *
+     * @return Material
+     */
+    public function setCustomMetakeywords($customMetakeywords = null)
+    {
+        $this->customMetakeywords = $customMetakeywords;
+
+        return $this;
+    }
+
+    /**
+     * Get customMetakeywords.
+     *
+     * @return string|null
+     */
+    public function getCustomMetakeywords()
+    {
+        return $this->customMetakeywords;
+    }
+
+    /**
+     * Set filename.
+     *
+     * @param string $filename
+     *
+     * @return Material
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+
+        return $this;
+    }
+
+    /**
+     * Get filename.
+     *
+     * @return string
+     */
+    public function getFilename()
+    {
+        return $this->filename;
     }
 }

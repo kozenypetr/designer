@@ -143,6 +143,21 @@
 </div>
 {% endblock %}
 
+
+{# metatagy a opengraph #}
+{% block title %}{{ (product.customMetatitle is not empty)?product.customMetatitle:parent() }}{% endblock %}
+
+{% block keywords %}{{ (product.customMetakeywords is not empty)?product.customMetakeywords:parent() }}{% endblock %}
+
+{% block description %}{{ (product.customMetadescription is not empty)?product.customMetadescription:parent() }}{% endblock %}
+
+{% block og_title %}{{ (product.customMetatitle is not empty)?product.customMetatitle:parent() }}{% endblock %}
+
+{% block og_image %}{{ (product.images[0] is defined)?(product.images[0].path | imagine_filter('categories_list')):parent() }}{% endblock %}
+
+{% block og_description %}{{ (product.customMetadescription is not empty)?product.customMetadescription:parent() }}{% endblock %}
+
+
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/detail.js') }}"></script>

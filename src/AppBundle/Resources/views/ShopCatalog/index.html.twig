@@ -2,8 +2,18 @@
 
 {% block body %}
 
-  <div class="categories-list row">
-      <div class="col-md-12 align-center"><h5>Vyberte si z našich kategorií</h5></div>
+  <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+          <p class="align-center">
+              Jsme malá dílna, která vyrábí dekorace ze dřeva. Všechny naše produkty sami navrhujeme a vyrábíme. Vy si ale můžete říct, co máme na výrobky napsat, případně vyřezat.
+              <br /><br />Pokud byste chtěli na výrobku větší úpravy, tak nám určitě napište, pokusíme se to vymyslet.
+              A kdybyste měli nápad na dřevěný výrobek, který vůbec nemáme, tak se taky ozvěte, třeba ho zvládnem :)</p></div>
+      <div class="col-md-1"></div>
+  </div>
+
+    <div class="categories-list row">
+      <div class="col-md-12 align-center"><h5>Vyberte si z naší nabídky</h5></div>
     {% for category in categories %}
         <div class="col-md-6">
             <div class="item">
