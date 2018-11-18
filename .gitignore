@@ -21,3 +21,5 @@
 !web/data/shop/cache/.gitkeep
 /web/data/shop/product/*
 !web/data/shop/product/.gitkeep
+/web/media/cache/*
+!/web/media/cache/.gitkeep
