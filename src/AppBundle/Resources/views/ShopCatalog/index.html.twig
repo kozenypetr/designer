@@ -2,6 +2,46 @@
 
 {% block body %}
 
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="8000">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <a href="/produkt/dubove-hodiny-100-let">
+                  <img class="d-block w-100" src="{{ asset('images/banner/hodin100let.jpg') }}" alt="Hodiny ke 100. výročí vzniku republiky">
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a href="/kategorie/fotoramecky">
+                    <img class="d-block w-100" src="{{ asset('images/banner/vlastni_ramecek.jpg') }}" alt="Vlastní rámeček">
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a href="/produkt/dubove-hodiny">
+                    <img class="d-block w-100" src="{{ asset('images/banner/vlastni_hodiny.jpg') }}" alt="Vlastní hodiny">
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a href="/produkt/detsky-metr">
+                    <img class="d-block w-100" src="{{ asset('images/banner/detsky_metr.jpg') }}" alt="Dětský metr">
+                </a>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Předchozí</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Další</span>
+        </a>
+    </div>
+
+  {#
   <div class="row">
       <div class="col-md-1"></div>
       <div class="col-md-10">
@@ -11,11 +51,12 @@
               A kdybyste měli nápad na dřevěný výrobek, který vůbec nemáme, tak se taky ozvěte, třeba ho zvládnem :)</p></div>
       <div class="col-md-1"></div>
   </div>
-
+#}
+    <br /><br />
     <div class="categories-list row">
       <div class="col-md-12 align-center"><h5>Vyberte si z naší nabídky</h5></div>
     {% for category in categories %}
-        <div class="col-md-6">
+        <div class="col-md-4{{ (category.id == 8)?' offset-md-4':'' }}">
             <div class="item">
                 <a href="{{ path('shop_catalog_list', { slug: category.slug }) }}">
                   <img width="100%" src="{{ category.filename | imagine_filter('categories_list') }}" alt="{{ category.name }}" />

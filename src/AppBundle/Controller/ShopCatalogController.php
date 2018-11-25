@@ -131,8 +131,8 @@ class ShopCatalogController extends Controller
                     foreach ($attribute->getOptions() as $option)
                     {
                         $choices[$option->getName()] = $option->getName();
+                        // $choices[$option->getName(). (($option->getPrice() > 0)?(' ( + ' . round($option->getPrice()) . ' Kč)'):'')] = $option->getId();
                     }
-
                     $options['choices'] = $choices;
                 }
 

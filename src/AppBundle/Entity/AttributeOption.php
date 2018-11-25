@@ -46,6 +46,7 @@ class AttributeOption
      */
     private $price;
 
+    
     /**
      * @var \DateTime $created
      *

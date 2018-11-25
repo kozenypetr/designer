@@ -8,6 +8,7 @@
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
+            // gtag('set', {'user_id': 'USER_ID'});
             gtag('config', 'UA-129407057-1');
         </script>
 
@@ -57,8 +58,9 @@
             js.src = 'https://connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v3.1';
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));</script>
-
+        {#
         <div align="center" class="alert alert-success">V neděli 11. 11. 2018 v 11:11 jsme spustili nový eshop. Doufáme, že se Vám bude líbit. Platba online už v provozu.</div>
+        #}
         <header>
             <div class="container">
                 <div class="row">
@@ -244,6 +246,7 @@
 
         {% block javascripts %}
             <script src="{{ asset('js/jquery.min.js') }}"></script>
+            <script src="{{ asset('js/bootstrap.min.js') }}"></script>
             <script src="{{ asset('js/editor.js') }}"></script>
             <script src="{{ asset('js/iziModal.min.js') }}"></script>
             <script src="{{ asset('js/jqueryvalidation/jquery.validate.min.js') }}"></script>

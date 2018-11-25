@@ -209,7 +209,7 @@ class Order extends BaseCustomer
      * Cart
      *
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="OrderItem", mappedBy="order", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="OrderItem", mappedBy="order", cascade={"persist", "remove"})
      */
     protected $items;
 
@@ -217,7 +217,7 @@ class Order extends BaseCustomer
      * Cart
      *
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="OrderStatusHistory", mappedBy="order", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="OrderStatusHistory", mappedBy="order", cascade={"persist", "remove"})
      */
     protected $history;
 

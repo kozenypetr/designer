@@ -14,6 +14,8 @@ use AppBundle\Entity\Contact;
 class ContactController extends Controller
 {
 
+
+
     /**
      * @Route("/odeslat-dotaz", name="contact_form")
      */

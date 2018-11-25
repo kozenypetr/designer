@@ -112,6 +112,7 @@ class Product
     private $slug;
 
 
+
     /**
      * @var string
      *
@@ -125,6 +126,64 @@ class Product
      * @ORM\Column(name="feed_description", type="string", length=255, nullable=true)
      */
     private $feedDescription;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_heureka", type="boolean", options={"default": true})
+     */
+    private $isHeureka = true;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="heureka_category", type="string", length=255, nullable=true)
+     */
+    private $heurekaCategory;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="heureka_cpc", type="integer", nullable=true)
+     */
+    private $heurekaCpc = null;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_zbozi", type="boolean", options={"default": true})
+     */
+    private $isZbozi = true;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="zbozi_max_cpc", type="integer", nullable=true)
+     */
+    private $zboziMaxCpc = null;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="zbozi_max_cpc_list", type="integer", nullable=true)
+     */
+    private $zboziMaxCpcList = null;
+
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_google", type="boolean", options={"default": true})
+     */
+    private $isGoogle = true;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="google_product_category", type="string", length=255, nullable=true)
+     */
+    private $googleProductCategory;
+
 
     /**
      * @var string
@@ -1127,5 +1186,197 @@ class Product
     public function getFeedDescription()
     {
         return $this->feedDescription;
+    }
+
+    /**
+     * Set isHeureka.
+     *
+     * @param bool $isHeureka
+     *
+     * @return Product
+     */
+    public function setIsHeureka($isHeureka)
+    {
+        $this->isHeureka = $isHeureka;
+
+        return $this;
+    }
+
+    /**
+     * Get isHeureka.
+     *
+     * @return bool
+     */
+    public function getIsHeureka()
+    {
+        return $this->isHeureka;
+    }
+
+    /**
+     * Set heurekaCategory.
+     *
+     * @param string|null $heurekaCategory
+     *
+     * @return Product
+     */
+    public function setHeurekaCategory($heurekaCategory = null)
+    {
+        $this->heurekaCategory = $heurekaCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get heurekaCategory.
+     *
+     * @return string|null
+     */
+    public function getHeurekaCategory()
+    {
+        return $this->heurekaCategory;
+    }
+
+    /**
+     * Set heurekaCpc.
+     *
+     * @param int|null $heurekaCpc
+     *
+     * @return Product
+     */
+    public function setHeurekaCpc($heurekaCpc = null)
+    {
+        $this->heurekaCpc = $heurekaCpc;
+
+        return $this;
+    }
+
+    /**
+     * Get heurekaCpc.
+     *
+     * @return int|null
+     */
+    public function getHeurekaCpc()
+    {
+        return $this->heurekaCpc;
+    }
+
+    /**
+     * Set isZbozi.
+     *
+     * @param bool $isZbozi
+     *
+     * @return Product
+     */
+    public function setIsZbozi($isZbozi)
+    {
+        $this->isZbozi = $isZbozi;
+
+        return $this;
+    }
+
+    /**
+     * Get isZbozi.
+     *
+     * @return bool
+     */
+    public function getIsZbozi()
+    {
+        return $this->isZbozi;
+    }
+
+    /**
+     * Set zboziMaxCpc.
+     *
+     * @param int|null $zboziMaxCpc
+     *
+     * @return Product
+     */
+    public function setZboziMaxCpc($zboziMaxCpc = null)
+    {
+        $this->zboziMaxCpc = $zboziMaxCpc;
+
+        return $this;
+    }
+
+    /**
+     * Get zboziMaxCpc.
+     *
+     * @return int|null
+     */
+    public function getZboziMaxCpc()
+    {
+        return $this->zboziMaxCpc;
+    }
+
+    /**
+     * Set zboziMaxCpcList.
+     *
+     * @param int|null $zboziMaxCpcList
+     *
+     * @return Product
+     */
+    public function setZboziMaxCpcList($zboziMaxCpcList = null)
+    {
+        $this->zboziMaxCpcList = $zboziMaxCpcList;
+
+        return $this;
+    }
+
+    /**
+     * Get zboziMaxCpcList.
+     *
+     * @return int|null
+     */
+    public function getZboziMaxCpcList()
+    {
+        return $this->zboziMaxCpcList;
+    }
+
+    /**
+     * Set isGoogle.
+     *
+     * @param bool $isGoogle
+     *
+     * @return Product
+     */
+    public function setIsGoogle($isGoogle)
+    {
+        $this->isGoogle = $isGoogle;
+
+        return $this;
+    }
+
+    /**
+     * Get isGoogle.
+     *
+     * @return bool
+     */
+    public function getIsGoogle()
+    {
+        return $this->isGoogle;
+    }
+
+    /**
+     * Set googleProductCategory.
+     *
+     * @param string|null $googleProductCategory
+     *
+     * @return Product
+     */
+    public function setGoogleProductCategory($googleProductCategory = null)
+    {
+        $this->googleProductCategory = $googleProductCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get googleProductCategory.
+     *
+     * @return string|null
+     */
+    public function getGoogleProductCategory()
+    {
+        return $this->googleProductCategory;
     }
 }

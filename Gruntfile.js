@@ -29,6 +29,12 @@ module.exports = function(grunt) {
             src: 'jquery.min.js',
             dest: 'web/js'
       },
+      bootstrap_js: {
+            expand: true,
+            cwd: 'node_modules/bootstrap/dist/js',
+            src: 'bootstrap.min.js',
+            dest: 'web/js'
+      },
       fancybox_js: {
           expand: true,
           cwd: 'web/vendor/fancyBox/dist',

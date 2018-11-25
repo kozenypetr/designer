@@ -270,10 +270,11 @@
 
             <div class="subtitle">Doprava</div>
             <div>{{ cm.cart.shipping }}</div>
-            <div>{{ cm.cart.getShippingPrice ? ( cm.cart.getShippingPrice | price) : 'zdarma' }}</div>
+            <div class="price">{{ cm.cart.getShippingPrice ? ( cm.cart.getShippingPrice | price) : 'zdarma' }}</div>
 
             <div class="subtitle">Platba</div>
             <div>{{ cm.cart.payment }}</div>
+            <div class="price">{{ cm.cart.getPaymentPrice ? ( cm.cart.getPaymentPrice | price) : 'zdarma' }}</div>
 
             <div class="subtitle">Celková cena</div>
             <div class="total-price">{{ cm.cart.total | price }}</div>
