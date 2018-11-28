@@ -145,7 +145,7 @@
 
 
 {# metatagy a opengraph #}
-{% block title %}{{ (product.customMetatitle is not empty)?product.customMetatitle:parent() }}{% endblock %}
+{% block title %}{{ (product.customMetatitle is not empty)?product.customMetatitle:product.name }}{% endblock %}
 
 {% block keywords %}{{ (product.customMetakeywords is not empty)?product.customMetakeywords:parent() }}{% endblock %}
 
@@ -161,5 +161,4 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/detail.js') }}"></script>
-    <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
 {% endblock %}
