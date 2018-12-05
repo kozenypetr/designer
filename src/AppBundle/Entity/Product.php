@@ -17,6 +17,7 @@ use AppBundle\Entity\Material;
  *
  * @ORM\Table(name="product")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Product
 {
@@ -37,6 +38,7 @@ class Product
     private $isActive = true;
 
     /**
+     * Novinka
      * @var boolean
      *
      * @ORM\Column(name="is_new", type="boolean", options={"default": false})
@@ -44,11 +46,22 @@ class Product
     private $isNew = false;
 
     /**
+     * Doporucujeme
      * @var boolean
      *
      * @ORM\Column(name="is_top", type="boolean", options={"default": false})
      */
     private $isTop = false;
+
+
+    /**
+     * Nejprodavanejsi
+     * @var boolean
+     *
+     * @ORM\Column(name="is_bestseller", type="boolean", options={"default": false})
+     */
+    private $isBestseller = false;
+
 
     /**
      * @var string
@@ -111,7 +124,12 @@ class Product
      */
     private $slug;
 
-
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="hash", type="string", length=255, nullable=true)
+     */
+    private $hash;
 
     /**
      * @var string
@@ -322,8 +340,18 @@ class Product
      * @ORM\JoinColumn(name="material_id", referencedColumnName="id")
      */
     private $material;
-    
-    
+
+    // === add methods ===
+    /**
+     * @ORM\PrePersist
+     */
+    public function createHash()
+    {
+        $hash = md5(rand(0, 1000000) . $this->getName() . 'as34dtsd4s');
+        $this->setHash($hash);
+    }
+
+
     public function __construct()
     {
       $this->categories = new ArrayCollection();
@@ -331,6 +359,8 @@ class Product
       $this->attributes = new ArrayCollection();
     }
 
+
+    // === generated methods ===
     public function getFinalFeedName()
     {
         return $this->getFeedName()?$this->getFeedName():$this->getName();
@@ -1378,5 +1408,53 @@ class Product
     public function getGoogleProductCategory()
     {
         return $this->googleProductCategory;
+    }
+
+    /**
+     * Set isBestseller.
+     *
+     * @param bool $isBestseller
+     *
+     * @return Product
+     */
+    public function setIsBestseller($isBestseller)
+    {
+        $this->isBestseller = $isBestseller;
+
+        return $this;
+    }
+
+    /**
+     * Get isBestseller.
+     *
+     * @return bool
+     */
+    public function getIsBestseller()
+    {
+        return $this->isBestseller;
+    }
+
+    /**
+     * Set hash.
+     *
+     * @param string|null $hash
+     *
+     * @return Product
+     */
+    public function setHash($hash = null)
+    {
+        $this->hash = $hash;
+
+        return $this;
+    }
+
+    /**
+     * Get hash.
+     *
+     * @return string|null
+     */
+    public function getHash()
+    {
+        return $this->hash;
     }
 }

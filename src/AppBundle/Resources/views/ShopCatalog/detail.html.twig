@@ -24,10 +24,11 @@
 
             <div class="col-lg-6 col-md-12 left">
                 <div class="image">
-
+                    {% if product.images.count > 0 %}
                     <a class="gallery" data-fancybox="images" data-type="image" href="{{ product.images[0].path | imagine_filter('product_detail_large') }}">
                       <img width="100%" src="{{ product.images[0].path | imagine_filter('product_detail_main') }}" />
                     </a>
+                    {% endif %}
                 </div>
 
                 <div class="row image-thumbnails">

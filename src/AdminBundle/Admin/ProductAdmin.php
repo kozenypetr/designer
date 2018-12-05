@@ -95,6 +95,9 @@ class ProductAdmin extends AbstractAdmin
         ->add('customMetadescription', 'text', array('label' => 'Metadescription', 'required' => false))
         ->add('customMetakeywords', 'text', array('label' => 'Metakeywords', 'required' => false))
       ->end()
+      ->with('Přístup', array('class' => 'col-md-9'))
+        ->add('hash', 'text', array('label' => 'Hash', 'required' => false))
+      ->end()
     ;
     // navod na tiny
     // http://www.techtonet.com/sonata-add-ckeditor-in-admin-textareas/
@@ -115,6 +118,7 @@ class ProductAdmin extends AbstractAdmin
     $listMapper
       ->addIdentifier('id')
       ->add('name', null, array('label' => 'Název produktu','editable' => true))
+      ->add('slug', null, array('label' => 'URL','editable' => true))
       ->add('model', null, array('label' => 'Kód','editable' => true))
       ->add('is_active', 'boolean', array('label' => 'Aktivní', 'editable' => true))
       ->add('locale', null, array('label' => 'Jazyk', 'editable' => true))

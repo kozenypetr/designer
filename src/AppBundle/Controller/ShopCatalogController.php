@@ -102,7 +102,13 @@ class ShopCatalogController extends Controller
     {
         $this->em = $this->getDoctrine()->getManager();
 
-        $product = $this->em->getRepository('AppBundle:Product')->findOneBySlug($slug);
+        $product = $this->em->getRepository('AppBundle:Product')->findOneBy(array('slug' => $slug, 'isActive' => 1));
+
+        if (!$product && $request->get('h'))
+        {
+            $product = $this->em->getRepository('AppBundle:Product')->findOneBy(array('slug' => $slug, 'hash' => $request->get('h')));
+        }
+
 
         if (!$product)
         {
