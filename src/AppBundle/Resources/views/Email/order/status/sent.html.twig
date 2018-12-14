@@ -1,3 +1,7 @@
-<h1>Objednávka už je na cestě k vám</h1>
+<p style="padding: 10px;">Vážený zákazníku,</p>
+<p style="padding: 10px;">Vaši <strong>objednávka č. {{ data.order.id }}</strong> byla dnes expedována. O přesném termínu doručení vás bude informovat vybraná dopravní společnost.</p>
+<p style="padding: 10px;">Děkujeme za nákup!</p>
 
-{{ data.message }}
+{% if data.message %}
+    <p style="padding: 10px;">{{ data.message }}</p>
+{% endif %}
