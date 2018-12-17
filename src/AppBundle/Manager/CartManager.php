@@ -352,7 +352,7 @@ class CartManager {
 
             if (isset($files['attribute'])) {
                 foreach ($files['attribute'] as $id => $file) {
-                    if (isset($productAttributes[$id])) {
+                    if (isset($productAttributes[$id]) && !is_null($file)) {
 
                         $uploadDir = realpath($this->kernel->getRootDir() . '/../web/data/shop/attributes/');
 
