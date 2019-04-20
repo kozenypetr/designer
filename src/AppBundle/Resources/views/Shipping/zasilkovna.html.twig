@@ -28,3 +28,24 @@ Vyberte pobočku:
     </div>
 </div>
 {% endif %}
+
+{#
+<input type="hidden" class="packeta-selector-branch-id" name="shipping_parameters[spot]" value="{% if selected %}{{ selected.id }}{% endif %}" />
+
+<div class="packeta-selector-branch-name"></div>
+
+<span onclick="return false;" href="#" class="packeta-selector-open">Vybrat výdejní místo</span>
+
+{% block footerscript %}
+    <script>
+        var packetaSelectorOpen = '.packeta-selector-open';
+        var packetaSelectorBranchName = '.packeta-selector-branch-name';
+        var packetaSelectorBranchId = '.packeta-selector-branch-id';
+        var packetaCountry = 'cz';
+        var packetaWidgetLanguage = 'cs';
+
+        var packetaExternalCssUrl = '';
+    </script>
+
+    <script src="https://widget.packeta.com/www/js/packetaWidget.js" data-api-key="9d1bfb04fa98b403"></script>
+{% endblock %#}

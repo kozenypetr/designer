@@ -56,7 +56,7 @@
     <div class="categories-list row">
       <div class="col-md-12 align-center"><h5>Vyberte si z naší nabídky</h5></div>
     {% for category in categories %}
-        <div class="col-md-4{{ (category.id == 8)?' offset-md-4':'' }}">
+        <div class="col-md-4{#{ (category.id == 8)?' offset-md-4':'' }#}">
             <div class="item">
                 <a href="{{ path('shop_catalog_list', { slug: category.slug }) }}">
                   <img width="100%" src="{{ category.filename | imagine_filter('categories_list') }}" alt="{{ category.name }}" />

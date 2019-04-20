@@ -2,7 +2,7 @@
     <div class="image">
         <a href="{{ path('shop_catalog_detail', { slug: product.slug }) }}">
             {% if product.images %}
-            <img width="100%" src="{{ product.images[0].path | imagine_filter('product_list') }}" />
+            <img width="100%" src="{{ product.images[0].path | imagine_filter('product_list2') }}" />
             {% endif %}
         </a>
     </div>

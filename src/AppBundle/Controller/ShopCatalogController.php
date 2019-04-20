@@ -29,7 +29,7 @@ class ShopCatalogController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $categories = $em->getRepository('AppBundle:Category')->findBy(['isActive' => true]);
+        $categories = $em->getRepository('AppBundle:Category')->findBy(['isActive' => true], ['sort' => 'ASC']);
 
         $products   = $em->getRepository('AppBundle:Product')->findAll();
 

@@ -242,25 +242,30 @@ liip_imagine :
             filters :
                 thumbnail  : { size : [400, 400],  mode : outbound }
 
+        product_list2:
+            quality: 100
+            filters:
+                thumbnail: { size: [400, 400],  mode: inset }
+
         product_detail_main:
             quality : 100
             filters :
-                thumbnail  : { size : [510, 510],  mode : outbound }
+                thumbnail  : { size : [510, 510],  mode : inset }
 
         product_detail_thumb:
             quality : 100
             filters :
-                thumbnail  : { size : [150, 150],  mode : outbound }
+                thumbnail  : { size : [150, 150],  mode : inset }
 
         cart_thumb:
             quality : 100
             filters :
-                thumbnail  : { size : [100, 100],  mode : outbound }
+                thumbnail  : { size : [100, 100],  mode : inset }
 
         product_detail_large:
             quality : 100
             filters :
-                thumbnail  : { size : [1000, 1000],  mode : outbound }
+                thumbnail  : { size : [1000, 1000],  mode : inset }
 
 
 #knp_doctrine_behaviors:
