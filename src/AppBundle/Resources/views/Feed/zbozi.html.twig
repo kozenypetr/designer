@@ -16,7 +16,7 @@
             <DELIVERY_PRICE>99</DELIVERY_PRICE>
             <DELIVERY_PRICE_COD>128</DELIVERY_PRICE_COD>
         </DELIVERY>
-        <IMGURL>{{ product.images[0].path | imagine_filter('product_list') }}</IMGURL>
+        <IMGURL>{{ product.images[0].path | imagine_filter('product_detail_main') }}</IMGURL>
         <PRICE_VAT>{{ product.price }}</PRICE_VAT>
         {#<MAX_CPC>6,50</MAX_CPC>#}
         {#<MAX_CPC_SEARCH>5,80</MAX_CPC_SEARCH>#}
