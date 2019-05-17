@@ -868,6 +868,17 @@ class Order extends BaseCustomer
         return $this->items;
     }
 
+
+    public function getDatalayerFormatItems()
+    {
+        $items = [];
+        foreach ($this->getItems() as $item)
+        {
+            $items[] = "{name: '{$item->getName()}', sku: '{$item->getModel()}', price: {$item->getPrice()}, quantity: '{$item->getQuantity()}'}";
+        }
+        return join(',', $items);
+    }
+
     /**
      * Set customer.
      *
