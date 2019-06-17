@@ -110,6 +110,13 @@
                     </tr>
 
 
+                    <tr>
+                        <td class="l-col" colspan="2">
+                            <strong>Doprava do Zásilkovny ZDARMA</strong>
+                        </td>
+                    </tr>
+
+
                     </tbody>
                 </table>
 
@@ -162,4 +169,14 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/detail.js') }}"></script>
+{% endblock %}
+
+{% block datalayer %}
+    <script>
+        dataLayer.push({
+            'event':'trackTrans',
+            'ecomm_totalvalue': {{ product.price }},
+            'ecomm_prodid' : ['{{ product.id }}']
+        });
+    </script>
 {% endblock %}

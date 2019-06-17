@@ -60,17 +60,21 @@
 
 </div>
 
-<script>
-    dataLayer.push({
-        'transactionId':'{{ order.id }}',
-        'transactionAffiliation':'gowood.cz',
-        'transactionCurrency':'CZK',
-        'transactionTotal': {{ order.subtotal }},
-        'transactionTax': 0,
-        'transactionShipping': {{ order.shippingPrice }},
-        'transactionProducts': [
-            {{ order.getDatalayerFormatItems | raw }}
-        ],
-        'event':'trackTrans'});
-</script>
+
+{% endblock %}
+
+{% block datalayer %}
+    <script>
+        dataLayer.push({
+            'transactionId':'{{ order.id }}',
+            'transactionAffiliation':'gowood.cz',
+            'transactionCurrency':'CZK',
+            'transactionTotal': {{ order.subtotal }},
+            'transactionTax': 0,
+            'transactionShipping': {{ order.shippingPrice }},
+            'transactionProducts': [
+                {{ order.getDatalayerFormatItems | raw }}
+            ],
+            'event':'trackTrans'});
+    </script>
 {% endblock %}
