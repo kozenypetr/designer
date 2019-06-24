@@ -29,6 +29,11 @@ services:
     tags:
       - { name: validator.constraint_validator, alias: unqiue.email.validator }
 
+  shop.formatter:
+    class:    AppBundle\Service\Formatter
+    autowire: true
+
+
   app.security.login_handler:
     class: AppBundle\Security\LoginHandler
     public: false

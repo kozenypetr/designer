@@ -1,0 +1,20 @@
+<div id="zasilkovna-detail" class="row" style="margin-top: 15px;">
+    {% if selected %}
+    <div class="col-md-3">
+        {% if selected.photos.0.thumbnail is defined %}
+            <img src="{{ selected.photos.0.thumbnail }}" />
+        {% endif %}
+    </div>
+    <div class="col-md-3">
+        <strong>{{ selected.place }}</strong><br />
+        {{ selected.street }}<br />
+        {{ selected.zip }} {{ selected.city }}<br />
+    </div>
+    <div class="col-md-3">
+        <i>Otevírací doba:</i><br >
+        {% if selected.openingHours.compactLong is defined %}
+            {{ selected.openingHours.compactLong | raw }}
+        {% endif %}
+    </div>
+    {% endif %}
+</div>

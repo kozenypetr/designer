@@ -100,9 +100,18 @@ class ShopCartController extends Controller
         }
 
         $json['boxes']['box-step1-cart-items'] = $this->get('templating')->render('AppBundle:ShopCart/boxes:step1-items.html.twig', ['cart' => $this->cm->getCart(), 'summary' => false]);
-        $json['boxes']['box-step1-shipping-payment'] = $this->get('templating')->render('AppBundle:ShopCart/boxes:step1-shipping-payment.html.twig', ['cart' => $this->cm->getCart(), 'shippings' => $shippings, 'payments' => $payments]);
+        // $json['boxes']['box-step1-shipping-payment'] = $this->get('templating')->render('AppBundle:ShopCart/boxes:step1-shipping-payment.html.twig', ['cart' => $this->cm->getCart(), 'shippings' => $shippings, 'payments' => $payments]);
         $json['boxes']['box-step1-total'] = $this->get('templating')->render('AppBundle:ShopCart/boxes:step1-total.html.twig', ['cart' => $this->cm->getCart()]);
         $json['boxes']['box-head-cart'] = $this->get('templating')->render('AppBundle:ShopCart/boxes:head-cart.html.twig');
+
+        $zasilkovna = null;
+        if ($this->cm->cart->getShipping() && $this->cm->cart->getShipping()->getCode() == 'zasilkovna')
+        {
+            $zasilkovna = $this->cm->cart->getShippingParameters();
+        }
+        $json['boxes']['zasilkovna-detail'] = $this->get('templating')->render('AppBundle:Shipping:zasilkovna.detail.html.twig', ['selected' => $zasilkovna]);
+
+        $json['values'] = $this->cm->getShippingPaymentArray($request->getLocale());
 
         return new JsonResponse($json);
     }

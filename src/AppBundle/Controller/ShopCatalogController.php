@@ -53,7 +53,19 @@ class ShopCatalogController extends Controller
 
         $products = $this->em->getRepository('AppBundle:Product')->findActiveForCategory($category);
 
-        return $this->render('AppBundle:ShopCatalog:list.html.twig', array('category' => $category, 'products' => $products));
+        $dataLayer = [];
+        $dataLayer['ecomm_totalvalue'] = 0;
+        $dataLayer['ecomm_prodid'] = [];
+
+        foreach ($products as $product)
+        {
+            $dataLayer['ecomm_totalvalue'] += $product->getPrice();
+            $dataLayer['ecomm_prodid'][] = "'{$product->getId()}'";
+        }
+
+
+
+        return $this->render('AppBundle:ShopCatalog:list.html.twig', array('category' => $category, 'products' => $products, 'dataLayer' => $dataLayer));
     }
 
     /**

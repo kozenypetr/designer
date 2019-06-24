@@ -1,4 +1,4 @@
-Vyberte pobočku:
+{#Vyberte pobočku:
 <select style="width: 300px;" name="shipping_parameters[spot]" class="event update" data-value="1" data-handle="{{ path('shop_cart_update', { do: 'setZasilkovna' }) }}">
     <option value="0">--- vyberte pobočku ---</option>
     {% for spot in spots %}
@@ -7,34 +7,15 @@ Vyberte pobočku:
     </option>
     {% endfor %}
 </select>
+#}
 
-{% if selected %}
-<div class="row" style="margin-top: 15px;">
-    <div class="col-md-3">
-        {% if selected.photos.0.thumbnail is defined %}
-            <img src="{{ selected.photos.0.thumbnail }}" />
-        {% endif %}
-    </div>
-    <div class="col-md-3">
-        <strong>{{ selected.place }}</strong><br />
-        {{ selected.street }}<br />
-        {{ selected.zip }} {{ selected.city }}<br />
-    </div>
-    <div class="col-md-3">
-        <i>Otevírací doba:</i><br >
-        {% if selected.openingHours.compactLong is defined %}
-          {{ selected.openingHours.compactLong | raw }}
-        {% endif %}
-    </div>
-</div>
-{% endif %}
+<span onclick="return false;" href="#" class="btn btn-primary packeta-selector-open">Vybrat výdejní místo</span>
 
-{#
-<input type="hidden" class="packeta-selector-branch-id" name="shipping_parameters[spot]" value="{% if selected %}{{ selected.id }}{% endif %}" />
+{% include 'AppBundle:Shipping:zasilkovna.detail.html.twig' with {'selected': selected} %}
 
-<div class="packeta-selector-branch-name"></div>
+<input type="text" style="display: none;" id="zasilkovna-id" class="packeta-selector-branch-id event click" name="shipping_parameters[spot]" value="{% if selected %}{{ selected.id }}{% endif %}" data-value="1" data-handle="{{ path('shop_cart_update', { do: 'setZasilkovna' }) }}" />
 
-<span onclick="return false;" href="#" class="packeta-selector-open">Vybrat výdejní místo</span>
+{#<div class="packeta-selector-branch-name"></div>#}
 
 {% block footerscript %}
     <script>
@@ -43,9 +24,8 @@ Vyberte pobočku:
         var packetaSelectorBranchId = '.packeta-selector-branch-id';
         var packetaCountry = 'cz';
         var packetaWidgetLanguage = 'cs';
-
         var packetaExternalCssUrl = '';
     </script>
 
     <script src="https://widget.packeta.com/www/js/packetaWidget.js" data-api-key="9d1bfb04fa98b403"></script>
-{% endblock %#}
+{% endblock %}

@@ -41,3 +41,14 @@
 {% block og_image %}{{ (category.filename is not empty)?(category.filename | imagine_filter('categories_list')):parent() }}{% endblock %}
 
 {% block og_description %}{{ (category.customMetadescription is not empty)?category.customMetadescription:parent() }}{% endblock %}
+
+
+{% block datalayer %}
+    <script>
+        dataLayer.push({
+            'ecomm_pagetype':'category',
+            'ecomm_totalvalue': {{ dataLayer.ecomm_totalvalue }},
+            'ecomm_prodid' : [{{ dataLayer.ecomm_prodid | join(',') | raw }}]
+        });
+    </script>
+{% endblock %}

@@ -174,7 +174,7 @@
 {% block datalayer %}
     <script>
         dataLayer.push({
-            'event':'trackTrans',
+            'ecomm_pagetype':'product',
             'ecomm_totalvalue': {{ product.price }},
             'ecomm_prodid' : ['{{ product.id }}']
         });

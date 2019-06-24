@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="cs">
     <head>
-
+        {% if not app.debug %}
         <script>
             var dataLayer = dataLayer || []; // Google Tag Manager
         </script>
@@ -13,6 +13,7 @@
                 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','GTM-WZJJ3ZT');</script>
         <!-- End Google Tag Manager -->
+        {% endif %}
 
         {% block datalayer %}{% endblock %}
 
@@ -39,6 +40,7 @@
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
+        {% if not app.debug %}
         <!-- Start of Smartsupp Live Chat script -->
         <script type="text/javascript">
             var _smartsupp = _smartsupp || {};
@@ -50,6 +52,7 @@
                 c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
             })(document);
         </script>
+        {% endif %}
     </head>
     <body>
 
@@ -62,10 +65,12 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));</script>
 
+        {% if not app.debug %}
         <!-- Google Tag Manager (noscript) -->
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WZJJ3ZT"
                           height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
+        {% endif %}
 
         <div align="center" class="alert alert-success">Doprava do Zásilkovny ZDARMA!</div>
         {#<div align="center" class="alert alert-danger">Objednávky přijaté po 9. prosinci 2018 budeme odesílat až začátkem roku 2019. Děkujeme za pochopení.</div>#}

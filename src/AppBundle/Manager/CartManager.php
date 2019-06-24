@@ -7,6 +7,7 @@
 namespace AppBundle\Manager;
 
 
+use AppBundle\Service\Formatter;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\ORM\EntityManagerInterface;
@@ -51,7 +52,7 @@ class CartManager {
      * @param EntityManager $em
      * @param TokenStorage $tokenStorage
      */
-    public function __construct(Session $session, EntityManagerInterface $em, TokenStorage $tokenStorage, \Swift_Mailer $mailer,  EngineInterface $twig, KernelInterface $kernel, Gopay $gopay)
+    public function __construct(Session $session, EntityManagerInterface $em, TokenStorage $tokenStorage, \Swift_Mailer $mailer,  EngineInterface $twig, KernelInterface $kernel, Gopay $gopay, Formatter $formatter)
     {
         $this->session = $session;
         $this->em = $em;
@@ -60,6 +61,7 @@ class CartManager {
         $this->twig = $twig;
         $this->kernel = $kernel;
         $this->gopay = $gopay;
+        $this->formatter = $formatter;
 
         $this->cart = $this->getCart();
     }
@@ -396,6 +398,29 @@ class CartManager {
     public function getActivePaymentList($locale)
     {
         return $this->em->getRepository('AppBundle:Payment')->findActive($locale);
+    }
+
+    public function getShippingPaymentArray($locale)
+    {
+        $shippings = $this->getActiveShippingList($locale);
+        $payments  = $this->getActivePaymentList($locale);
+
+        $cart = $this->getCart();
+
+        $data = [];
+        foreach ($shippings as $shipping)
+        {
+            $price = $shipping->getPrice($cart);
+            $data["shipping-{$shipping->getId()}-price"] = $price ? $this->formatter->price($price) : 'zdarma';
+        }
+
+        foreach ($payments as $payment)
+        {
+            $price = $payment->getPrice($cart);
+            $data["payment-{$payment->getId()}-price"] = $price ? $this->formatter->price($price) : 'zdarma';
+        }
+
+        return $data;
     }
 
     public function updateQuantityItem($id, $quantity)

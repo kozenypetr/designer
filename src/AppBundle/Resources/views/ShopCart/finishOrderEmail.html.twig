@@ -175,7 +175,7 @@
                                     {% if order.shippingCode == 'zasilkovna' %}
                                         <p style="padding: 10px;margin-top: 10px; margin-bottom: 10px; font-style: italic;">
                                             Vybraná pobočka:
-                                            <strong>{{ order.shippingParameters.place }}</strong>,
+                                            <strong>{{ order.shippingParameters.place }} ({{ order.shippingParameters.id }})</strong>,
                                             {{ order.shippingParameters.street }},
                                             {{ order.shippingParameters.zip }} {{ order.shippingParameters.city }}<br /><br />
                                         </p>

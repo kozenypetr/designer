@@ -8,18 +8,40 @@ var cart = {
 
     initEvent: function()
     {
+        $(cart.eventSelector + '.keyup').unbind();
+        $(cart.eventSelector + '.click').unbind();
+        $(cart.eventSelector + '.change').unbind();
+        $(cart.eventSelector + '.update').unbind();
+
         $(cart.eventSelector + '.keyup').keyup(cart.processEvent);
         $(cart.eventSelector + '.click').click(cart.processEvent);
         $(cart.eventSelector + '.change').click(cart.processEvent);
         $(cart.eventSelector + '.update').change(cart.processEvent);
-        // $('.shipping input, .payment input').click(cart.changeShippingPayment);
+        $('.shipping input').click(cart.changeShipping);
+        $('.payment input').click(cart.changePayment);
+    },
+
+    changeShipping: function(event)
+    {
+        if($(this).attr('type') == 'radio') {
+            $('.shipping .description').removeClass('show');
+            $(this).parent().find('.description').addClass('show');
+        }
+    },
+
+    changePayment: function(event)
+    {
+        $('.payment .description').removeClass('show');
+        $(this).parent().find('.description').addClass('show');
     },
 
     processEvent: function(event)
     {
-        event.preventDefault();
-        var url = $(this).data('handle');
+        if ($(this).attr('type') != 'radio') {
+            event.preventDefault();
+        }
 
+        var url = $(this).data('handle');
         var data = null;
         if ($(this).data('value'))
         {
@@ -41,7 +63,7 @@ var cart = {
             type: 'GET',
             url: url,
             data: data,
-            async: false,
+            async: true,
             success: function (data) {
 
                 if (data.redirect)
@@ -52,6 +74,12 @@ var cart = {
                 $.each(data.boxes, function( index, value ) {
                     $('#' + index).replaceWith(value);
                 });
+
+
+                $.each(data.values, function( index, value ) {
+                    $('#' + index).text(value);
+                });
+
                 cart.initEvent();
             },
         });
@@ -63,4 +91,12 @@ var cart = {
 
 $(function() {
     cart.init();
+
+    window.addEventListener('message', function (e) {
+        if(!(e && e.data && e.data.packetaWidgetMessage)) {
+            return;
+        }
+
+        $('#zasilkovna-id').click();
+    });
 })

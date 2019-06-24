@@ -1,26 +1,25 @@
 <div id="box-step1-shipping-payment" class="cart-shipping-payment">
-
     <h3><i class="fas fa-truck"></i> Způsob dopravy</h3>
     {% for shipping in shippings %}
         <div class="item shipping">
             <input class="event click" data-handle="{{ path('shop_cart_update', { do: 'setShipping' }) }}" data-value="1" type="radio" id="shipping-{{ shipping.id }}" name="shipping" value="{{ shipping.id }}" {{ (cart.shipping and cart.shipping.id == shipping.id)?'checked':'' }} />
             <label for="shipping-{{ shipping.id }}">
                 {% if shipping.icon %}
-                <img src="/images/shipping/{{ shipping.icon }}" />
+                    <img src="/images/shipping/{{ shipping.icon }}" />
                 {% endif %}
                 <span>{{ shipping.name }}</span>
             </label>
-            <span class="price">
+            <span id="shipping-{{ shipping.id }}-price" class="price">
                 {{ shipping.getPrice(cart) ? (shipping.getPrice(cart) | price) : 'zdarma' }}
             </span>
             {% if shipping.description %}
-              <div class="description{{ (cart.shipping and cart.shipping.id == shipping.id)?' show':'' }}">
-                <p>{{ shipping.description }}</p>
+                <div class="description{{ (cart.shipping and cart.shipping.id == shipping.id)?' show':'' }}">
+                    <p>{{ shipping.description }}</p>
 
-                {% if cart.shipping and cart.shipping.code == 'zasilkovna' and shipping.code == 'zasilkovna' %}
-                  {{ render(controller('AppBundle:Shipping:zasilkovna', { 'cart': cart })) }}
-                {% endif %}
-              </div>
+                    {% if shipping.code == 'zasilkovna' %}
+                        {{ render(controller('AppBundle:Shipping:zasilkovna', { 'cart': cart })) }}
+                    {% endif %}
+                </div>
             {% endif %}
 
 
@@ -34,12 +33,12 @@
             <label for="payment-{{ payment.id }}">{{ payment.name }}</label>
 
             {% if payment.icon %}
-            <span class="icon">
+                <span class="icon">
               <img src="/images/payment/{{ payment.icon }}" />
             </span>
             {% endif %}
 
-            <span class="price">
+            <span id="payment-{{ payment.id }}-price" class="price">
                             {{ payment.getPrice(cart) ? (payment.getPrice(cart) | price) : 'zdarma' }}
             </span>
 

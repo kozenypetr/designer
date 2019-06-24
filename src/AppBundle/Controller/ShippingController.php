@@ -24,9 +24,12 @@ class ShippingController extends Controller
         $spots = $this->get('shop.zasilkovna')->getList();
 
         $selected = null;
-        if ($this->get('cart.manager')->cart->getShipping() && $this->get('cart.manager')->cart->getShipping()->getCode() == 'zasilkovna')
+
+        $cm = $this->get('cart.manager');
+
+        if ($cm->cart->getShipping() && $cm->cart->getShipping()->getCode() == 'zasilkovna')
         {
-            $selected = $this->get('cart.manager')->cart->getShippingParameters();
+            $selected = $cm->cart->getShippingParameters();
         }
 
         return $this->render('AppBundle:Shipping:zasilkovna.html.twig', array('cart' => $cart, 'spots' => $spots, 'selected' => $selected));
