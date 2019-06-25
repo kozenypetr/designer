@@ -28,7 +28,8 @@
                 s.parentNode.insertBefore(t,s)}(window, document,'script',
                 'https://connect.facebook.net/en_US/fbevents.js');
             fbq('init', '326154811607780');
-            {% block fb_pixel_track %}fbq('track', 'PageView');{% endblock %}
+            fbq('track', 'PageView');
+            {% block fb_pixel_track %}{% endblock %}
         </script>
 
         <!-- End Facebook Pixel Code -->
