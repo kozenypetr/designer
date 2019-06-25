@@ -13,7 +13,7 @@
             <g:title>{{ product.getFinalFeedName }}</g:title>
             <g:description>{{ product.feedDescription?product.feedDescription:product.annotation }}</g:description>
             <g:link>{{ app.request.getSchemeAndHttpHost }}{{ path('shop_catalog_detail', { slug: product.slug }) }}</g:link>
-            <g:image_link>{{ product.images[0].path | imagine_filter('product_detail_main') }}</g:image_link>
+            <g:image_link>{{ product.images[0].path | imagine_filter('product_detail_large') }}</g:image_link>
             <g:condition>new</g:condition>
             <g:availability>in stock</g:availability>
             <g:price>{{ product.price }} CZK</g:price>
