@@ -78,3 +78,10 @@
             'event':'trackTrans'});
     </script>
 {% endblock %}
+
+{% block fb_pixel_track %}
+        fbq('track', 'Purchase', {
+            value: {{ order.subtotal }},
+            currency: 'CZK',
+        });
+{% endblock %}
