@@ -180,3 +180,11 @@
         });
     </script>
 {% endblock %}
+
+{% block fb_pixel_track %}
+    fbq('track', 'ViewContent', {
+        value: {{ product.price }},
+        currency: 'CZK',
+        content_ids: ['{{ product.id }}'],
+    });
+{% endblock %}

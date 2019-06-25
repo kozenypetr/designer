@@ -52,3 +52,11 @@
         });
     </script>
 {% endblock %}
+
+{% block fb_pixel_track %}
+        fbq('track', 'ViewContent', {
+            value: {{ dataLayer.ecomm_totalvalue }},
+            currency: 'CZK',
+            content_ids: [{{ dataLayer.ecomm_prodid | join(",") | raw }}],
+        });
+{% endblock %}
