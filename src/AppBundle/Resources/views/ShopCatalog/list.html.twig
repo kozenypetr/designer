@@ -53,7 +53,7 @@
             'gads_items':
                 {% for prodid in dataLayer.ecomm_prodid %}
                 [{
-                    'id': {{ prodid }},
+                    'id': {{ prodid | raw }},
                     'google_business_vertical': 'retail'
                 }]{% if not loop.last %},{% endif %}
                 {% endfor  %}
