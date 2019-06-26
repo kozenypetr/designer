@@ -51,12 +51,14 @@
             'ecomm_prodid' : [{{ dataLayer.ecomm_prodid | join(',') | raw }}],
             'gads_event': 'view_item_list',
             'gads_items':
-                {% for prodid in dataLayer.ecomm_prodid %}
-                [{
-                    'id': {{ prodid | raw }},
-                    'google_business_vertical': 'retail'
-                }]{% if not loop.last %},{% endif %}
-                {% endfor  %}
+                [
+                    {% for prodid in dataLayer.ecomm_prodid %}
+                    {
+                      'id': {{ prodid | raw }},
+                      'google_business_vertical': 'retail'
+                    }{% if not loop.last %},{% endif %}
+                    {% endfor  %}
+                ]
         });
     </script>
 {% endblock %}
