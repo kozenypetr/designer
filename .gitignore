@@ -25,3 +25,4 @@
 !/web/media/cache/.gitkeep
 /web/data/shop/attributes/*
 !/web/data/shop/attributes/.gitkeep
+/zasilkovna/seznam.json
