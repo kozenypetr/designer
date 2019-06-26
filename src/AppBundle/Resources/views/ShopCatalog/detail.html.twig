@@ -176,7 +176,13 @@
         dataLayer.push({
             'ecomm_pagetype':'product',
             'ecomm_totalvalue': {{ product.price }},
-            'ecomm_prodid' : ['{{ product.id }}']
+            'ecomm_prodid' : ['{{ product.id }}'],
+            'gads_event': 'view_item',
+            'gads_items':
+               [{
+                    'id': {{ product.id }},
+                    'google_business_vertical': 'retail'
+               }]
         });
     </script>
 {% endblock %}

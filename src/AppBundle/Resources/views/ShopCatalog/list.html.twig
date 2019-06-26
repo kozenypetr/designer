@@ -48,7 +48,15 @@
         dataLayer.push({
             'ecomm_pagetype':'category',
             'ecomm_totalvalue': {{ dataLayer.ecomm_totalvalue }},
-            'ecomm_prodid' : [{{ dataLayer.ecomm_prodid | join(',') | raw }}]
+            'ecomm_prodid' : [{{ dataLayer.ecomm_prodid | join(',') | raw }}],
+            'gads_event': 'view_item_list',
+            'gads_items':
+                {% for prodid in dataLayer.ecomm_prodid %}
+                [{
+                    'id': {{ prodid }},
+                    'google_business_vertical': 'retail'
+                }]{% if not loop.last %},{% endif %}
+                {% endfor  %}
         });
     </script>
 {% endblock %}
