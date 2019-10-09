@@ -249,7 +249,11 @@ class ShopCustomerController extends Controller
             return $this->createNotFoundException();
         }
 
-        return $this->render('AppBundle:ShopCart:finishConfirm.html.twig', ['order' => $order]);
+        $isFirstRequest = $this->get('session')->get('finished_order_first_request_' . $orderId, true);
+
+        $this->get('session')->set('finished_order_first_request_' . $orderId, false);
+
+        return $this->render('AppBundle:ShopCart:finishConfirm.html.twig', ['order' => $order, 'isFirstRequest' => $isFirstRequest]);
     }
 
 

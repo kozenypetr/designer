@@ -63,25 +63,27 @@
 
 {% endblock %}
 
-{% block datalayer %}
-    <script>
-        dataLayer.push({
-            'transactionId':'{{ order.id }}',
-            'transactionAffiliation':'gowood.cz',
-            'transactionCurrency':'CZK',
-            'transactionTotal': {{ order.subtotal }},
-            'transactionTax': 0,
-            'transactionShipping': {{ order.shippingPrice }},
-            'transactionProducts': [
-                {{ order.getDatalayerFormatItems | raw }}
-            ],
-            'event':'trackTrans'});
-    </script>
-{% endblock %}
+{% if isFirstRequest %}
+    {% block datalayer %}
+        <script>
+            dataLayer.push({
+                'transactionId':'{{ order.id }}',
+                'transactionAffiliation':'gowood.cz',
+                'transactionCurrency':'CZK',
+                'transactionTotal': {{ order.subtotal }},
+                'transactionTax': 0,
+                'transactionShipping': {{ order.shippingPrice }},
+                'transactionProducts': [
+                    {{ order.getDatalayerFormatItems | raw }}
+                ],
+                'event':'trackTrans'});
+        </script>
+    {% endblock %}
 
-{% block fb_pixel_track %}
-        fbq('track', 'Purchase', {
-            value: {{ order.subtotal }},
-            currency: 'CZK',
-        });
-{% endblock %}
+    {% block fb_pixel_track %}
+            fbq('track', 'Purchase', {
+                value: {{ order.subtotal }},
+                currency: 'CZK',
+            });
+    {% endblock %}
+{% endif %}
